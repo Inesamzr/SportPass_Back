@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Inesamzr/SportPass_Back#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mysql2": "^3.9.3",
+    "sequelize": "^6.37.2"
   }
 }
