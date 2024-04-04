@@ -41,17 +41,26 @@ const TypeCommercantFunction = require('./TypeCommercant.js');
 const TypeCommercant = TypeCommercantFunction(sequelize, Sequelize)
 const TypePlaceFunction = require('./TypePlace.js');
 const TypePlace = TypePlaceFunction(sequelize, Sequelize)
+const PossederFunction = require('./Posseder.js');
+const Posseder = PossederFunction(sequelize, Sequelize)
+const AbonnesFunction = require('./Abonnes.js');
+const Abonnes = AbonnesFunction(sequelize, Sequelize)
 
 
 User.Concours = User.belongsToMany(Concours, { through: Participer, foreignKey: 'idUser' });
 Concours.User = Concours.belongsToMany(User, { through: Participer, foreignKey: 'idConcours' });
 
+User.Role = User.belongsToMany(Role, { through: Posseder, foreignKey: 'idUser' });
+Role.User = Role.belongsToMany(User, { through: Posseder, foreignKey: 'idRole' });
+
+User.belongsToMany(User, { through: Abonnes, as: 'Followers', foreignKey: 'followingId', otherKey: 'followerId' });
+User.belongsToMany(User, { through: Abonnes, as: 'Followings', foreignKey: 'followerId', otherKey: 'followingId' });
 
 
 
 (async () => {
     try {
-        await sequelize.sync({ alter: true, force: true }); /* si je met force: true, ça supprime la base 
+        await sequelize.sync({ alter: false, force: false }); /* si je met force: true, ça supprime la base 
         de données et la recrée à chaque fois que je lance le serveur et si je met alter: true, 
         ça modifie la base de données en fonction des modèles (si j'ajoute un champ dans un modèle, 
         il sera ajouté à la base de données) et si je met des données dans la BD et que je veux les garder, 
