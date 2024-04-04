@@ -9,7 +9,6 @@ const CashBackCommercant = CashBackCommercantFunction(sequelize, Sequelize);
 const TypeCommercantFunction = require('../Modeles/TypeCommercant.js');
 const TypeCommercant = TypeCommercantFunction(sequelize, Sequelize);
 
-// Create a new Commercant
 const createCommercant = async (req, res) => {
   try {
     const commercant = await Commercant.create(req.body);
@@ -19,7 +18,6 @@ const createCommercant = async (req, res) => {
   }
 };
 
-// Get all Commercants
 const getAllCommercants = async (req, res) => {
   try {
     const commercants = await Commercant.findAll({
@@ -31,7 +29,6 @@ const getAllCommercants = async (req, res) => {
   }
 };
 
-// Get a Commercant by id
 const getCommercantById = async (req, res) => {
   try {
     const commercant = await Commercant.findByPk(req.params.id, {
@@ -46,7 +43,6 @@ const getCommercantById = async (req, res) => {
   }
 };
 
-// Update a Commercant by id
 const updateCommercant = async (req, res) => {
   try {
     const commercant = await Commercant.findByPk(req.params.id);
@@ -60,7 +56,6 @@ const updateCommercant = async (req, res) => {
   }
 };
 
-// Delete a Commercant by id
 const deleteCommercant = async (req, res) => {
   try {
     const commercant = await Commercant.findByPk(req.params.id);

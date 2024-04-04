@@ -6,10 +6,8 @@ const Commentaire = CommentaireFunction(sequelize, Sequelize);
 const PublicationFunction = require('../Modeles/Publication.js');
 const Publication = PublicationFunction(sequelize, Sequelize);
 
-// Create a new Commentaire
 const createCommentaire = async (req, res) => {
   try {
-    // Assume the request body contains `idPost` to link the Commentaire to a Publication
     const commentaire = await Commentaire.create({
       contenu: req.body.contenu,
       likes: req.body.likes,
@@ -21,7 +19,6 @@ const createCommentaire = async (req, res) => {
   }
 };
 
-// Get all Commentaires
 const getAllCommentaires = async (req, res) => {
   try {
     const commentaires = await Commentaire.findAll({
@@ -33,7 +30,6 @@ const getAllCommentaires = async (req, res) => {
   }
 };
 
-// Get a Commentaire by id
 const getCommentaireById = async (req, res) => {
   try {
     const commentaire = await Commentaire.findByPk(req.params.id, {
@@ -48,7 +44,6 @@ const getCommentaireById = async (req, res) => {
   }
 };
 
-// Update a Commentaire by id
 const updateCommentaire = async (req, res) => {
   try {
     const commentaire = await Commentaire.findByPk(req.params.id);
@@ -62,7 +57,6 @@ const updateCommentaire = async (req, res) => {
   }
 };
 
-// Delete a Commentaire by id
 const deleteCommentaire = async (req, res) => {
   try {
     const commentaire = await Commentaire.findByPk(req.params.id);

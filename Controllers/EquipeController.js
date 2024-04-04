@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const EquipeFunction = require('../Modeles/Equipe.js');
 const Equipe = EquipeFunction(sequelize, Sequelize);
 
-// Create a new Equipe
 const createEquipe = async (req, res) => {
   try {
     const equipe = await Equipe.create({
@@ -20,7 +19,6 @@ const createEquipe = async (req, res) => {
   }
 };
 
-// Get all Equipes
 const getAllEquipes = async (req, res) => {
   try {
     const equipes = await Equipe.findAll();
@@ -30,7 +28,6 @@ const getAllEquipes = async (req, res) => {
   }
 };
 
-// Get an Equipe by id
 const getEquipeById = async (req, res) => {
   try {
     const equipe = await Equipe.findByPk(req.params.id);
@@ -43,7 +40,6 @@ const getEquipeById = async (req, res) => {
   }
 };
 
-// Update an Equipe by id
 const updateEquipe = async (req, res) => {
   try {
     const equipe = await Equipe.findByPk(req.params.id);
@@ -57,7 +53,6 @@ const updateEquipe = async (req, res) => {
   }
 };
 
-// Delete an Equipe by id
 const deleteEquipe = async (req, res) => {
   try {
     const equipe = await Equipe.findByPk(req.params.id);

@@ -37,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        numTel: {
+        tel: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,

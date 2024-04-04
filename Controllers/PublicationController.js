@@ -7,13 +7,12 @@ const Publication = PublicationFunction(sequelize, Sequelize);
 const UserFunction = require('../Modeles/User.js');
 const User = UserFunction(sequelize, Sequelize);
 
-// Create a new Publication
 const createPublication = async (req, res) => {
   try {
     const publication = await Publication.create({
       contenu: req.body.contenu,
-      likes: req.body.likes || 0, // Default to 0 if not provided
-      idUser: req.body.idUser // Assuming the request includes idUser to associate with a User
+      likes: req.body.likes || 0, 
+      idUser: req.body.idUser 
     });
     res.status(201).send(publication);
   } catch (error) {
@@ -25,7 +24,7 @@ const createPublication = async (req, res) => {
 const getAllPublications = async (req, res) => {
   try {
     const publications = await Publication.findAll({
-      include: [User] // Include associated User details
+      include: [User] 
     });
     res.status(200).send(publications);
   } catch (error) {
@@ -33,11 +32,10 @@ const getAllPublications = async (req, res) => {
   }
 };
 
-// Get a Publication by id
 const getPublicationById = async (req, res) => {
   try {
     const publication = await Publication.findByPk(req.params.id, {
-      include: [User] // Include associated User details
+      include: [User] 
     });
     if (!publication) {
       return res.status(404).send();
@@ -48,7 +46,6 @@ const getPublicationById = async (req, res) => {
   }
 };
 
-// Update a Publication by id
 const updatePublication = async (req, res) => {
   try {
     const publication = await Publication.findByPk(req.params.id);
@@ -62,7 +59,6 @@ const updatePublication = async (req, res) => {
   }
 };
 
-// Delete a Publication by id
 const deletePublication = async (req, res) => {
   try {
     const publication = await Publication.findByPk(req.params.id);

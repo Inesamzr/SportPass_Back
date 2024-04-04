@@ -31,7 +31,6 @@ const router = express.Router();
 router.post('/registration', userController.register);
 router.post('/login', userController.login);
 router.get('/user', userController.getAllUsers);
-router.post('/user', userController.createUser);
 router.get('/user/:id', userController.getUserById);
 router.put('/user/:id', userController.updateUser);
 router.delete('/user/:id', userController.deleteUser);
@@ -182,9 +181,10 @@ router.delete('/typePlace/:id', typePlaceController.deleteTypePlace);
 //routes abonnes
 router.get('/abonnes', abonnesController.getAllAbonnes);
 router.post('/abonnes', abonnesController.createAbonnes);
-router.get('/abonnes/:id', abonnesController.getAbonnesById);
 router.put('/abonnes/:id', abonnesController.updateAbonnes);
 router.delete('/abonnes/:id', abonnesController.deleteAbonnes);
+router.get('/abonnes/followers/:followingId', abonnesController.getFollowersByFollowingId);
+router.get('/abonnes/following/:followerId', abonnesController.getFollowingByFollowerId);
 
 
 module.exports = router;

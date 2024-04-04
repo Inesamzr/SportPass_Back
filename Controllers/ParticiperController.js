@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const ParticiperFunction = require('../Modeles/Participer.js');
 const Participer = ParticiperFunction(sequelize, Sequelize);
 
-// Create a new participation
 const createParticipation = async (req, res) => {
   try {
     const participation = await Participer.create({
@@ -20,7 +19,6 @@ const createParticipation = async (req, res) => {
   }
 };
 
-// Get all participations
 const getAllParticipations = async (req, res) => {
   try {
     const participations = await Participer.findAll();
@@ -30,7 +28,6 @@ const getAllParticipations = async (req, res) => {
   }
 };
 
-// Get a participation by id
 const getParticipationById = async (req, res) => {
   try {
     const participation = await Participer.findByPk(req.params.id);
@@ -43,7 +40,6 @@ const getParticipationById = async (req, res) => {
   }
 };
 
-// Update a participation by id
 const updateParticipation = async (req, res) => {
   try {
     const participation = await Participer.findByPk(req.params.id);
@@ -57,7 +53,6 @@ const updateParticipation = async (req, res) => {
   }
 };
 
-// Delete a participation by id
 const deleteParticipation = async (req, res) => {
   try {
     const participation = await Participer.findByPk(req.params.id);

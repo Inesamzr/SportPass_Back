@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const TypePlaceFunction = require('../Modeles/TypePlace.js');
 const TypePlace = TypePlaceFunction(sequelize, Sequelize);
 
-// Create a new TypePlace
 const createTypePlace = async (req, res) => {
   try {
     const typePlace = await TypePlace.create({
@@ -17,7 +16,6 @@ const createTypePlace = async (req, res) => {
   }
 };
 
-// Get all TypePlaces
 const getAllTypePlaces = async (req, res) => {
   try {
     const typePlaces = await TypePlace.findAll();
@@ -27,7 +25,6 @@ const getAllTypePlaces = async (req, res) => {
   }
 };
 
-// Get a TypePlace by id
 const getTypePlaceById = async (req, res) => {
   try {
     const typePlace = await TypePlace.findByPk(req.params.id);
@@ -40,7 +37,6 @@ const getTypePlaceById = async (req, res) => {
   }
 };
 
-// Update a TypePlace by id
 const updateTypePlace = async (req, res) => {
   try {
     const typePlace = await TypePlace.findByPk(req.params.id);
@@ -54,7 +50,6 @@ const updateTypePlace = async (req, res) => {
   }
 };
 
-// Delete a TypePlace by id
 const deleteTypePlace = async (req, res) => {
   try {
     const typePlace = await TypePlace.findByPk(req.params.id);

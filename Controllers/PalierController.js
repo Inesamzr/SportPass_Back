@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const PalierFunction = require('../Modeles/Palier.js');
 const Palier = PalierFunction(sequelize, Sequelize);
 
-// Create a new Palier
 const createPalier = async (req, res) => {
   try {
     const palier = await Palier.create({
@@ -18,7 +17,6 @@ const createPalier = async (req, res) => {
   }
 };
 
-// Get all Paliers
 const getAllPaliers = async (req, res) => {
   try {
     const paliers = await Palier.findAll();
@@ -28,7 +26,6 @@ const getAllPaliers = async (req, res) => {
   }
 };
 
-// Get a Palier by id
 const getPalierById = async (req, res) => {
   try {
     const palier = await Palier.findByPk(req.params.id);
@@ -41,7 +38,6 @@ const getPalierById = async (req, res) => {
   }
 };
 
-// Update a Palier by id
 const updatePalier = async (req, res) => {
   try {
     const palier = await Palier.findByPk(req.params.id);
@@ -55,7 +51,6 @@ const updatePalier = async (req, res) => {
   }
 };
 
-// Delete a Palier by id
 const deletePalier = async (req, res) => {
   try {
     const palier = await Palier.findByPk(req.params.id);

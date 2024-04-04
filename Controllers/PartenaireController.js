@@ -7,13 +7,12 @@ const Partenaire = PartenaireFunction(sequelize, Sequelize);
 const PromotionFunction = require('../Modeles/Promotion.js');
 const Promotion = PromotionFunction(sequelize, Sequelize);
 
-// Create a new Partenaire
 const createPartenaire = async (req, res) => {
   try {
     const partenaire = await Partenaire.create({
       nom: req.body.nom,
       site: req.body.site,
-      idPromotion: req.body.idPromotion // Assuming the request includes idPromotion to associate with a Promotion
+      idPromotion: req.body.idPromotion 
     });
     res.status(201).send(partenaire);
   } catch (error) {
@@ -21,11 +20,10 @@ const createPartenaire = async (req, res) => {
   }
 };
 
-// Get all Partenaires
 const getAllPartenaires = async (req, res) => {
   try {
     const partenaires = await Partenaire.findAll({
-      include: [Promotion] // Include associated Promotion details
+      include: [Promotion] 
     });
     res.status(200).send(partenaires);
   } catch (error) {
@@ -33,11 +31,10 @@ const getAllPartenaires = async (req, res) => {
   }
 };
 
-// Get a Partenaire by id
 const getPartenaireById = async (req, res) => {
   try {
     const partenaire = await Partenaire.findByPk(req.params.id, {
-      include: [Promotion] // Include associated Promotion details
+      include: [Promotion] 
     });
     if (!partenaire) {
       return res.status(404).send();
@@ -48,7 +45,6 @@ const getPartenaireById = async (req, res) => {
   }
 };
 
-// Update a Partenaire by id
 const updatePartenaire = async (req, res) => {
   try {
     const partenaire = await Partenaire.findByPk(req.params.id);
@@ -62,7 +58,6 @@ const updatePartenaire = async (req, res) => {
   }
 };
 
-// Delete a Partenaire by id
 const deletePartenaire = async (req, res) => {
   try {
     const partenaire = await Partenaire.findByPk(req.params.id);

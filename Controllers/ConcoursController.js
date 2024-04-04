@@ -7,12 +7,11 @@ const Concours = ConcoursFunction(sequelize, Sequelize);
 const MatchsFunction = require('../Modeles/Matchs.js');
 const Matchs = MatchsFunction(sequelize, Sequelize);
 
-// Create a new Concours
 const createConcours = async (req, res) => {
   try {
     const concours = await Concours.create({
       prix: req.body.prix,
-      idMatch: req.body.idMatch // Assuming the request body contains idMatch to associate with a Match
+      idMatch: req.body.idMatch 
     });
     res.status(201).send(concours);
   } catch (error) {
@@ -20,11 +19,10 @@ const createConcours = async (req, res) => {
   }
 };
 
-// Get all Concours
 const getAllConcours = async (req, res) => {
   try {
     const concoursList = await Concours.findAll({
-      include: [Matchs] // Include associated Matchs details
+      include: [Matchs] 
     });
     res.status(200).send(concoursList);
   } catch (error) {
@@ -32,11 +30,10 @@ const getAllConcours = async (req, res) => {
   }
 };
 
-// Get a Concours by id
 const getConcoursById = async (req, res) => {
   try {
     const concours = await Concours.findByPk(req.params.id, {
-      include: [Matchs] // Include associated Matchs details
+      include: [Matchs] 
     });
     if (!concours) {
       return res.status(404).send();
@@ -47,7 +44,6 @@ const getConcoursById = async (req, res) => {
   }
 };
 
-// Update a Concours by id
 const updateConcours = async (req, res) => {
   try {
     const concours = await Concours.findByPk(req.params.id);
@@ -61,7 +57,6 @@ const updateConcours = async (req, res) => {
   }
 };
 
-// Delete a Concours by id
 const deleteConcours = async (req, res) => {
   try {
     const concours = await Concours.findByPk(req.params.id);

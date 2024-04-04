@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const CashBackCommercantFunction = require('../Modeles/CashBackCommercant.js');
 const CashBackCommercant = CashBackCommercantFunction(sequelize, Sequelize);
 
-// Create a new CashBackCommercant
 const createCashBackCommercant = async (req, res) => {
   try {
     const cashBackCommercant = await CashBackCommercant.create(req.body);
@@ -15,7 +14,6 @@ const createCashBackCommercant = async (req, res) => {
   }
 };
 
-// Get all CashBackCommercants
 const getAllCashBackCommercants = async (req, res) => {
   try {
     const cashBackCommercants = await CashBackCommercant.findAll();
@@ -25,7 +23,6 @@ const getAllCashBackCommercants = async (req, res) => {
   }
 };
 
-// Get a CashBackCommercant by id
 const getCashBackCommercantById = async (req, res) => {
   try {
     const cashBackCommercant = await CashBackCommercant.findByPk(req.params.id);
@@ -38,7 +35,6 @@ const getCashBackCommercantById = async (req, res) => {
   }
 };
 
-// Update a CashBackCommercant by id
 const updateCashBackCommercant = async (req, res) => {
   try {
     const cashBackCommercant = await CashBackCommercant.findByPk(req.params.id);
@@ -52,7 +48,6 @@ const updateCashBackCommercant = async (req, res) => {
   }
 };
 
-// Delete a CashBackCommercant by id
 const deleteCashBackCommercant = async (req, res) => {
   try {
     const cashBackCommercant = await CashBackCommercant.findByPk(req.params.id);

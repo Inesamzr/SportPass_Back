@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const RoleFunction = require('../Modeles/Role.js');
 const Role = RoleFunction(sequelize, Sequelize);
 
-// Create a new Role
 const createRole = async (req, res) => {
   try {
     const role = await Role.create({
@@ -17,7 +16,6 @@ const createRole = async (req, res) => {
   }
 };
 
-// Get all Roles
 const getAllRoles = async (req, res) => {
   try {
     const roles = await Role.findAll();
@@ -27,7 +25,6 @@ const getAllRoles = async (req, res) => {
   }
 };
 
-// Get a Role by id
 const getRoleById = async (req, res) => {
   try {
     const role = await Role.findByPk(req.params.id);
@@ -40,7 +37,6 @@ const getRoleById = async (req, res) => {
   }
 };
 
-// Update a Role by id
 const updateRole = async (req, res) => {
   try {
     const role = await Role.findByPk(req.params.id);
@@ -54,7 +50,6 @@ const updateRole = async (req, res) => {
   }
 };
 
-// Delete a Role by id
 const deleteRole = async (req, res) => {
   try {
     const role = await Role.findByPk(req.params.id);

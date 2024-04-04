@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const StadeFunction = require('../Modeles/Stade.js');
 const Stade = StadeFunction(sequelize, Sequelize);
 
-// Create a new Stade
 const createStade = async (req, res) => {
   try {
     const stade = await Stade.create({
@@ -20,7 +19,6 @@ const createStade = async (req, res) => {
   }
 };
 
-// Get all Stades
 const getAllStades = async (req, res) => {
   try {
     const stades = await Stade.findAll();
@@ -30,7 +28,6 @@ const getAllStades = async (req, res) => {
   }
 };
 
-// Get a Stade by id
 const getStadeById = async (req, res) => {
   try {
     const stade = await Stade.findByPk(req.params.id);
@@ -43,7 +40,6 @@ const getStadeById = async (req, res) => {
   }
 };
 
-// Update a Stade by id
 const updateStade = async (req, res) => {
   try {
     const stade = await Stade.findByPk(req.params.id);
@@ -57,7 +53,6 @@ const updateStade = async (req, res) => {
   }
 };
 
-// Delete a Stade by id
 const deleteStade = async (req, res) => {
   try {
     const stade = await Stade.findByPk(req.params.id);

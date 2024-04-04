@@ -7,12 +7,11 @@ const Rangee = RangeeFunction(sequelize, Sequelize);
 const TribuneFunction = require('../Modeles/Tribune.js');
 const Tribune = TribuneFunction(sequelize, Sequelize);
 
-// Create a new Rangee
 const createRangee = async (req, res) => {
   try {
     const rangee = await Rangee.create({
       numero: req.body.numero,
-      idTribune: req.body.idTribune // Assuming the request includes idTribune to associate with a Tribune
+      idTribune: req.body.idTribune 
     });
     res.status(201).send(rangee);
   } catch (error) {
@@ -20,11 +19,10 @@ const createRangee = async (req, res) => {
   }
 };
 
-// Get all Rangees
 const getAllRangees = async (req, res) => {
   try {
     const rangees = await Rangee.findAll({
-      include: [Tribune] // Include associated Tribune details
+      include: [Tribune] 
     });
     res.status(200).send(rangees);
   } catch (error) {
@@ -32,11 +30,10 @@ const getAllRangees = async (req, res) => {
   }
 };
 
-// Get a Rangee by id
 const getRangeeById = async (req, res) => {
   try {
     const rangee = await Rangee.findByPk(req.params.id, {
-      include: [Tribune] // Include associated Tribune details
+      include: [Tribune] 
     });
     if (!rangee) {
       return res.status(404).send();
@@ -47,7 +44,6 @@ const getRangeeById = async (req, res) => {
   }
 };
 
-// Update a Rangee by id
 const updateRangee = async (req, res) => {
   try {
     const rangee = await Rangee.findByPk(req.params.id);
@@ -61,7 +57,6 @@ const updateRangee = async (req, res) => {
   }
 };
 
-// Delete a Rangee by id
 const deleteRangee = async (req, res) => {
   try {
     const rangee = await Rangee.findByPk(req.params.id);

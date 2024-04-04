@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const TypeCommercantFunction = require('../Modeles/TypeCommercant.js');
 const TypeCommercant = TypeCommercantFunction(sequelize, Sequelize);
 
-// Create a new TypeCommercant
 const createTypeCommercant = async (req, res) => {
   try {
     const typeCommercant = await TypeCommercant.create({
@@ -17,7 +16,6 @@ const createTypeCommercant = async (req, res) => {
   }
 };
 
-// Get all TypeCommercants
 const getAllTypeCommercants = async (req, res) => {
   try {
     const typeCommercants = await TypeCommercant.findAll();
@@ -27,7 +25,6 @@ const getAllTypeCommercants = async (req, res) => {
   }
 };
 
-// Get a TypeCommercant by id
 const getTypeCommercantById = async (req, res) => {
   try {
     const typeCommercant = await TypeCommercant.findByPk(req.params.id);
@@ -40,7 +37,6 @@ const getTypeCommercantById = async (req, res) => {
   }
 };
 
-// Update a TypeCommercant by id
 const updateTypeCommercant = async (req, res) => {
   try {
     const typeCommercant = await TypeCommercant.findByPk(req.params.id);
@@ -54,7 +50,6 @@ const updateTypeCommercant = async (req, res) => {
   }
 };
 
-// Delete a TypeCommercant by id
 const deleteTypeCommercant = async (req, res) => {
   try {
     const typeCommercant = await TypeCommercant.findByPk(req.params.id);

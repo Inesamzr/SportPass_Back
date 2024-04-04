@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const BilletFunction  = require('../Modeles/Billet.js');
 const Billet = BilletFunction(sequelize, Sequelize);
 
-// Create a new billet
 const createBillet = async (req, res) => {
   try {
     const billet = await Billet.create(req.body);
@@ -15,7 +14,6 @@ const createBillet = async (req, res) => {
   }
 };
 
-// Get all billets
 const getAllBillets = async (req, res) => {
   try {
     const billets = await Billet.findAll();
@@ -25,7 +23,6 @@ const getAllBillets = async (req, res) => {
   }
 };
 
-// Get a billet by id
 const getBilletById = async (req, res) => {
   try {
     const billet = await Billet.findByPk(req.params.id);
@@ -38,7 +35,6 @@ const getBilletById = async (req, res) => {
   }
 };
 
-// Update a billet by id
 const updateBillet = async (req, res) => {
   try {
     const billet = await Billet.findByPk(req.params.id);
@@ -52,7 +48,6 @@ const updateBillet = async (req, res) => {
   }
 };
 
-// Delete a billet by id
 const deleteBillet = async (req, res) => {
   try {
     const billet = await Billet.findByPk(req.params.id);

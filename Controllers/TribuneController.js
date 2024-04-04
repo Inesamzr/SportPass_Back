@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const TribuneFunction = require('../Modeles/Tribune.js');
 const Tribune = TribuneFunction(sequelize, Sequelize);
 
-// Create a new Tribune
 const createTribune = async (req, res) => {
   try {
     const tribune = await Tribune.create({
@@ -17,7 +16,6 @@ const createTribune = async (req, res) => {
   }
 };
 
-// Get all Tribunes
 const getAllTribunes = async (req, res) => {
   try {
     const tribunes = await Tribune.findAll();
@@ -27,7 +25,6 @@ const getAllTribunes = async (req, res) => {
   }
 };
 
-// Get a Tribune by id
 const getTribuneById = async (req, res) => {
   try {
     const tribune = await Tribune.findByPk(req.params.id);
@@ -40,7 +37,6 @@ const getTribuneById = async (req, res) => {
   }
 };
 
-// Update a Tribune by id
 const updateTribune = async (req, res) => {
   try {
     const tribune = await Tribune.findByPk(req.params.id);
@@ -54,7 +50,6 @@ const updateTribune = async (req, res) => {
   }
 };
 
-// Delete a Tribune by id
 const deleteTribune = async (req, res) => {
   try {
     const tribune = await Tribune.findByPk(req.params.id);

@@ -5,7 +5,6 @@ const sequelize = require('../database.js');
 const PromotionFunction = require('../Modeles/Promotion.js');
 const Promotion = PromotionFunction(sequelize, Sequelize);
 
-// Create a new Promotion
 const createPromotion = async (req, res) => {
   try {
     const promotion = await Promotion.create({
@@ -17,7 +16,6 @@ const createPromotion = async (req, res) => {
   }
 };
 
-// Get all Promotions
 const getAllPromotions = async (req, res) => {
   try {
     const promotions = await Promotion.findAll();
@@ -27,7 +25,6 @@ const getAllPromotions = async (req, res) => {
   }
 };
 
-// Get a Promotion by id
 const getPromotionById = async (req, res) => {
   try {
     const promotion = await Promotion.findByPk(req.params.id);
@@ -40,7 +37,6 @@ const getPromotionById = async (req, res) => {
   }
 };
 
-// Update a Promotion by id
 const updatePromotion = async (req, res) => {
   try {
     const promotion = await Promotion.findByPk(req.params.id);
@@ -54,7 +50,6 @@ const updatePromotion = async (req, res) => {
   }
 };
 
-// Delete a Promotion by id
 const deletePromotion = async (req, res) => {
   try {
     const promotion = await Promotion.findByPk(req.params.id);

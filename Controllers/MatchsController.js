@@ -9,7 +9,6 @@ const Stade = StadeFunction(sequelize, Sequelize);
 const EquipeFunction = require('../Modeles/Equipe.js');
 const Equipe = EquipeFunction(sequelize, Sequelize);
 
-// Create a new Match
 const createMatch = async (req, res) => {
   try {
     const match = await Matchs.create({
@@ -26,7 +25,6 @@ const createMatch = async (req, res) => {
   }
 };
 
-// Get all Matches
 const getAllMatches = async (req, res) => {
   try {
     const matches = await Matchs.findAll({
@@ -44,7 +42,6 @@ const getAllMatches = async (req, res) => {
   }
 };
 
-// Get a Match by id
 const getMatchById = async (req, res) => {
   try {
     const match = await Matchs.findByPk(req.params.id, {
@@ -65,7 +62,6 @@ const getMatchById = async (req, res) => {
   }
 };
 
-// Update a Match by id
 const updateMatch = async (req, res) => {
   try {
     const match = await Matchs.findByPk(req.params.id);
@@ -79,7 +75,6 @@ const updateMatch = async (req, res) => {
   }
 };
 
-// Delete a Match by id
 const deleteMatch = async (req, res) => {
   try {
     const match = await Matchs.findByPk(req.params.id);

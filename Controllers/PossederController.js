@@ -4,9 +4,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../database.js');
 const PossederFunction = require('../Modeles/Posseder.js');
 const Posseder = PossederFunction(sequelize, Sequelize);
-// Assuming RoleFunction and UserFunction are imported if needed for additional operations
 
-// Create a new Posseder record
 const createPosseder = async (req, res) => {
   try {
     const posseder = await Posseder.create({
@@ -19,7 +17,6 @@ const createPosseder = async (req, res) => {
   }
 };
 
-// Get all Posseder records
 const getAllPosseder = async (req, res) => {
   try {
     const posseders = await Posseder.findAll();
@@ -29,7 +26,6 @@ const getAllPosseder = async (req, res) => {
   }
 };
 
-// Get a Posseder record by id
 const getPossederById = async (req, res) => {
   try {
     const posseder = await Posseder.findByPk(req.params.id);
@@ -42,7 +38,6 @@ const getPossederById = async (req, res) => {
   }
 };
 
-// Update a Posseder record by id
 const updatePosseder = async (req, res) => {
   try {
     const posseder = await Posseder.findByPk(req.params.id);
@@ -59,7 +54,6 @@ const updatePosseder = async (req, res) => {
   }
 };
 
-// Delete a Posseder record by id
 const deletePosseder = async (req, res) => {
   try {
     const posseder = await Posseder.findByPk(req.params.id);

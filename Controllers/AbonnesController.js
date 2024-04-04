@@ -7,7 +7,6 @@ const User = UserFunction(sequelize, Sequelize);
 const AbonnesFunction = require('../Modeles/Abonnes.js');
 const Abonnes = AbonnesFunction(sequelize, Sequelize);
 
-// Create a new Abonnes
 const createAbonnes = async (req, res) => {
   try {
     const abonnes = await Abonnes.create({
@@ -20,30 +19,21 @@ const createAbonnes = async (req, res) => {
   }
 };
 
-// Get all Abonnes
 const getAllAbonnes = async (req, res) => {
-  try {
-    const abonnes = await Abonnes.findAll();
-    res.status(200).send(abonnes);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
-
-// Get an Abonnes by id
-const getAbonnesById = async (req, res) => {
-  try {
-    const abonnes = await Abonnes.findByPk(req.params.id);
-    if (!abonnes) {
-      return res.status(404).send();
+    try {
+      const abonnes = await Abonnes.findAll({
+        include: [
+          { model: User, as: 'FollowerUser', foreignKey: 'followerId' }, 
+          { model: User, as: 'FollowingUser', foreignKey: 'followingId' } 
+        ]
+      });
+      res.status(200).send(abonnes);
+    } catch (error) {
+      res.status(400).send(error);
     }
-    res.status(200).send(abonnes);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
+  };
+  
 
-// Update an Abonnes by id
 const updateAbonnes = async (req, res) => {
   try {
     const abonnes = await Abonnes.findByPk(req.params.id);
@@ -57,7 +47,6 @@ const updateAbonnes = async (req, res) => {
   }
 };
 
-// Delete an Abonnes by id
 const deleteAbonnes = async (req, res) => {
   try {
     const abonnes = await Abonnes.findByPk(req.params.id);
@@ -71,10 +60,35 @@ const deleteAbonnes = async (req, res) => {
   }
 };
 
+const getFollowersByFollowingId = async (req, res) => {
+    try {
+      const followers = await Abonnes.findAll({
+        where: { followingId: req.params.followingId },
+        include: [User]
+      });
+      res.status(200).send(followers);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  };
+  
+  const getFollowingByFollowerId = async (req, res) => {
+    try {
+      const following = await Abonnes.findAll({
+        where: { followerId: req.params.followerId },
+        include: [User]
+      });
+      res.status(200).send(following);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  };
+
 module.exports = {
   createAbonnes,
   getAllAbonnes,
-  getAbonnesById,
   updateAbonnes,
-  deleteAbonnes
+  deleteAbonnes,
+  getFollowersByFollowingId,
+  getFollowingByFollowerId
 };
