@@ -8,86 +8,90 @@ const AbonnesFunction = require('../Modeles/Abonnes.js');
 const Abonnes = AbonnesFunction(sequelize, Sequelize);
 
 const createAbonnes = async (req, res) => {
-  try {
-    const abonnes = await Abonnes.create({
-      followerId: req.body.followerId,
-      followingId: req.body.followingId
-    });
-    res.status(201).send(abonnes);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
-
-const getAllAbonnes = async (req, res) => {
     try {
-      const abonnes = await Abonnes.findAll({
-        include: [
-          { model: User, as: 'FollowerUser', foreignKey: 'followerId' }, 
-          { model: User, as: 'FollowingUser', foreignKey: 'followingId' } 
-        ]
+      const followerId = req.params.followerId;
+      const followingId = req.params.followingId;
+
+      const abonne = await Abonnes.create({
+            followerId: followerId,
+            followingId: followingId
+        });
+      res.status(201).send(abonne);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  };
+
+
+const deleteAbonnes = async (req, res) => {
+    try {
+        const followerId = req.params.followerId;
+        const followingId = req.params.followingId;
+
+      const abonnes = await Abonnes.findOne({
+        where: {
+          followerId: followerId,
+          followingId: followingId
+        }
       });
-      res.status(200).send(abonnes);
+      if (!abonnes) {
+        return res.status(404).send({ message: 'Subscription not found.' });
+      }
+      await abonnes.destroy();
+      res.status(204).send();
     } catch (error) {
       res.status(400).send(error);
     }
   };
   
-
-const updateAbonnes = async (req, res) => {
-  try {
-    const abonnes = await Abonnes.findByPk(req.params.id);
-    if (!abonnes) {
-      return res.status(404).send();
-    }
-    await abonnes.update(req.body);
-    res.status(200).send(abonnes);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
-
-const deleteAbonnes = async (req, res) => {
-  try {
-    const abonnes = await Abonnes.findByPk(req.params.id);
-    if (!abonnes) {
-      return res.status(404).send();
-    }
-    await abonnes.destroy();
-    res.status(204).send();
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
 
 const getFollowersByFollowingId = async (req, res) => {
     try {
       const followers = await Abonnes.findAll({
         where: { followingId: req.params.followingId },
-        include: [User]
+        attributes: ['followerId'] 
       });
-      res.status(200).send(followers);
+
+      const followerIds = followers.map(f => f.followerId);
+
+      const users = await User.findAll({
+        where: {
+          idUser: followerIds 
+        }
+      });
+
+      res.json(users);
     } catch (error) {
-      res.status(400).send(error);
+      console.error('Error fetching followers:', error);
+      res.status(400).send(error.message);
     }
-  };
+};
+
   
-  const getFollowingByFollowerId = async (req, res) => {
+const getFollowingByFollowerId = async (req, res) => {
     try {
-      const following = await Abonnes.findAll({
+      const followings = await Abonnes.findAll({
         where: { followerId: req.params.followerId },
-        include: [User]
+        attributes: ['followingId'] 
       });
-      res.status(200).send(following);
+
+      const followingIds = followings.map(f => f.followingId);
+
+      const users = await User.findAll({
+        where: {
+          idUser: followingIds 
+        }
+      });
+
+      res.json(users);
     } catch (error) {
-      res.status(400).send(error);
+      console.error('Error fetching followers:', error);
+      res.status(400).send(error.message);
     }
-  };
+};
 
 module.exports = {
   createAbonnes,
-  getAllAbonnes,
-  updateAbonnes,
   deleteAbonnes,
   getFollowersByFollowingId,
   getFollowingByFollowerId

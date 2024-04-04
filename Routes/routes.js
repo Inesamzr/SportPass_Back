@@ -179,10 +179,8 @@ router.put('/typePlace/:id', typePlaceController.updateTypePlace);
 router.delete('/typePlace/:id', typePlaceController.deleteTypePlace);
 
 //routes abonnes
-router.get('/abonnes', abonnesController.getAllAbonnes);
-router.post('/abonnes', abonnesController.createAbonnes);
-router.put('/abonnes/:id', abonnesController.updateAbonnes);
-router.delete('/abonnes/:id', abonnesController.deleteAbonnes);
+router.post('/abonnes/:followerId/:followingId', abonnesController.createAbonnes);
+router.delete('/abonnes/:followerId/:followingId', abonnesController.deleteAbonnes);
 router.get('/abonnes/followers/:followingId', abonnesController.getFollowersByFollowingId);
 router.get('/abonnes/following/:followerId', abonnesController.getFollowingByFollowerId);
 
