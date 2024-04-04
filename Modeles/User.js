@@ -1,7 +1,5 @@
 const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
-const RoleFunction = require('./Role.js');
-const Role = RoleFunction(sequelize, Sequelize)
 const PalierFunction = require('./Palier.js');
 const Palier = PalierFunction(sequelize, Sequelize)
 
@@ -23,6 +21,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        pseudo: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         mail: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -35,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        numTel: {
+        tel: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
@@ -48,7 +50,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-
+        biographie: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         createdAt: {
             type: DataTypes.DATE,
             allowNull: false,
@@ -63,7 +68,6 @@ module.exports = function (sequelize, DataTypes) {
         freezeTableName: true,
     });
 
-    User.Role = User.belongsTo(Role, {  foreignKey: 'idRole' });
     User.Palier = User.belongsTo(Palier, { foreignKey: 'idPalier' });
 
     return User;
