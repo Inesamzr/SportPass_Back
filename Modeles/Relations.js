@@ -5,8 +5,8 @@ const UserFunction = require('./User.js');
 const User = UserFunction(sequelize, Sequelize)
 const ConcoursFunction = require('./Concours.js');
 const Concours = ConcoursFunction(sequelize, Sequelize)
-const ParticiperFunction = require('./Participer.js');
-const Participer = ParticiperFunction(sequelize, Sequelize)
+const ParticiperJeuFunction = require('./ParticiperJeu.js');
+const ParticiperJeu = ParticiperJeuFunction(sequelize, Sequelize)
 const BilletFunction = require('./Billet.js');
 const Billet = BilletFunction(sequelize, Sequelize)
 const CashBackCommercantFunction = require('./CashBackCommercant.js');
@@ -41,25 +41,40 @@ const TypeCommercantFunction = require('./TypeCommercant.js');
 const TypeCommercant = TypeCommercantFunction(sequelize, Sequelize)
 const TypePlaceFunction = require('./TypePlace.js');
 const TypePlace = TypePlaceFunction(sequelize, Sequelize)
-const PossederFunction = require('./Posseder.js');
-const Posseder = PossederFunction(sequelize, Sequelize)
+const PossederRoleFunction = require('./PossederRole.js');
+const PossederRole = PossederRoleFunction(sequelize, Sequelize)
 const AbonnesFunction = require('./Abonnes.js');
 const Abonnes = AbonnesFunction(sequelize, Sequelize)
+const LikeCommentaireFunction = require('./LikeCommentaire.js');
+const LikeCommentaire = LikeCommentaireFunction(sequelize, Sequelize)
+const LikePublicationFunction = require('./LikePublication.js');
+const LikePublication = LikePublicationFunction(sequelize, Sequelize)
+const PassFunction = require('./Pass.js');
+const Pass = PassFunction(sequelize, Sequelize)
+const PossederPassFunction = require('./PossederPass.js');
+const PossederPass = PossederPassFunction(sequelize, Sequelize)
+const AppartientPassFunction = require('./AppartientPass.js');
+const AppartientPass = AppartientPassFunction(sequelize, Sequelize)
 
 
-User.Concours = User.belongsToMany(Concours, { through: Participer, foreignKey: 'idUser' });
-Concours.User = Concours.belongsToMany(User, { through: Participer, foreignKey: 'idConcours' });
+User.Concours = User.belongsToMany(Concours, { through: ParticiperJeu, foreignKey: 'idUser', onDelete: 'CASCADE' });
+Concours.User = Concours.belongsToMany(User, { through: ParticiperJeu, foreignKey: 'idConcours' });
 
-User.Role = User.belongsToMany(Role, { through: Posseder, foreignKey: 'idUser' });
-Role.User = Role.belongsToMany(User, { through: Posseder, foreignKey: 'idRole' });
+User.Role = User.belongsToMany(Role, { through: PossederRole, foreignKey: 'idUser', onDelete: 'CASCADE' });
+Role.User = Role.belongsToMany(User, { through: PossederRole, foreignKey: 'idRole' });
 
 User.User = User.belongsToMany(User, { through: Abonnes, as: 'Followers', foreignKey: 'followingId', otherKey: 'followerId' });
 User.User = User.belongsToMany(User, { through: Abonnes, as: 'Followings', foreignKey: 'followerId', otherKey: 'followingId' });
 
+User.Pass = User.belongsToMany(Pass, { through: PossederPass, foreignKey: 'idUser', onDelete: 'CASCADE' });
+Pass.User = Pass.belongsToMany(User, { through: PossederPass, foreignKey: 'idPass', onDelete: 'CASCADE' });
+
+Billet.Pass = Billet.belongsToMany(Pass, { through: AppartientPass, foreignKey: 'idBillet', onDelete: 'CASCADE' });
+Pass.Billet = Pass.belongsToMany(Billet, { through: AppartientPass, foreignKey: 'idPass', onDelete: 'CASCADE' });
 
 (async () => {
     try {
-        await sequelize.sync({ alter: true, force: false }); /* si je met force: true, ça supprime la base 
+        await sequelize.sync({ alter: true, force: true }); /* si je met force: true, ça supprime la base 
         de données et la recrée à chaque fois que je lance le serveur et si je met alter: true, 
         ça modifie la base de données en fonction des modèles (si j'ajoute un champ dans un modèle, 
         il sera ajouté à la base de données) et si je met des données dans la BD et que je veux les garder, 
@@ -70,4 +85,4 @@ User.User = User.belongsToMany(User, { through: Abonnes, as: 'Followings', forei
     }
 })();
 
-module.exports = { User, Concours, Participer, Billet, CashBackCommercant, Commentaire, Commercant, Equipe, Matchs, Palier, Partenaire, Place, Promotion, Publication, Rangee, Role, Stade, Tribune, TypeCommercant, TypePlace}
+module.exports = { User, Concours, ParticiperJeu, Billet, CashBackCommercant, Commentaire, Commercant, Equipe, Matchs, Palier, Partenaire, Place, Promotion, Publication, Rangee, Role, Stade, Tribune, TypeCommercant, TypePlace, LikePublication, LikeCommentaire, Pass, PossederPass, AppartientPass, PossederRole}

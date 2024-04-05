@@ -3,18 +3,22 @@ const Sequelize = require('sequelize');
 
 
 module.exports = function (sequelize, DataTypes) {
-    const Posseder = sequelize.define('Posseder', {
-    idPosseder: {
+    const PossederPass = sequelize.define('PossederPass', {
+    idPossederPass: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    idRole: {
+    dateActivation: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    idPass: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Role', 
-            key: 'idRole',      
+            model: 'Pass', 
+            key: 'idPass',      
         }
     },
     idUser: {
@@ -39,5 +43,5 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 });
     
-return Posseder;
+return PossederPass;
 };

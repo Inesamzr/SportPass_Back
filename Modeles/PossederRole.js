@@ -3,26 +3,18 @@ const Sequelize = require('sequelize');
 
 
 module.exports = function (sequelize, DataTypes) {
-    const Participer = sequelize.define('Participer', {
-    idPartciper: {
+    const PossederRole = sequelize.define('PossederRole', {
+    idPosseder: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    estPresent: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    aGagner: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-      },
-    idConcours: {
+    idRole: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Concours', 
-            key: 'idConcours',      
+            model: 'Role', 
+            key: 'idRole',      
         }
     },
     idUser: {
@@ -47,5 +39,5 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 });
     
-return Participer;
+return PossederRole;
 };

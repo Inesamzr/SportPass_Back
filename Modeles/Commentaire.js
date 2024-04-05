@@ -14,9 +14,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    likes: {
-      type: DataTypes.INTEGER
-    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

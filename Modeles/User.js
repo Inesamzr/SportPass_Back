@@ -54,6 +54,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        somme: {
+            type: DataTypes.FLOAT,
+            allowNull: false
+        },
         createdAt: {
             type: DataTypes.DATE,
             allowNull: false,

@@ -39,8 +39,8 @@ module.exports = function (sequelize, DataTypes) {
 });
 
 Matchs.Stade = Matchs.belongsTo(Stade, {  foreignKey: 'idStade' });
-Matchs.Equipe = Matchs.belongsTo(Equipe, {  foreignKey: 'idEquipeDomicile' });
-Matchs.Equipe = Matchs.belongsTo(Equipe, {  foreignKey: 'idEquipeExterieure' });
+Matchs.belongsTo(Equipe, { as: 'EquipeDomicile', foreignKey: 'idEquipeDomicile' });
+Matchs.belongsTo(Equipe, { as: 'EquipeExterieure', foreignKey: 'idEquipeExterieure' });
 
  
 return Matchs;

@@ -13,7 +13,12 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     cashbackPalier: {
-      type: DataTypes.FLOAT
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    montantMin: {
+      type: DataTypes.FLOAT,
+      allowNull: false
     },
     createdAt: {
         type: DataTypes.DATE,
