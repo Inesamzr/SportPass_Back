@@ -7,6 +7,8 @@ const User = UserFunction(sequelize, Sequelize)
 const express = require('express');
 const PalierFunction = require('../Modeles/Palier.js');
 const Palier = PalierFunction(sequelize, Sequelize);
+const AbonnesFunction = require('../Modeles/Abonnes.js');
+const Abonnes = AbonnesFunction(sequelize, Sequelize);
 
 
 const getAllUsers = async (req, res) => {
@@ -36,29 +38,59 @@ const getUserById = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) {
-      return res.status(404).send();
-    }
-    await user.update(req.body);
-    res.status(200).send(user);
+    const user  = req.body;
+
+    const updatedUser = await User.update(
+      {
+        prenom: user.prenom,
+        nom: user.nom,
+        mail: user.mail,
+        tel: user.tel,
+        pseudo: user.pseudo,
+        biographie: user.biographie,
+        adresse: user.adresse,
+        somme: user.somme,
+        idPalier: user.idPalier
+      },
+      {
+        where: {
+          idUser: user.idUser
+        }
+      }
+    );
+
+    res.status(200).json({ success: true, updatedUser });
   } catch (error) {
-    res.status(400).send(error);
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
 const deleteUser = async (req, res) => {
+  const transaction = await sequelize.transaction(); 
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) {
-      return res.status(404).send();
-    }
-    await user.destroy();
+    console.log(req.params.idUser);
+   
+    await Abonnes.destroy({
+      where: {
+        [Sequelize.Op.or]: [{followerId: req.params.idUser}, {followingId: req.params.idUser}]
+      },
+      transaction 
+    });
+
+    await User.destroy({
+      where: { idUser: req.params.idUser },
+      transaction 
+    });
+
+    await transaction.commit(); 
     res.status(204).send();
   } catch (error) {
+    await transaction.rollback(); 
     res.status(400).send(error);
   }
 };
+
 
 const register = async (req, res) => {
   const userData = req.body;
@@ -78,7 +110,9 @@ const register = async (req, res) => {
       tel: userData.tel,
       pseudo: userData.pseudo,
       biographie: userData.biographie,
-      adresse: userData.adresse
+      adresse: userData.adresse,
+      somme: 0,
+      idPalier: 1
     });
 
     await Posseder.create({

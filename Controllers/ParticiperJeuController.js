@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Sequelize = require('sequelize');
 const sequelize = require('../database.js');
-const ParticiperFunction = require('../Modeles/Participer.js');
-const Participer = ParticiperFunction(sequelize, Sequelize);
+const ParticiperJeuFunction = require('../Modeles/ParticiperJeu.js');
+const ParticiperJeu = ParticiperJeuFunction(sequelize, Sequelize);
 
 const createParticipation = async (req, res) => {
   try {
-    const participation = await Participer.create({
+    const participation = await ParticiperJeu.create({
       estPresent: req.body.estPresent,
       aGagner: req.body.aGagner,
       idConcours: req.body.idConcours,
@@ -21,7 +21,7 @@ const createParticipation = async (req, res) => {
 
 const getAllParticipations = async (req, res) => {
   try {
-    const participations = await Participer.findAll();
+    const participations = await ParticiperJeu.findAll();
     res.status(200).send(participations);
   } catch (error) {
     res.status(400).send(error);
@@ -30,7 +30,7 @@ const getAllParticipations = async (req, res) => {
 
 const getParticipationById = async (req, res) => {
   try {
-    const participation = await Participer.findByPk(req.params.id);
+    const participation = await ParticiperJeu.findByPk(req.params.id);
     if (!participation) {
       return res.status(404).send();
     }
@@ -42,7 +42,7 @@ const getParticipationById = async (req, res) => {
 
 const updateParticipation = async (req, res) => {
   try {
-    const participation = await Participer.findByPk(req.params.id);
+    const participation = await ParticiperJeu.findByPk(req.params.id);
     if (!participation) {
       return res.status(404).send();
     }
@@ -55,7 +55,7 @@ const updateParticipation = async (req, res) => {
 
 const deleteParticipation = async (req, res) => {
   try {
-    const participation = await Participer.findByPk(req.params.id);
+    const participation = await ParticiperJeu.findByPk(req.params.id);
     if (!participation) {
       return res.status(404).send();
     }

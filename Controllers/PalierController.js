@@ -9,7 +9,8 @@ const createPalier = async (req, res) => {
   try {
     const palier = await Palier.create({
       nom: req.body.nom,
-      cashbackPalier: req.body.cashbackPalier
+      cashbackPalier: req.body.cashbackPalier,
+      montantMin: req.body.montantMin
     });
     res.status(201).send(palier);
   } catch (error) {

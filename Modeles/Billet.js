@@ -37,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 });
 
-Billet.User = Billet.belongsTo(User, {  foreignKey: 'idUser' });
+Billet.User = Billet.belongsTo(User, {  foreignKey: 'idUser', allowNull: true, onDelete: 'CASCADE' });
 Billet.Matchs = Billet.belongsTo(Matchs, {  foreignKey: 'idMatch' });
 Billet.Place = Billet.belongsTo(Place, {  foreignKey: 'idPlace' });
 

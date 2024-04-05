@@ -6,6 +6,8 @@ const PublicationFunction = require('../Modeles/Publication.js');
 const Publication = PublicationFunction(sequelize, Sequelize);
 const UserFunction = require('../Modeles/User.js');
 const User = UserFunction(sequelize, Sequelize);
+const LikePublicationFunction = require('../Modeles/LikePublication.js');
+const LikePublication = LikePublicationFunction(sequelize, Sequelize);
 
 const createPublication = async (req, res) => {
   try {
@@ -20,11 +22,13 @@ const createPublication = async (req, res) => {
   }
 };
 
-// Get all Publications
 const getAllPublications = async (req, res) => {
   try {
     const publications = await Publication.findAll({
-      include: [User] 
+      include: [
+        { model: User },
+        { model: LikePublication, as: 'Likes' }
+      ]
     });
     res.status(200).send(publications);
   } catch (error) {
@@ -35,7 +39,10 @@ const getAllPublications = async (req, res) => {
 const getPublicationById = async (req, res) => {
   try {
     const publication = await Publication.findByPk(req.params.id, {
-      include: [User] 
+      include: [
+        { model: User }, 
+        { model: LikePublication, as: 'Likes' } 
+      ]
     });
     if (!publication) {
       return res.status(404).send();
@@ -72,10 +79,32 @@ const deletePublication = async (req, res) => {
   }
 };
 
+const getPublicationsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.idUser;
+    const publications = await Publication.findAll({
+      where: { idUser: userId },
+      include: [
+        { model: User }, 
+        { model: LikePublication, as: 'Likes' } 
+      ]
+    });
+    if (publications.length > 0) {
+      res.status(200).send(publications);
+    } else {
+      res.status(404).send({ message: "Aucune publication trouvée pour cet utilisateur." });
+    }
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+
 module.exports = {
   createPublication,
   getAllPublications,
   getPublicationById,
   updatePublication,
-  deletePublication
+  deletePublication,
+  getPublicationsByUserId
 };

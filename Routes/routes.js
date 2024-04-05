@@ -11,9 +11,9 @@ const equipeController =  require('../Controllers/EquipeController.js');
 const matchsController =  require('../Controllers/MatchsController.js');
 const palierController =  require('../Controllers/PalierController.js');
 const partenaireController =  require('../Controllers/PartenaireController.js');
-const participerController =  require('../Controllers/ParticiperController.js');
+const ParticiperJeuController =  require('../Controllers/ParticiperJeuController.js');
 const placeController =  require('../Controllers/PlaceController.js');
-const possederController =  require('../Controllers/PossederController.js');
+const possederRoleController =  require('../Controllers/PossederRoleController.js');
 const promotionController =  require('../Controllers/PromotionController.js');
 const publicationController =  require('../Controllers/PublicationController.js');
 const rangeeController =  require('../Controllers/RangeeController.js');
@@ -23,6 +23,13 @@ const tribuneController =  require('../Controllers/TribuneController.js');
 const typeCommercantController =  require('../Controllers/TypeCommercantController.js');
 const typePlaceController =  require('../Controllers/TypePlaceController.js');
 const abonnesController =  require('../Controllers/AbonnesController.js');
+const likeCommentaireController =  require('../Controllers/LikeCommentaireController.js');
+const likePublicationController =  require('../Controllers/LikePublicationController.js');
+const passController =  require('../Controllers/PassController.js');
+const possederPassController =  require('../Controllers/PossederPassController.js');
+const appartientPassController =  require('../Controllers/AppartientPassController.js');
+const app = require('../app.js');
+
 
 
 const router = express.Router();
@@ -33,7 +40,20 @@ router.post('/login', userController.login);
 router.get('/user', userController.getAllUsers);
 router.get('/user/:id', userController.getUserById);
 router.put('/user/:id', userController.updateUser);
-router.delete('/user/:id', userController.deleteUser);
+router.delete('/user/:idUser', userController.deleteUser);
+
+//routes abonnes
+router.post('/abonnes/:followerId/:followingId', abonnesController.createAbonnes);
+router.delete('/abonnes/:followerId/:followingId', abonnesController.deleteAbonnes);
+router.get('/abonnes/followers/:followingId', abonnesController.getFollowersByFollowingId);
+router.get('/abonnes/following/:followerId', abonnesController.getFollowingByFollowerId);
+
+//routes appartientPass
+router.get('/appartientPass', appartientPassController.getAllAppartenance);
+router.post('/appartientPass',appartientPassController.createAppartenance);
+router.get('/appartientPass/billet/:id', appartientPassController.getAppartenanceByIdBillet);
+router.get('/appartientPass/pass/:id', appartientPassController.getAppartenanceByIdPass);
+router.delete('/appartientPass/:id', appartientPassController.deleteAppartenance);
 
 //routes billet
 router.get('/billet', billetController.getAllBillets);
@@ -77,6 +97,18 @@ router.get('/equipe/:id', equipeController.getEquipeById);
 router.put('/equipe/:id', equipeController.updateEquipe);
 router.delete('/equipe/:id', equipeController.deleteEquipe);
 
+//routes likeCommentaire
+router.post('/likeCommentaire',likeCommentaireController.createLike);
+router.get('/likeCommentaire/commentaire/:id', likeCommentaireController.getLikesByCommentId);
+router.get('/likeCommentaire/user/:id', likeCommentaireController.getLikesByUserId);
+router.delete('/likeCommentaire/:id', likeCommentaireController.deleteLike);
+
+//routes likePublication
+router.post('/likePublication',likePublicationController.createLike);
+router.get('/likePublication/publication/:id', likePublicationController.getLikesByPostId);
+router.get('/likePublication/user/:id', likePublicationController.getLikesByUserId);
+router.delete('/likePublication/:id', likePublicationController.deleteLike);
+
 //routes matchs
 router.get('/matchs', matchsController.getAllMatches);
 router.post('/matchs',matchsController.createMatch);
@@ -98,12 +130,19 @@ router.get('/partenaire/:id', partenaireController.getPartenaireById);
 router.put('/partenaire/:id', partenaireController.updatePartenaire);
 router.delete('/partenaire/:id', partenaireController.deletePartenaire);
 
-//routes participer
-router.get('/participer', participerController.getAllParticipations);
-router.post('/participer',participerController.createParticipation);
-router.get('/participer/:id', participerController.getParticipationById);
-router.put('/participer/:id', participerController.updateParticipation);
-router.delete('/participer/:id', participerController.deleteParticipation);
+//routes participerJeu
+router.get('/participerJeu', ParticiperJeuController.getAllParticipations);
+router.post('/participerJeu',ParticiperJeuController.createParticipation);
+router.get('/participerJeu/:id', ParticiperJeuController.getParticipationById);
+router.put('/participerJeu/:id', ParticiperJeuController.updateParticipation);
+router.delete('/participerJeu/:id', ParticiperJeuController.deleteParticipation);
+
+//routes passController
+router.get('/pass', passController.getAllPasses);
+router.post('/pass',passController.createPass);
+router.get('/pass/:id', passController.getPassById);
+router.put('/pass/:id', passController.updatePass);
+router.delete('/pass/:id', passController.deletePass);
 
 //routes place
 router.get('/place', placeController.getAllPlaces);
@@ -114,11 +153,18 @@ router.delete('/place/:id', placeController.deletePlace);
 
 
 //routes posseder
-router.get('/posseder', possederController.getAllPosseder);
-router.post('/posseder',possederController.createPosseder);
-router.get('/posseder/:id', possederController.getPossederById);
-router.put('/posseder/:id', possederController.updatePosseder);
-router.delete('/posseder/:id', possederController.deletePosseder);
+router.get('/possederRole', possederRoleController.getAllPossederRole);
+router.post('/possederRole',possederRoleController.createPossederRole);
+router.get('/possederRole/:id', possederRoleController.getPossederRoleById);
+router.put('/possederRole/:id', possederRoleController.updatePossederRole);
+router.delete('/possederRole/:id', possederRoleController.deletePossederRole);
+
+//routes possederPass
+router.get('/possederPass', possederPassController.getAllPossession);
+router.post('/possederPass',possederPassController.createPossession);
+router.get('/possederPass/user/:id', possederPassController.getPossessionByIDUser);
+router.get('/possederPass/pass/:id', possederPassController.getPossessionByIdPass);
+router.delete('/possederPass/:id', possederPassController.deletePossession);
 
 //routes promotion
 router.get('/promotion', promotionController.getAllPromotions);
@@ -134,6 +180,7 @@ router.post('/publication',publicationController.createPublication);
 router.get('/publication/:id', publicationController.getPublicationById);
 router.put('/publication/:id', publicationController.updatePublication);
 router.delete('/publication/:id', publicationController.deletePublication);
+router.get('/publication/user/:idUser', publicationController.getPublicationsByUserId);
 
 
 //routes rangee
@@ -178,11 +225,7 @@ router.get('/typePlace/:id', typePlaceController.getTypePlaceById);
 router.put('/typePlace/:id', typePlaceController.updateTypePlace);
 router.delete('/typePlace/:id', typePlaceController.deleteTypePlace);
 
-//routes abonnes
-router.post('/abonnes/:followerId/:followingId', abonnesController.createAbonnes);
-router.delete('/abonnes/:followerId/:followingId', abonnesController.deleteAbonnes);
-router.get('/abonnes/followers/:followingId', abonnesController.getFollowersByFollowingId);
-router.get('/abonnes/following/:followerId', abonnesController.getFollowingByFollowerId);
+
 
 
 module.exports = router;
