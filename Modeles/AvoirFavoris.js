@@ -1,19 +1,29 @@
 const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
-const UserFunction = require('./User.js');
-const User = UserFunction(sequelize, Sequelize)
 
 
 module.exports = function (sequelize, DataTypes) {
-    const Publication = sequelize.define('Publication', {
-    idPost: {
+    const AvoirFavoris = sequelize.define('AvoirFavoris', {
+    idAvoirFavoris: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    contenu: {
-      type: DataTypes.STRING,
-      allowNull: false
+    idCommercant: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Commercant', 
+            key: 'idCommercant',      
+        }
+    },
+    idUser: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'User', 
+            key: 'idUser',        
+        }
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -28,8 +38,6 @@ module.exports = function (sequelize, DataTypes) {
 }, {
     freezeTableName: true,
 });
-
-Publication.User = Publication.belongsTo(User, {  foreignKey: 'idUser', onDelete: 'CASCADE' });
     
-return Publication;
+return AvoirFavoris;
 };

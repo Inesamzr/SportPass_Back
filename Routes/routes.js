@@ -4,7 +4,8 @@ const authentification = require('../Middleware/auth');
 const userController = require('../Controllers/UserController.js');
 const billetController =  require('../Controllers/BilletController.js');
 const cashBackCommercantController =  require('../Controllers/CashBackCommercantController.js');
-const commentaireController =  require('../Controllers/CommentaireController.js');
+const CommentaireUserController =  require('../Controllers/CommentaireUserController.js');
+const CommentaireCommercantController =  require('../Controllers/CommentaireCommercantController.js');
 const commercantController =  require('../Controllers/CommercantController.js');
 const concoursController =  require('../Controllers/ConcoursController.js');
 const equipeController =  require('../Controllers/EquipeController.js');
@@ -15,7 +16,7 @@ const ParticiperJeuController =  require('../Controllers/ParticiperJeuController
 const placeController =  require('../Controllers/PlaceController.js');
 const possederRoleController =  require('../Controllers/PossederRoleController.js');
 const promotionController =  require('../Controllers/PromotionController.js');
-const publicationController =  require('../Controllers/PublicationController.js');
+const PublicationUserController =  require('../Controllers/PublicationUserController.js');
 const rangeeController =  require('../Controllers/RangeeController.js');
 const roleController =  require('../Controllers/RoleController.js');
 const stadeController =  require('../Controllers/StadeController.js');
@@ -23,11 +24,16 @@ const tribuneController =  require('../Controllers/TribuneController.js');
 const typeCommercantController =  require('../Controllers/TypeCommercantController.js');
 const typePlaceController =  require('../Controllers/TypePlaceController.js');
 const abonnesController =  require('../Controllers/AbonnesController.js');
-const likeCommentaireController =  require('../Controllers/LikeCommentaireController.js');
-const likePublicationController =  require('../Controllers/LikePublicationController.js');
+const LikeCommentaireUserController =  require('../Controllers/LikeCommentaireUserController.js');
+const LikePublicationUserController =  require('../Controllers/LikePublicationUserController.js');
+const LikeCommentaireCommercantController =  require('../Controllers/LikeCommentaireCommercantController.js');
+const LikePublicationCommercantController =  require('../Controllers/LikePublicationCommercantController.js');
 const passController =  require('../Controllers/PassController.js');
 const possederPassController =  require('../Controllers/PossederPassController.js');
 const appartientPassController =  require('../Controllers/AppartientPassController.js');
+const avoirFavorisController =  require('../Controllers/AvoirFavorisController.js');
+const PublicationCommercantController =  require('../Controllers/PublicationCommercantController.js');
+
 const app = require('../app.js');
 
 
@@ -55,6 +61,13 @@ router.get('/appartientPass/billet/:id', appartientPassController.getAppartenanc
 router.get('/appartientPass/pass/:id', appartientPassController.getAppartenanceByIdPass);
 router.delete('/appartientPass/:id', appartientPassController.deleteAppartenance);
 
+//routes avoirFavoris
+router.get('/avoirFavoris', avoirFavorisController.getAllFavoris);
+router.post('/avoirFavoris',avoirFavorisController.createFavoris);
+router.get('/avoirFavoris/user/:id', avoirFavorisController.getFavorisByIdUser);
+router.get('/avoirFavoris/commercant/:id', avoirFavorisController.getFavorisByIdCommercant);
+router.delete('/avoirFavoris/:id', avoirFavorisController.deleteFavoris);
+
 //routes billet
 router.get('/billet', billetController.getAllBillets);
 router.post('/billet', billetController.createBillet);
@@ -69,12 +82,21 @@ router.get('/cashBackCommercant/:id', cashBackCommercantController.getCashBackCo
 router.put('/cashBackCommercant/:id', cashBackCommercantController.updateCashBackCommercant);
 router.delete('/cashBackCommercant/:id', cashBackCommercantController.deleteCashBackCommercant);
 
-//routes commenatire
-router.get('/commentaire', commentaireController.getAllCommentaires);
-router.post('/commentaire', commentaireController.createCommentaire);
-router.get('/commentaire/:id', commentaireController.getCommentaireById);
-router.put('/commentaire/:id', commentaireController.updateCommentaire);
-router.delete('/commentaire/:id', commentaireController.deleteCommentaire);
+//routes commentaireUser
+router.get('/commentaireUser', CommentaireUserController.getAllCommentaireUsers);
+router.post('/commentaireUser', CommentaireUserController.createCommentaireUser);
+router.get('/commentaireUser/user/:id', CommentaireUserController.getCommentaireByIdUser);
+router.get('/commentaireUser/publication/:id', CommentaireUserController.getCommentaireByPublicationId);
+router.put('/commentaireUser/:id', CommentaireUserController.updateCommentaireUser);
+router.delete('/commentaireUser/:id', CommentaireUserController.deleteCommentaireUser);
+
+//routes commentaireCommercant
+router.get('/commentaireCommercant', CommentaireCommercantController.getAllCommentaireCommercants);
+router.post('/commentaireCommercant', CommentaireCommercantController.createCommentaireCommercant);
+router.get('/commentaireCommercant/user/:id', CommentaireCommercantController.getCommentaireByIdUser);
+router.get('/commentaireCommercant/publication/:id', CommentaireCommercantController.getCommentaireByPublicationId);
+router.put('/commentaireCommercant/:id', CommentaireCommercantController.updateCommentaireCommercant);
+router.delete('/commentaireCommercant/:id', CommentaireCommercantController.deleteCommentaireCommercant);
 
 //routes commercant
 router.get('/commercant', commercantController.getAllCommercants);
@@ -97,17 +119,29 @@ router.get('/equipe/:id', equipeController.getEquipeById);
 router.put('/equipe/:id', equipeController.updateEquipe);
 router.delete('/equipe/:id', equipeController.deleteEquipe);
 
-//routes likeCommentaire
-router.post('/likeCommentaire',likeCommentaireController.createLike);
-router.get('/likeCommentaire/commentaire/:id', likeCommentaireController.getLikesByCommentId);
-router.get('/likeCommentaire/user/:id', likeCommentaireController.getLikesByUserId);
-router.delete('/likeCommentaire/:id', likeCommentaireController.deleteLike);
+//routes LikeCommentaireUser
+router.post('/likeCommentaireUser',LikeCommentaireUserController.createLike);
+router.get('/likeCommentaireUser/commentaireUser/:id', LikeCommentaireUserController.getLikesByCommentId);
+router.get('/likeCommentaireUser/user/:id', LikeCommentaireUserController.getLikesByUserId);
+router.delete('/likeCommentaireUser/:id', LikeCommentaireUserController.deleteLike);
 
-//routes likePublication
-router.post('/likePublication',likePublicationController.createLike);
-router.get('/likePublication/publication/:id', likePublicationController.getLikesByPostId);
-router.get('/likePublication/user/:id', likePublicationController.getLikesByUserId);
-router.delete('/likePublication/:id', likePublicationController.deleteLike);
+//routes likePublicationUser
+router.post('/likePublicationUser',LikePublicationUserController.createLike);
+router.get('/likePublicationUser/publicationUser/:id', LikePublicationUserController.getLikesByPostId);
+router.get('/likePublicationUser/user/:id', LikePublicationUserController.getLikesByUserId);
+router.delete('/likePublicationUser/:id', LikePublicationUserController.deleteLike);
+
+//routes likeCommentaireCommercant
+router.post('/likeCommentaireCommercant',LikeCommentaireCommercantController.createLike);
+router.get('/likeCommentaireCommercant/commentaireCommercant/:id', LikeCommentaireCommercantController.getLikesByCommentId);
+router.get('/likeCommentaireCommercant/user/:id', LikeCommentaireCommercantController.getLikesByUserId);
+router.delete('/likeCommentaireCommercant/:id', LikeCommentaireCommercantController.deleteLike);
+
+//routes likePublicationCommmercant
+router.post('/likePublicationCommmercant',LikePublicationCommercantController.createLike);
+router.get('/likePublicationCommmercant/publicationCommentaire/:id', LikePublicationCommercantController.getLikesByPostId);
+router.get('/likePublicationCommmercant/user/:id', LikePublicationCommercantController.getLikesByUserId);
+router.delete('/likePublicationCommmercant/:id', LikePublicationCommercantController.deleteLike);
 
 //routes matchs
 router.get('/matchs', matchsController.getAllMatches);
@@ -174,14 +208,21 @@ router.put('/promotion/:id', promotionController.updatePromotion);
 router.delete('/promotion/:id', promotionController.deletePromotion);
 
 
-//routes publication
-router.get('/publication', publicationController.getAllPublications);
-router.post('/publication',publicationController.createPublication);
-router.get('/publication/:id', publicationController.getPublicationById);
-router.put('/publication/:id', publicationController.updatePublication);
-router.delete('/publication/:id', publicationController.deletePublication);
-router.get('/publication/user/:idUser', publicationController.getPublicationsByUserId);
+//routes PublicationUser
+router.get('/publicationUser', PublicationUserController.getAllPublicationUsers);
+router.post('/publicationUser',PublicationUserController.createPublicationUser);
+router.get('/publicationUser/:id', PublicationUserController.getPublicationUserById);
+router.put('/publicationUser/:id', PublicationUserController.updatePublicationUser);
+router.delete('/publicationUser/:id', PublicationUserController.deletePublicationUser);
+router.get('/publicationUser/user/:idUser', PublicationUserController.getPublicationUsersByUserId);
 
+//routes PublicationCommercant
+router.get('/publicationCommercant', PublicationCommercantController.getAllPublicationCommercants);
+router.post('/publicationCommercant',PublicationCommercantController.createPublicationCommercant);
+router.get('/publicationCommercant/:id', PublicationCommercantController.getPublicationCommercantById);
+router.put('/publicationCommercant/:id', PublicationCommercantController.updatePublicationCommercant);
+router.delete('/publicationCommercant/:id', PublicationCommercantController.deletePublicationCommercant);
+router.get('/publicationCommercant/commercant/:id', PublicationCommercantController.getPublicationCommercantById);
 
 //routes rangee
 router.get('/rangee', rangeeController.getAllRangees);

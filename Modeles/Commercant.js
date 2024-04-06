@@ -4,6 +4,8 @@ const TypeCommercantFunction = require('./TypeCommercant.js');
 const TypeCommercant = TypeCommercantFunction(sequelize, Sequelize)
 const CashBackCommercantFunction = require('./CashBackCommercant.js');
 const CashBackCommercant = CashBackCommercantFunction(sequelize, Sequelize)
+const EquipeFunction = require('./Equipe.js');
+const Equipe = EquipeFunction(sequelize, Sequelize)
 
 module.exports = function (sequelize, DataTypes) {
     const Commercant = sequelize.define('Commercant', {
@@ -44,6 +46,8 @@ module.exports = function (sequelize, DataTypes) {
 
 Commercant.CashBackCommercant = Commercant.belongsTo(CashBackCommercant, {  foreignKey: 'idCashbacCommercant' });
 Commercant.TypeCommercant = Commercant.belongsTo(TypeCommercant, {  foreignKey: 'idTypeCommercant' });
+Commercant.Equipe = Commercant.belongsTo(Equipe, {  foreignKey: 'idEquipe' });
+
 
 return Commercant;
 };

@@ -1,11 +1,11 @@
 const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
-const PublicationFunction = require('./Publication.js');
-const Publication = PublicationFunction(sequelize, Sequelize)
+const UserFunction = require('./User.js');
+const User = UserFunction(sequelize, Sequelize)
 
 module.exports = function (sequelize, DataTypes) {
-    const Commentaire = sequelize.define('Commentaire', {
-    idCom: {
+    const PublicationUser = sequelize.define('PublicationUser', {
+    idPublication: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
@@ -28,7 +28,7 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 });
 
-Commentaire.Publication = Commentaire.belongsTo(Publication, {  foreignKey: 'idPost' });
+PublicationUser.User = PublicationUser.belongsTo(User, {  foreignKey: 'idUser', onDelete: 'CASCADE' });
     
-return Commentaire;
+return PublicationUser;
 };
