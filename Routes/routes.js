@@ -174,6 +174,7 @@ router.delete('/likePublicationCommmercant/:id', LikePublicationPartenaireContro
 router.get('/matchs', matchsController.getAllMatches);
 router.post('/matchs',matchsController.createMatch);
 router.get('/matchs/:id', matchsController.getMatchById);
+router.get('/matchs/equipe/:idEquipe', matchsController.getAllMatchsByidEquipe);
 router.put('/matchs/:id', matchsController.updateMatch);
 router.delete('/matchs/:id', matchsController.deleteMatch);
 
@@ -211,7 +212,7 @@ router.post('/place',placeController.createPlace);
 router.get('/place/:id', placeController.getPlaceById);
 router.put('/place/:id', placeController.updatePlace);
 router.delete('/place/:id', placeController.deletePlace);
-
+router.get('/place/rangee/:id', placeController.getAllPlaceByRangeeId);
 
 //routes posseder
 router.get('/possederRole', possederRoleController.getAllPossederRole);
@@ -263,6 +264,7 @@ router.get('/publicationPartenaire/partenaire/:id', publicationPartenaireControl
 router.get('/rangee', rangeeController.getAllRangees);
 router.post('/rangee',rangeeController.createRangee);
 router.get('/rangee/:id', rangeeController.getRangeeById);
+router.get('/rangee/tribune/:id', rangeeController.getRangeeByIdTribune);
 router.put('/rangee/:id', rangeeController.updateRangee);
 router.delete('/rangee/:id', rangeeController.deleteRangee);
 
@@ -284,6 +286,7 @@ router.delete('/stade/:id', stadeController.deleteStade);
 router.get('/tribune', tribuneController.getAllTribunes);
 router.post('/tribune',tribuneController.createTribune);
 router.get('/tribune/:id', tribuneController.getTribuneById);
+router.get('/tribune/stade/:id', tribuneController.getAllTribuneByIdStade);
 router.put('/tribune/:id', tribuneController.updateTribune);
 router.delete('/tribune/:id', tribuneController.deleteTribune);
 

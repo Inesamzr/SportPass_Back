@@ -1,5 +1,7 @@
 const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
+const StadeFunction = require('./Stade.js');
+const Stade = StadeFunction(sequelize, Sequelize)
 
 module.exports = function (sequelize, DataTypes) {
     const Tribune = sequelize.define('Tribune', {
@@ -25,6 +27,8 @@ module.exports = function (sequelize, DataTypes) {
 }, {
     freezeTableName: true,
 });
-    
+
+Tribune.Stade = Tribune.belongsTo(Stade, {  foreignKey: 'idStade' });
+
 return Tribune;
 };

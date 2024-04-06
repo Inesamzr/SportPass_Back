@@ -70,10 +70,34 @@ const deleteRangee = async (req, res) => {
   }
 };
 
+const getRangeeByIdTribune = async (req, res) => {
+  try {
+    const idTribune = req.params.id;
+
+    const rangees = await Rangee.findAll({
+      include: [{
+        model: Tribune,
+        where: { idTribune: idTribune } 
+      }]
+    });
+
+    if (!rangees || rangees.length === 0) {
+      return res.status(404).send({ message: 'No rangees found for the specified team.' });
+    }
+
+    res.status(200).send(rangees);
+  } catch (error) {
+    console.error('Error fetching rangees by tribune ID:', error);
+    res.status(500).send({ error: 'An error occurred while fetching rangees by tribune ID.' });
+  }
+};
+
+
 module.exports = {
   createRangee,
   getAllRangees,
   getRangeeById,
   updateRangee,
-  deleteRangee
+  deleteRangee,
+  getRangeeByIdTribune
 };
