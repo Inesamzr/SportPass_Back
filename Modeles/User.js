@@ -2,6 +2,8 @@ const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
 const PalierFunction = require('./Palier.js');
 const Palier = PalierFunction(sequelize, Sequelize)
+const EquipeFunction = require('./Equipe.js');
+const Equipe = EquipeFunction(sequelize, Sequelize)
 
 
 module.exports = function (sequelize, DataTypes) {
@@ -73,6 +75,7 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     User.Palier = User.belongsTo(Palier, { foreignKey: 'idPalier' });
+    User.Equipe = User.belongsTo(Equipe, { foreignKey: 'idEquipe' });
 
     return User;
 };

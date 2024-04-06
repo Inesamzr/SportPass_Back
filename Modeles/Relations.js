@@ -11,8 +11,12 @@ const BilletFunction = require('./Billet.js');
 const Billet = BilletFunction(sequelize, Sequelize)
 const CashBackCommercantFunction = require('./CashBackCommercant.js');
 const CashBackCommercant = CashBackCommercantFunction(sequelize, Sequelize)
-const CommentaireFunction = require('./Commentaire.js');
-const Commentaire = CommentaireFunction(sequelize, Sequelize)
+const CommentaireUserFunction = require('./CommentaireUser.js');
+const CommentaireUser = CommentaireUserFunction(sequelize, Sequelize)
+const CommentaireCommercantFunction = require('./CommentaireCommercant.js');
+const CommentaireCommercant = CommentaireCommercantFunction(sequelize, Sequelize)
+const CommentairePartenaireFunction = require('./CommentairePartenaire.js');
+const CommentairePartenaire = CommentairePartenaireFunction(sequelize, Sequelize)
 const CommercantFunction = require('./Commercant.js');
 const Commercant = CommercantFunction(sequelize, Sequelize)
 const EquipeFunction = require('./Equipe.js');
@@ -27,8 +31,12 @@ const PlaceFunction = require('./Place.js');
 const Place = PlaceFunction(sequelize, Sequelize)
 const PromotionFunction = require('./Promotion.js');
 const Promotion = PromotionFunction(sequelize, Sequelize)
-const PublicationFunction = require('./Publication.js');
-const Publication = PublicationFunction(sequelize, Sequelize)
+const PublicationUserFunction = require('./PublicationUser.js');
+const PublicationUser = PublicationUserFunction(sequelize, Sequelize)
+const PublicationCommercantFunction = require('./PublicationCommercant.js');
+const PublicationCommercant = PublicationCommercantFunction(sequelize, Sequelize)
+const PublicationPartenaireFunction = require('./PublicationPartenaire.js');
+const PublicationPartenaire = PublicationPartenaireFunction(sequelize, Sequelize)
 const RangeeFunction = require('./Rangee.js');
 const Rangee = RangeeFunction(sequelize, Sequelize)
 const RoleFunction = require('./Role.js');
@@ -45,17 +53,26 @@ const PossederRoleFunction = require('./PossederRole.js');
 const PossederRole = PossederRoleFunction(sequelize, Sequelize)
 const AbonnesFunction = require('./Abonnes.js');
 const Abonnes = AbonnesFunction(sequelize, Sequelize)
-const LikeCommentaireFunction = require('./LikeCommentaire.js');
-const LikeCommentaire = LikeCommentaireFunction(sequelize, Sequelize)
-const LikePublicationFunction = require('./LikePublication.js');
-const LikePublication = LikePublicationFunction(sequelize, Sequelize)
+const LikeCommentaireUserFunction = require('./LikeCommentaireUser.js');
+const LikeCommentaireUser = LikeCommentaireUserFunction(sequelize, Sequelize)
+const LikePublicationUserFunction = require('./LikePublicationUser.js');
+const LikePublicationUser = LikePublicationUserFunction(sequelize, Sequelize)
+const LikeCommentaireCommercantFunction = require('./LikeCommentaireCommercant.js');
+const LikeCommentaireCommercant = LikeCommentaireCommercantFunction(sequelize, Sequelize)
+const LikePublicationCommercantFunction = require('./LikePublicationCommercant.js');
+const LikePublicationCommercant = LikePublicationCommercantFunction(sequelize, Sequelize)
+const LikeCommentairePartenaireFunction = require('./LikeCommentairePartenaire.js');
+const LikeCommentairePartenaire = LikeCommentairePartenaireFunction(sequelize, Sequelize)
+const LikePublicationPartenaireFunction = require('./LikePublicationPartenaire.js');
+const LikePublicationPartenaire = LikePublicationPartenaireFunction(sequelize, Sequelize)
 const PassFunction = require('./Pass.js');
 const Pass = PassFunction(sequelize, Sequelize)
 const PossederPassFunction = require('./PossederPass.js');
 const PossederPass = PossederPassFunction(sequelize, Sequelize)
 const AppartientPassFunction = require('./AppartientPass.js');
 const AppartientPass = AppartientPassFunction(sequelize, Sequelize)
-
+const AvoirFavorisFunction = require('./AvoirFavoris.js');
+const AvoirFavoris = AvoirFavorisFunction(sequelize, Sequelize)
 
 User.Concours = User.belongsToMany(Concours, { through: ParticiperJeu, foreignKey: 'idUser', onDelete: 'CASCADE' });
 Concours.User = Concours.belongsToMany(User, { through: ParticiperJeu, foreignKey: 'idConcours' });
@@ -72,6 +89,27 @@ Pass.User = Pass.belongsToMany(User, { through: PossederPass, foreignKey: 'idPas
 Billet.Pass = Billet.belongsToMany(Pass, { through: AppartientPass, foreignKey: 'idBillet', onDelete: 'CASCADE' });
 Pass.Billet = Pass.belongsToMany(Billet, { through: AppartientPass, foreignKey: 'idPass', onDelete: 'CASCADE' });
 
+User.Commercant = User.belongsToMany(Commercant, { through: AvoirFavoris, foreignKey: 'idUser', onDelete: 'CASCADE' });
+Commercant.User = Commercant.belongsToMany(User, { through: AvoirFavoris, foreignKey: 'idCommercant', onDelete: 'CASCADE' });
+
+User.PublicationUser = User.belongsToMany(PublicationUser, { through: LikePublicationUser, foreignKey: 'idUser', onDelete: 'CASCADE' });
+PublicationUser.User = PublicationUser.belongsToMany(User, { through: LikePublicationUser, foreignKey: 'idPublication', onDelete: 'CASCADE' });
+
+User.CommentaireUser = User.belongsToMany(CommentaireUser, { through: LikeCommentaireUser, foreignKey: 'idUser', onDelete: 'CASCADE' });
+CommentaireUser.User = CommentaireUser.belongsToMany(User, { through: LikeCommentaireUser, foreignKey: 'idCommentaire', onDelete: 'CASCADE' });
+
+User.PublicationCommercant = User.belongsToMany(PublicationCommercant, { through: LikePublicationCommercant, foreignKey: 'idUser', onDelete: 'CASCADE' });
+PublicationCommercant.User = PublicationCommercant.belongsToMany(User, { through: LikePublicationCommercant, foreignKey: 'idPublication', onDelete: 'CASCADE' });
+
+User.CommentaireCommercant = User.belongsToMany(CommentaireCommercant, { through: LikeCommentaireCommercant, foreignKey: 'idUser', onDelete: 'CASCADE' });
+CommentaireCommercant.User = CommentaireCommercant.belongsToMany(User, { through: LikeCommentaireCommercant, foreignKey: 'idCommentaire', onDelete: 'CASCADE' });
+
+User.PublicationPartenaire = User.belongsToMany(PublicationPartenaire, { through: LikePublicationPartenaire, foreignKey: 'idUser', onDelete: 'CASCADE' });
+PublicationPartenaire.User = PublicationPartenaire.belongsToMany(User, { through: LikePublicationPartenaire, foreignKey: 'idPublication', onDelete: 'CASCADE' });
+
+User.CommentairePartenaire = User.belongsToMany(CommentairePartenaire, { through: LikeCommentairePartenaire, foreignKey: 'idUser', onDelete: 'CASCADE' });
+CommentairePartenaire.User = CommentairePartenaire.belongsToMany(User, { through: LikeCommentairePartenaire, foreignKey: 'idCommentaire', onDelete: 'CASCADE' });
+
 (async () => {
     try {
         await sequelize.sync({ alter: true, force: false }); /* si je met force: true, ça supprime la base 
@@ -85,4 +123,4 @@ Pass.Billet = Pass.belongsToMany(Billet, { through: AppartientPass, foreignKey: 
     }
 })();
 
-module.exports = { User, Concours, ParticiperJeu, Billet, CashBackCommercant, Commentaire, Commercant, Equipe, Matchs, Palier, Partenaire, Place, Promotion, Publication, Rangee, Role, Stade, Tribune, TypeCommercant, TypePlace, LikePublication, LikeCommentaire, Pass, PossederPass, AppartientPass, PossederRole}
+module.exports = { User, Concours, ParticiperJeu, Billet, CashBackCommercant, CommentaireUser, Commercant, Equipe, Matchs, Palier, Partenaire, Place, Promotion, PublicationUser, Rangee, Role, Stade, Tribune, TypeCommercant, TypePlace, LikePublicationUser, LikeCommentaireUser, Pass, PossederPass, AppartientPass, PossederRole, AvoirFavoris, PublicationCommercant, CommentaireCommercant, LikeCommentaireCommercant, LikePublicationCommercant, LikeCommentairePartenaire, LikePublicationPartenaire, PublicationPartenaire, CommentairePartenaire  }

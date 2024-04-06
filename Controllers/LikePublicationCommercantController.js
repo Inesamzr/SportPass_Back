@@ -1,12 +1,12 @@
 const sequelize = require('../database.js');
 const Sequelize = require('sequelize');
-const LikeCommentaireFunction = require('../Modeles/LikeCommentaire.js'); 
-const LikeCommentaire = LikeCommentaireFunction(sequelize, Sequelize);
+const LikePublicationCommercantFunction = require('../Modeles/LikePublicationCommercant.js.js'); 
+const LikePublicationCommercant = LikePublicationCommercantFunction(sequelize, Sequelize);
 
 const createLike = async (req, res) => {
   try {
-    const { idUser, idCom } = req.body; 
-    const like = await LikeCommentaire.create({ idUser, idCom });
+    const { idUser, idPublication } = req.body; 
+    const like = await LikePublicationCommercant.create({ idUser, idPublication });
     res.status(201).send(like);
   } catch (error) {
     console.error(error);
@@ -14,10 +14,10 @@ const createLike = async (req, res) => {
   }
 };
 
-const getLikesByCommentId = async (req, res) => {
+const getLikesByPostId = async (req, res) => {
   try {
-    const { idCom } = req.params;
-    const likes = await LikeCommentaire.findAll({ where: { idCom } });
+    const { idPublication } = req.params;
+    const likes = await LikePublicationCommercant.findAll({ where: { idPublication } });
     res.status(200).send(likes);
   } catch (error) {
     console.error(error);
@@ -28,7 +28,7 @@ const getLikesByCommentId = async (req, res) => {
 const getLikesByUserId = async (req, res) => {
   try {
     const { idUser } = req.params;
-    const likes = await LikeCommentaire.findAll({ where: { idUser } });
+    const likes = await LikePublicationCommercant.findAll({ where: { idUser } });
     res.status(200).send(likes);
   } catch (error) {
     console.error(error);
@@ -38,8 +38,8 @@ const getLikesByUserId = async (req, res) => {
 
 const deleteLike = async (req, res) => {
   try {
-    const { idLikeCom } = req.params; 
-    const result = await LikeCommentaire.destroy({ where: { idLikeCom } });
+    const { idLikePost } = req.params; 
+    const result = await LikePublicationCommercant.destroy({ where: { idLikePost } });
     if (result === 0) {
       return res.status(404).send({ message: 'Like not found' });
     }
@@ -52,7 +52,7 @@ const deleteLike = async (req, res) => {
 
 module.exports = {
   createLike,
-  getLikesByCommentId,
+  getLikesByPostId,
   getLikesByUserId,
   deleteLike,
 };
