@@ -6,6 +6,7 @@ const billetController =  require('../Controllers/BilletController.js');
 const cashBackCommercantController =  require('../Controllers/CashBackCommercantController.js');
 const CommentaireUserController =  require('../Controllers/CommentaireUserController.js');
 const CommentaireCommercantController =  require('../Controllers/CommentaireCommercantController.js');
+const commentairePartenaireController =  require('../Controllers/CommentairePartenaireController.js');
 const commercantController =  require('../Controllers/CommercantController.js');
 const concoursController =  require('../Controllers/ConcoursController.js');
 const equipeController =  require('../Controllers/EquipeController.js');
@@ -28,11 +29,14 @@ const LikeCommentaireUserController =  require('../Controllers/LikeCommentaireUs
 const LikePublicationUserController =  require('../Controllers/LikePublicationUserController.js');
 const LikeCommentaireCommercantController =  require('../Controllers/LikeCommentaireCommercantController.js');
 const LikePublicationCommercantController =  require('../Controllers/LikePublicationCommercantController.js');
+const LikeCommentairePartenaireController =  require('../Controllers/LikeCommentairePartenaireController.js');
+const LikePublicationPartenaireController =  require('../Controllers/LikePublicationPartenaireController.js');
 const passController =  require('../Controllers/PassController.js');
 const possederPassController =  require('../Controllers/PossederPassController.js');
 const appartientPassController =  require('../Controllers/AppartientPassController.js');
 const avoirFavorisController =  require('../Controllers/AvoirFavorisController.js');
 const PublicationCommercantController =  require('../Controllers/PublicationCommercantController.js');
+const publicationPartenaireController =  require('../Controllers/PublicationPartenaireController.js');
 
 const app = require('../app.js');
 
@@ -74,6 +78,7 @@ router.post('/billet', billetController.createBillet);
 router.get('/billet/:id', billetController.getBilletById);
 router.put('/billet/:id', billetController.updateBillet);
 router.delete('/billet/:id', billetController.deleteBillet);
+router.get('/billet/user/:id', billetController.getBilletByUserId);
 
 //routes cashBackCommercant
 router.get('/cashBackCommercant', cashBackCommercantController.getAllCashBackCommercants);
@@ -98,8 +103,18 @@ router.get('/commentaireCommercant/publication/:id', CommentaireCommercantContro
 router.put('/commentaireCommercant/:id', CommentaireCommercantController.updateCommentaireCommercant);
 router.delete('/commentaireCommercant/:id', CommentaireCommercantController.deleteCommentaireCommercant);
 
+//routes commentairePartenaire
+router.get('/commentairePartenaire', commentairePartenaireController.getAllCommentairePartenaires);
+router.post('/commentairePartenaire', commentairePartenaireController.createCommentairePartenaire);
+router.get('/commentairePartenaire/user/:id', commentairePartenaireController.getCommentaireByIdUser);
+router.get('/commentairePartenaire/publication/:id', commentairePartenaireController.getCommentaireByPublicationId);
+router.put('/commentairePartenaire/:id', commentairePartenaireController.updateCommentairePartenaire);
+router.delete('/commentairePartenaire/:id', commentairePartenaireController.deleteCommentairePartenaire);
+
 //routes commercant
 router.get('/commercant', commercantController.getAllCommercants);
+router.get('/commercant/idEquipe', commercantController.getAllCommercantsByidEquipe);
+router.get('/commercant/ville/:idEquipe', commercantController.getAllVillesByidEquipe);
 router.post('/commercant', commercantController.createCommercant);
 router.get('/commercant/:id', commercantController.getCommercantById);
 router.put('/commercant/:id', commercantController.updateCommercant);
@@ -143,10 +158,23 @@ router.get('/likePublicationCommmercant/publicationCommentaire/:id', LikePublica
 router.get('/likePublicationCommmercant/user/:id', LikePublicationCommercantController.getLikesByUserId);
 router.delete('/likePublicationCommmercant/:id', LikePublicationCommercantController.deleteLike);
 
+//routes likeCommentairePartenaire
+router.post('/likeCommentairePartenaire',LikeCommentairePartenaireController.createLike);
+router.get('/likeCommentairePartenaire/commentairePartenaire/:id', LikeCommentairePartenaireController.getLikesByCommentId);
+router.get('/likeCommentairePartenaire/user/:id', LikeCommentairePartenaireController.getLikesByUserId);
+router.delete('/likeCommentairePartenaire/:id', LikeCommentairePartenaireController.deleteLike);
+
+//routes likePublicationPartenaire
+router.post('/likePublicationCommmercant',LikePublicationPartenaireController.createLike);
+router.get('/likePublicationCommmercant/publicationCommentaire/:id', LikePublicationPartenaireController.getLikesByPostId);
+router.get('/likePublicationCommmercant/user/:id', LikePublicationPartenaireController.getLikesByUserId);
+router.delete('/likePublicationCommmercant/:id', LikePublicationPartenaireController.deleteLike);
+
 //routes matchs
 router.get('/matchs', matchsController.getAllMatches);
 router.post('/matchs',matchsController.createMatch);
 router.get('/matchs/:id', matchsController.getMatchById);
+router.get('/matchs/equipe/:idEquipe', matchsController.getAllMatchsByidEquipe);
 router.put('/matchs/:id', matchsController.updateMatch);
 router.delete('/matchs/:id', matchsController.deleteMatch);
 
@@ -184,7 +212,7 @@ router.post('/place',placeController.createPlace);
 router.get('/place/:id', placeController.getPlaceById);
 router.put('/place/:id', placeController.updatePlace);
 router.delete('/place/:id', placeController.deletePlace);
-
+router.get('/place/rangee/:id', placeController.getAllPlaceByRangeeId);
 
 //routes posseder
 router.get('/possederRole', possederRoleController.getAllPossederRole);
@@ -224,10 +252,19 @@ router.put('/publicationCommercant/:id', PublicationCommercantController.updateP
 router.delete('/publicationCommercant/:id', PublicationCommercantController.deletePublicationCommercant);
 router.get('/publicationCommercant/commercant/:id', PublicationCommercantController.getPublicationCommercantById);
 
+//routes publicationPartenaire
+router.get('/publicationPartenaire', publicationPartenaireController.getAllPublicationPartenaires);
+router.post('/publicationPartenaire',publicationPartenaireController.createPublicationPartenaire);
+router.get('/publicationPartenaire/:id', publicationPartenaireController.getPublicationPartenaireById);
+router.put('/publicationPartenaire/:id', publicationPartenaireController.updatePublicationPartenaire);
+router.delete('/publicationPartenaire/:id', publicationPartenaireController.deletePublicationPartenaire);
+router.get('/publicationPartenaire/partenaire/:id', publicationPartenaireController.getPublicationPartenaireById);
+
 //routes rangee
 router.get('/rangee', rangeeController.getAllRangees);
 router.post('/rangee',rangeeController.createRangee);
 router.get('/rangee/:id', rangeeController.getRangeeById);
+router.get('/rangee/tribune/:id', rangeeController.getRangeeByIdTribune);
 router.put('/rangee/:id', rangeeController.updateRangee);
 router.delete('/rangee/:id', rangeeController.deleteRangee);
 
@@ -249,6 +286,7 @@ router.delete('/stade/:id', stadeController.deleteStade);
 router.get('/tribune', tribuneController.getAllTribunes);
 router.post('/tribune',tribuneController.createTribune);
 router.get('/tribune/:id', tribuneController.getTribuneById);
+router.get('/tribune/stade/:id', tribuneController.getAllTribuneByIdStade);
 router.put('/tribune/:id', tribuneController.updateTribune);
 router.delete('/tribune/:id', tribuneController.deleteTribune);
 

@@ -18,6 +18,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    ville: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     nom: {
         type: DataTypes.STRING,
         allowNull: false

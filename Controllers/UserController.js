@@ -9,6 +9,8 @@ const PalierFunction = require('../Modeles/Palier.js');
 const Palier = PalierFunction(sequelize, Sequelize);
 const AbonnesFunction = require('../Modeles/Abonnes.js');
 const Abonnes = AbonnesFunction(sequelize, Sequelize);
+const PossederRoleFunction = require('../Modeles/PossederRole.js');
+const PossederRole = PossederRoleFunction(sequelize, Sequelize);
 
 
 const getAllUsers = async (req, res) => {
@@ -39,6 +41,7 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const user  = req.body;
+    const id = req.params.id;
 
     const updatedUser = await User.update(
       {
@@ -54,7 +57,7 @@ const updateUser = async (req, res) => {
       },
       {
         where: {
-          idUser: user.idUser
+          idUser: id
         }
       }
     );
@@ -74,6 +77,13 @@ const deleteUser = async (req, res) => {
     await Abonnes.destroy({
       where: {
         [Sequelize.Op.or]: [{followerId: req.params.idUser}, {followingId: req.params.idUser}]
+      },
+      transaction 
+    });
+
+    await PossederRole.destroy({
+      where: {
+        [Sequelize.Op.or]: [{idUser: req.params.idUser}]
       },
       transaction 
     });
@@ -107,17 +117,14 @@ const register = async (req, res) => {
       nom: userData.nom,
       mail: userData.mail,
       password: hashedPassword,
-      tel: userData.tel,
-      pseudo: userData.pseudo,
-      biographie: userData.biographie,
-      adresse: userData.adresse,
+      pseudo:`${userData.prenom}.${userData.nom}`,
       somme: 0,
       idPalier: 1
     });
 
-    await Posseder.create({
+    await PossederRole.create({
       idRole: 1, 
-      idUser: newUser.id 
+      idUser: newUser.idUser
     });
 
     const token = jwt.sign(

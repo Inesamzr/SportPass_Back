@@ -38,20 +38,27 @@ const getAllPublicationUsers = async (req, res) => {
 
 const getPublicationUserById = async (req, res) => {
   try {
-    const PublicationUser = await PublicationUser.findByPk(req.params.id, {
+    const publicationUser = await PublicationUser.findAll({
+      where: { idUser: req.params.id }, 
       include: [
-        { model: User }, 
-        { model: LikePublicationUser, as: 'Likes' } 
+        {
+          model: User 
+        }
       ]
     });
-    if (!PublicationUser) {
-      return res.status(404).send();
+
+    if (!publicationUser) {
+      return res.status(404).send("Publication user not found.");
     }
-    res.status(200).send(PublicationUser);
+
+    res.status(200).send(publicationUser);
   } catch (error) {
-    res.status(400).send(error);
+    console.error("Error fetching publication user by ID:", error);
+    res.status(500).send(error);
   }
 };
+
+
 
 const updatePublicationUser = async (req, res) => {
   try {

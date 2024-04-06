@@ -41,7 +41,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         tel: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             unique: true,
             validate: {
                 isNumeric: true,
@@ -50,11 +50,11 @@ module.exports = function (sequelize, DataTypes) {
         },
         adresse: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         biographie: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         somme: {
             type: DataTypes.FLOAT,

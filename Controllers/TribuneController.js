@@ -4,6 +4,8 @@ const Sequelize = require('sequelize');
 const sequelize = require('../database.js');
 const TribuneFunction = require('../Modeles/Tribune.js');
 const Tribune = TribuneFunction(sequelize, Sequelize);
+const StadeFunction = require('../Modeles/Stade.js');
+const Stade = StadeFunction(sequelize, Sequelize);
 
 const createTribune = async (req, res) => {
   try {
@@ -63,10 +65,33 @@ const deleteTribune = async (req, res) => {
   }
 };
 
+const getAllTribuneByIdStade = async (req, res) => {
+  try {
+    const idStade = req.params.id;
+
+    const tribunes = await Tribune.findAll({
+      include: [{
+        model: Stade,
+        where: { idStade: idStade } 
+      }]
+    });
+
+    if (!tribunes || tribunes.length === 0) {
+      return res.status(404).send({ message: 'No tribunes found for the specified team.' });
+    }
+
+    res.status(200).send(tribunes);
+  } catch (error) {
+    console.error('Error fetching tribunes by team ID:', error);
+    res.status(500).send({ error: 'An error occurred while fetching tribunes by team ID.' });
+  }
+};
+
 module.exports = {
   createTribune,
   getAllTribunes,
   getTribuneById,
   updateTribune,
-  deleteTribune
+  deleteTribune,
+  getAllTribuneByIdStade
 };

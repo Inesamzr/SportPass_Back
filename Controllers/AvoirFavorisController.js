@@ -35,7 +35,7 @@ const getFavorisByIdCommercant = async (req, res) => {
 
 const getFavorisByIdUser = async (req, res) => {
   try {
-    const { idUser } = req.params;
+    const idUser = req.params.id;
     const favoris = await AvoirFavoris.findAll({
       where: { idUser }
     });

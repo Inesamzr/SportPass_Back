@@ -44,9 +44,9 @@ const getCommentaireByIdUser = async (req, res) => {
 
 const getCommentaireByPublicationId = async (req, res) => {
   try {
-    const { idPublication } = req.params;
+    const { id } = req.params;
     const commentaires = await CommentaireUser.findAll({
-      where: { idPublication }
+      where: { idPublication: id }
     });
     res.status(200).json(commentaires);
   } catch (error) {

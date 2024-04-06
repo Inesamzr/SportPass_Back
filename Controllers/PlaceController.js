@@ -73,10 +73,33 @@ const deletePlace = async (req, res) => {
   }
 };
 
+const getAllPlaceByRangeeId = async (req, res) => {
+  try {
+    const idRangee = req.params.id;
+
+    const places = await Place.findAll({
+      include: [{
+        model: Rangee,
+        where: { idRangee: idRangee } 
+      }]
+    });
+
+    if (!places || places.length === 0) {
+      return res.status(404).send({ message: 'No places found' });
+    }
+
+    res.status(200).send(places);
+  } catch (error) {
+    console.error('Error fetching places by rangee ID:', error);
+    res.status(500).send({ error: 'An error occurred while fetching places by rangee ID.' });
+  }
+};
+
 module.exports = {
   createPlace,
   getAllPlaces,
   getPlaceById,
   updatePlace,
-  deletePlace
+  deletePlace,
+  getAllPlaceByRangeeId
 };
