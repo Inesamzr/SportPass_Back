@@ -110,6 +110,8 @@ PublicationPartenaire.User = PublicationPartenaire.belongsToMany(User, { through
 User.CommentairePartenaire = User.belongsToMany(CommentairePartenaire, { through: LikeCommentairePartenaire, foreignKey: 'idUser', onDelete: 'CASCADE' });
 CommentairePartenaire.User = CommentairePartenaire.belongsToMany(User, { through: LikeCommentairePartenaire, foreignKey: 'idCommentaire', onDelete: 'CASCADE' });
 
+
+
 (async () => {
     try {
         await sequelize.sync({ alter: true, force: false }); /* si je met force: true, ça supprime la base 

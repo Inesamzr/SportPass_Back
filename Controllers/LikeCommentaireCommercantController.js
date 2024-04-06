@@ -16,7 +16,7 @@ const createLike = async (req, res) => {
 
 const getLikesByCommentId = async (req, res) => {
   try {
-    const { idCommentaire } = req.params;
+    const idCommentaire = req.params.id;
     const likes = await LikeCommentaireCommercant.findAll({ where: { idCommentaire } });
     res.status(200).send(likes);
   } catch (error) {

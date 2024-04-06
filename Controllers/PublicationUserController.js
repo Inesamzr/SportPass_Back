@@ -11,14 +11,16 @@ const LikePublicationUser = LikePublicationUserFunction(sequelize, Sequelize);
 
 const createPublicationUser = async (req, res) => {
   try {
-    const PublicationUser = await PublicationUser.create({
+    console.log(req.body)
+    const publicationUser = await PublicationUser.create({
       contenu: req.body.contenu,
-      likes: req.body.likes || 0, 
+      date: req.body.date,
       idUser: req.body.idUser 
     });
-    res.status(201).send(PublicationUser);
+    res.status(201).send(publicationUser);
   } catch (error) {
-    res.status(400).send(error);
+    console.error("Error details:", error);
+    res.status(400).send(error.message); // Send back a more specific error message
   }
 };
 
@@ -27,7 +29,6 @@ const getAllPublicationUsers = async (req, res) => {
     const PublicationUsers = await PublicationUser.findAll({
       include: [
         { model: User },
-        { model: LikePublicationUser, as: 'Likes' }
       ]
     });
     res.status(200).send(PublicationUsers);

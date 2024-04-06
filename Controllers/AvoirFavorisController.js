@@ -63,7 +63,7 @@ const updateFavoris = async (req, res) => {
 
 const deleteFavoris = async (req, res) => {
   try {
-    const { idAvoirFavoris } = req.params;
+    const idAvoirFavoris  = req.params.id;
     const deleted = await AvoirFavoris.destroy({
       where: { idAvoirFavoris }
     });

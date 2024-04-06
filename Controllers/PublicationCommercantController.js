@@ -11,12 +11,12 @@ const LikePublicationCommercant = LikePublicationCommercantFunction(sequelize, S
 
 const createPublicationCommercant = async (req, res) => {
   try {
-    const PublicationCommercant = await PublicationCommercant.create({
+    const publicationCommercant = await PublicationCommercant.create({
       contenu: req.body.contenu,
-      likes: req.body.likes || 0, 
+      date: req.body.date,
       idCommercant: req.body.idCommercant 
     });
-    res.status(201).send(PublicationCommercant);
+    res.status(201).send(publicationCommercant);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -27,7 +27,6 @@ const getAllPublicationCommercants = async (req, res) => {
     const PublicationCommercants = await PublicationCommercant.findAll({
       include: [
         { model: Commercant },
-        { model: LikePublicationCommercant, as: 'Likes' }
       ]
     });
     res.status(200).send(PublicationCommercants);
