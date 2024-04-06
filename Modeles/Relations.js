@@ -78,7 +78,7 @@ User.Concours = User.belongsToMany(Concours, { through: ParticiperJeu, foreignKe
 Concours.User = Concours.belongsToMany(User, { through: ParticiperJeu, foreignKey: 'idConcours' });
 
 User.Role = User.belongsToMany(Role, { through: PossederRole, foreignKey: 'idUser', onDelete: 'CASCADE' });
-Role.User = Role.belongsToMany(User, { through: PossederRole, foreignKey: 'idRole' });
+Role.User = Role.belongsToMany(User, { through: PossederRole, foreignKey: 'idRole', onDelete: 'CASCADE' });
 
 User.User = User.belongsToMany(User, { through: Abonnes, as: 'Followers', foreignKey: 'followingId', otherKey: 'followerId' });
 User.User = User.belongsToMany(User, { through: Abonnes, as: 'Followings', foreignKey: 'followerId', otherKey: 'followingId' });

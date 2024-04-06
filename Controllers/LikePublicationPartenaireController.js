@@ -1,6 +1,6 @@
 const sequelize = require('../database.js');
 const Sequelize = require('sequelize');
-const LikePublicationPartenaireFunction = require('../Modeles/LikePublicationPartenaire.js.js'); 
+const LikePublicationPartenaireFunction = require('../Modeles/LikePublicationPartenaire.js'); 
 const LikePublicationPartenaire = LikePublicationPartenaireFunction(sequelize, Sequelize);
 
 const createLike = async (req, res) => {

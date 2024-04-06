@@ -35,9 +35,9 @@ const createPossession = async (req, res) => {
   
   const getPossessionByIDUser = async (req, res) => {
     try {
-      const { idUser } = req.params;
+      const { id } = req.params;
       const possessions = await PossederPass.findAll({
-        where: { idUser }
+        where: { idUser: id }
       });
       res.status(200).json(possessions);
     } catch (error) {

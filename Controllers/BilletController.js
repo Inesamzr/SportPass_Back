@@ -35,6 +35,22 @@ const getBilletById = async (req, res) => {
   }
 };
 
+const getBilletByUserId = async (req, res) => {
+  try {
+    const id = req.params.id
+    console.log(id)
+    const billets = await Billet.findAll(
+      { where: { idUser : id}}
+    );
+    if (!billets) {
+      return res.status(404).send();
+    }
+    res.status(200).json(billets);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
 const updateBillet = async (req, res) => {
   try {
     const billet = await Billet.findByPk(req.params.id);
@@ -61,4 +77,4 @@ const deleteBillet = async (req, res) => {
   }
 };
 
-module.exports = {deleteBillet, createBillet, updateBillet, getAllBillets, getBilletById};
+module.exports = {deleteBillet, createBillet, updateBillet, getAllBillets, getBilletById, getBilletByUserId};
