@@ -40,7 +40,6 @@ const getPublicationPartenaireById = async (req, res) => {
     const PublicationPartenaire = await PublicationPartenaire.findByPk(req.params.id, {
       include: [
         { model: Partenaire }, 
-        { model: LikePublicationPartenaire, as: 'Likes' } 
       ]
     });
     if (!PublicationPartenaire) {
@@ -96,8 +95,7 @@ const getPublicationPartenairesByPartenaireId = async (req, res) => {
       where: { idPartenaire: PartenaireId },
       include: [
         { model: Partenaire }, 
-        { model: LikePublicationPartenaire, as: 'Likes' } 
-      ]
+          ]
     });
     if (PublicationPartenaires.length > 0) {
       res.status(200).send(PublicationPartenaires);

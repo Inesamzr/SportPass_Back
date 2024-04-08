@@ -40,7 +40,6 @@ const getPublicationCommercantById = async (req, res) => {
     const PublicationCommercant = await PublicationCommercant.findByPk(req.params.id, {
       include: [
         { model: Commercant }, 
-        { model: LikePublicationCommercant, as: 'Likes' } 
       ]
     });
     if (!PublicationCommercant) {
@@ -96,7 +95,6 @@ const getPublicationCommercantsByCommercantId = async (req, res) => {
       where: { idCommercant: CommercantId },
       include: [
         { model: Commercant }, 
-        { model: LikePublicationCommercant, as: 'Likes' } 
       ]
     });
     if (PublicationCommercants.length > 0) {
@@ -109,6 +107,26 @@ const getPublicationCommercantsByCommercantId = async (req, res) => {
   }
 };
 
+const getPublicationsByEquipeId = async (req, res) => {
+  try {
+    const publications = await PublicationCommercant.findAll({
+      include: [{
+        model: Commercant,
+        where: { idEquipe: req.params.idEquipe }
+      }]
+    });
+
+    if (publications.length === 0) {
+      return res.status(404).send({ message: "No publications found for the specified team." });
+    }
+
+    res.status(200).send(publications);
+  } catch (error) {
+    console.error("Error fetching publications by team ID:", error);
+    res.status(500).send(error);
+  }
+};
+
 
 module.exports = {
   createPublicationCommercant,
@@ -116,5 +134,6 @@ module.exports = {
   getPublicationCommercantById,
   updatePublicationCommercant,
   deletePublicationCommercant,
-  getPublicationCommercantsByCommercantId
+  getPublicationCommercantsByCommercantId,
+  getPublicationsByEquipeId
 };

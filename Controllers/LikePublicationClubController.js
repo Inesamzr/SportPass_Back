@@ -1,13 +1,13 @@
 const sequelize = require('../database.js');
 const Sequelize = require('sequelize');
-const LikePublicationCommercantFunction = require('../Modeles/LikePublicationCommercant.js'); 
-const LikePublicationCommercant = LikePublicationCommercantFunction(sequelize, Sequelize);
+const LikePublicationClubFunction = require('../Modeles/LikePublicationClub.js'); 
+const LikePublicationClub = LikePublicationClubFunction(sequelize, Sequelize);
 
 const createLike = async (req, res) => {
   try {
     const { idUser, idPublication } = req.body;
     
-    const existingLike = await LikePublicationCommercant.findOne({
+    const existingLike = await LikePublicationClub.findOne({
       where: {
         idUser: idUser,
         idPublication: idPublication
@@ -18,7 +18,7 @@ const createLike = async (req, res) => {
       return res.status(409).send({ message: "Le like existe déjà." });
     }
 
-    const like = await LikePublicationCommercant.create({ idUser, idPublication });
+    const like = await LikePublicationClub.create({ idUser, idPublication });
     res.status(201).send(like);
   } catch (error) {
     console.error(error);
@@ -28,8 +28,8 @@ const createLike = async (req, res) => {
 
 const getLikesByPostId = async (req, res) => {
   try {
-    const  idPublication  = req.params.id;
-    const likes = await LikePublicationCommercant.findAll({ where: { idPublication } });
+    const idPublication = req.params.id;
+    const likes = await LikePublicationClub.findAll({ where: { idPublication } });
     res.status(200).send(likes);
   } catch (error) {
     console.error(error);
@@ -40,7 +40,7 @@ const getLikesByPostId = async (req, res) => {
 const getLikesByUserId = async (req, res) => {
   try {
     const { idUser } = req.params;
-    const likes = await LikePublicationCommercant.findAll({ where: { idUser } });
+    const likes = await LikePublicationClub.findAll({ where: { idUser } });
     res.status(200).send(likes);
   } catch (error) {
     console.error(error);
@@ -51,7 +51,7 @@ const getLikesByUserId = async (req, res) => {
 const deleteLike = async (req, res) => {
   try {
     const idLikePost = req.params.id; 
-    const result = await LikePublicationCommercant.destroy({ where: { idLikePost } });
+    const result = await LikePublicationClub.destroy({ where: { idLikePost } });
     if (result === 0) {
       return res.status(404).send({ message: 'Like not found' });
     }

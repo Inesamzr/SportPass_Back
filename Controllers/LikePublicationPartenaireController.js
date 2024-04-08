@@ -28,7 +28,7 @@ const createLike = async (req, res) => {
 
 const getLikesByPostId = async (req, res) => {
   try {
-    const { idPublication } = req.params;
+    const  idPublication  = req.params.id;
     const likes = await LikePublicationPartenaire.findAll({ where: { idPublication } });
     res.status(200).send(likes);
   } catch (error) {

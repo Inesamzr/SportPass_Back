@@ -118,6 +118,27 @@ const getPublicationUsersByUserId = async (req, res) => {
   }
 };
 
+const getPublicationsByEquipeId = async (req, res) => {
+  try {
+    const publications = await PublicationUser.findAll({
+      include: [{
+        model: User,
+        where: { idEquipe: req.params.idEquipe }
+      }]
+    });
+
+    if (publications.length === 0) {
+      return res.status(404).send({ message: "No publications found for the specified team." });
+    }
+
+    res.status(200).send(publications);
+  } catch (error) {
+    console.error("Error fetching publications by team ID:", error);
+    res.status(500).send(error);
+  }
+};
+
+
 
 module.exports = {
   createPublicationUser,
@@ -125,5 +146,6 @@ module.exports = {
   getPublicationUserById,
   updatePublicationUser,
   deletePublicationUser,
-  getPublicationUsersByUserId
+  getPublicationUsersByUserId,
+  getPublicationsByEquipeId
 };

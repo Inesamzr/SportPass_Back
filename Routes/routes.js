@@ -37,6 +37,10 @@ const appartientPassController =  require('../Controllers/AppartientPassControll
 const avoirFavorisController =  require('../Controllers/AvoirFavorisController.js');
 const PublicationCommercantController =  require('../Controllers/PublicationCommercantController.js');
 const publicationPartenaireController =  require('../Controllers/PublicationPartenaireController.js');
+const LikeCommentaireClubController =  require('../Controllers/LikeCommentaireClubController.js');
+const LikePublicationClubController =  require('../Controllers/LikePublicationClubController.js');
+const PublicationClubController =  require('../Controllers/PublicationClubController.js');
+const CommentaireClubController =  require('../Controllers/CommentaireClubController.js');
 
 const app = require('../app.js');
 
@@ -51,6 +55,8 @@ router.get('/user', userController.getAllUsers);
 router.get('/user/:id', userController.getUserById);
 router.put('/user/:id', userController.updateUser);
 router.delete('/user/:idUser', userController.deleteUser);
+router.get('/user/equipe/:idEquipe', userController.getUsersByEquipeId);
+
 
 //routes abonnes
 router.post('/abonnes/:followerId/:followingId', abonnesController.createAbonnes);
@@ -79,6 +85,7 @@ router.get('/billet/:id', billetController.getBilletById);
 router.put('/billet/:id', billetController.updateBillet);
 router.delete('/billet/:id', billetController.deleteBillet);
 router.get('/billet/user/:id', billetController.getBilletByUserId);
+router.get('/billet/place/:id', billetController.getBilletByPlaceId);
 
 //routes cashBackCommercant
 router.get('/cashBackCommercant', cashBackCommercantController.getAllCashBackCommercants);
@@ -94,6 +101,14 @@ router.get('/commentaireUser/user/:id', CommentaireUserController.getCommentaire
 router.get('/commentaireUser/publication/:id', CommentaireUserController.getCommentaireByPublicationId);
 router.put('/commentaireUser/:id', CommentaireUserController.updateCommentaireUser);
 router.delete('/commentaireUser/:id', CommentaireUserController.deleteCommentaireUser);
+
+//routes commentaireClub
+router.get('/commentaireClub', CommentaireClubController.getAllCommentaireClubs);
+router.post('/commentaireClub', CommentaireClubController.createCommentaireClub);
+router.get('/commentaireClub/user/:id', CommentaireClubController.getCommentaireByIdUser);
+router.get('/commentaireClub/publication/:id', CommentaireClubController.getCommentaireByPublicationId);
+router.put('/commentaireClub/:id', CommentaireClubController.updateCommentaireClub);
+router.delete('/commentaireClub/:id', CommentaireClubController.deleteCommentaireClub);
 
 //routes commentaireCommercant
 router.get('/commentaireCommercant', CommentaireCommercantController.getAllCommentaireCommercants);
@@ -114,11 +129,13 @@ router.delete('/commentairePartenaire/:id', commentairePartenaireController.dele
 //routes commercant
 router.get('/commercant', commercantController.getAllCommercants);
 router.get('/commercant/idEquipe', commercantController.getAllCommercantsByidEquipe);
-router.get('/commercant/ville/:idEquipe', commercantController.getAllVillesByidEquipe);
+router.get('/commercant/villes/:idEquipe', commercantController.getAllVillesByidEquipe);
 router.post('/commercant', commercantController.createCommercant);
 router.get('/commercant/:id', commercantController.getCommercantById);
 router.put('/commercant/:id', commercantController.updateCommercant);
 router.delete('/commercant/:id', commercantController.deleteCommercant);
+router.get('/commercant/ville/:ville', commercantController.getAllCommercantsByVille);
+router.get('/commercant/type/:idType', commercantController.getAllCommercantsByType);
 
 //routes concours
 router.get('/concours', concoursController.getAllConcours);
@@ -136,37 +153,49 @@ router.delete('/equipe/:id', equipeController.deleteEquipe);
 
 //routes LikeCommentaireUser
 router.post('/likeCommentaireUser',LikeCommentaireUserController.createLike);
-router.get('/likeCommentaireUser/commentaireUser/:id', LikeCommentaireUserController.getLikesByCommentId);
+router.get('/likeCommentaireUser/commentaire/:id', LikeCommentaireUserController.getLikesByCommentId);
 router.get('/likeCommentaireUser/user/:id', LikeCommentaireUserController.getLikesByUserId);
 router.delete('/likeCommentaireUser/:id', LikeCommentaireUserController.deleteLike);
 
 //routes likePublicationUser
 router.post('/likePublicationUser',LikePublicationUserController.createLike);
-router.get('/likePublicationUser/publicationUser/:id', LikePublicationUserController.getLikesByPostId);
+router.get('/likePublicationUser/publication/:id', LikePublicationUserController.getLikesByPostId);
 router.get('/likePublicationUser/user/:id', LikePublicationUserController.getLikesByUserId);
 router.delete('/likePublicationUser/:id', LikePublicationUserController.deleteLike);
 
 //routes likeCommentaireCommercant
 router.post('/likeCommentaireCommercant',LikeCommentaireCommercantController.createLike);
-router.get('/likeCommentaireCommercant/commentaireCommercant/:id', LikeCommentaireCommercantController.getLikesByCommentId);
+router.get('/likeCommentaireCommercant/commentaire/:id', LikeCommentaireCommercantController.getLikesByCommentId);
 router.get('/likeCommentaireCommercant/user/:id', LikeCommentaireCommercantController.getLikesByUserId);
 router.delete('/likeCommentaireCommercant/:id', LikeCommentaireCommercantController.deleteLike);
 
-//routes likePublicationCommmercant
-router.post('/likePublicationCommmercant',LikePublicationCommercantController.createLike);
-router.get('/likePublicationCommmercant/publicationCommentaire/:id', LikePublicationCommercantController.getLikesByPostId);
-router.get('/likePublicationCommmercant/user/:id', LikePublicationCommercantController.getLikesByUserId);
-router.delete('/likePublicationCommmercant/:id', LikePublicationCommercantController.deleteLike);
+//routes likePublicationCommercant
+router.post('/likePublicationCommercant',LikePublicationCommercantController.createLike);
+router.get('/likePublicationCommercant/publication/:id', LikePublicationCommercantController.getLikesByPostId);
+router.get('/likePublicationCommercant/user/:id', LikePublicationCommercantController.getLikesByUserId);
+router.delete('/likePublicationCommercant/:id', LikePublicationCommercantController.deleteLike);
+
+//routes likeCommentaireClub
+router.post('/likeCommentaireClub',LikeCommentaireClubController.createLike);
+router.get('/likeCommentaireClub/commentaire/:id', LikeCommentaireClubController.getLikesByCommentId);
+router.get('/likeCommentaireClub/user/:id', LikeCommentaireClubController.getLikesByUserId);
+router.delete('/likeCommentaireClub/:id', LikeCommentaireClubController.deleteLike);
+
+//routes likePublicationClub
+router.post('/likePublicationClub',LikePublicationClubController.createLike);
+router.get('/likePublicationClub/publication/:id', LikePublicationClubController.getLikesByPostId);
+router.get('/likePublicationClub/user/:id', LikePublicationClubController.getLikesByUserId);
+router.delete('/likePublicationClub/:id', LikePublicationClubController.deleteLike);
 
 //routes likeCommentairePartenaire
 router.post('/likeCommentairePartenaire',LikeCommentairePartenaireController.createLike);
-router.get('/likeCommentairePartenaire/commentairePartenaire/:id', LikeCommentairePartenaireController.getLikesByCommentId);
+router.get('/likeCommentairePartenaire/commentaire/:id', LikeCommentairePartenaireController.getLikesByCommentId);
 router.get('/likeCommentairePartenaire/user/:id', LikeCommentairePartenaireController.getLikesByUserId);
 router.delete('/likeCommentairePartenaire/:id', LikeCommentairePartenaireController.deleteLike);
 
 //routes likePublicationPartenaire
 router.post('/likePublicationCommmercant',LikePublicationPartenaireController.createLike);
-router.get('/likePublicationCommmercant/publicationCommentaire/:id', LikePublicationPartenaireController.getLikesByPostId);
+router.get('/likePublicationCommmercant/publication/:id', LikePublicationPartenaireController.getLikesByPostId);
 router.get('/likePublicationCommmercant/user/:id', LikePublicationPartenaireController.getLikesByUserId);
 router.delete('/likePublicationCommmercant/:id', LikePublicationPartenaireController.deleteLike);
 
@@ -243,14 +272,25 @@ router.get('/publicationUser/:id', PublicationUserController.getPublicationUserB
 router.put('/publicationUser/:id', PublicationUserController.updatePublicationUser);
 router.delete('/publicationUser/:id', PublicationUserController.deletePublicationUser);
 router.get('/publicationUser/user/:idUser', PublicationUserController.getPublicationUsersByUserId);
+router.get('/publicationUser/equipe/:idEquipe', PublicationUserController.getPublicationsByEquipeId)
 
-//routes PublicationCommercant
+//routes PublicationClub
+router.get('/publicationClub/alaUne', PublicationClubController.getPublicationClubAlaUne);
+router.get('/publicationClub', PublicationClubController.getAllPublicationClubs);
+router.post('/publicationClub',PublicationClubController.createPublicationClub);
+router.get('/publicationClub/:id', PublicationClubController.getPublicationClubById);
+router.put('/publicationClub/:id', PublicationClubController.updatePublicationClub);
+router.delete('/publicationClub/:id', PublicationClubController.deletePublicationClub);
+router.get('/publicationClub/equipe/:idEquipe', PublicationClubController.getPublicationClubsByClubId);
+
+//routes PublicationCommercant 
 router.get('/publicationCommercant', PublicationCommercantController.getAllPublicationCommercants);
 router.post('/publicationCommercant',PublicationCommercantController.createPublicationCommercant);
 router.get('/publicationCommercant/:id', PublicationCommercantController.getPublicationCommercantById);
 router.put('/publicationCommercant/:id', PublicationCommercantController.updatePublicationCommercant);
 router.delete('/publicationCommercant/:id', PublicationCommercantController.deletePublicationCommercant);
 router.get('/publicationCommercant/commercant/:id', PublicationCommercantController.getPublicationCommercantById);
+router.get('/publicationCommercant/equipe/:idEquipe', PublicationCommercantController.getPublicationsByEquipeId)
 
 //routes publicationPartenaire
 router.get('/publicationPartenaire', publicationPartenaireController.getAllPublicationPartenaires);

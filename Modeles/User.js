@@ -25,6 +25,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         pseudo: {
             type: DataTypes.STRING,
+            unique: true,
             allowNull: false
         },
         mail: {
