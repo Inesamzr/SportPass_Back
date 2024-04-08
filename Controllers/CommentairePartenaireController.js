@@ -4,16 +4,18 @@ const sequelize = require('../database.js');
 const CommentairePartenaireFunction = require('../Modeles/CommentairePartenaire.js');
 const CommentairePartenaire = CommentairePartenaireFunction(sequelize, Sequelize);
 const PublicationPartenaireFunction = require('../Modeles/PublicationPartenaire.js');
+const LikeCommentairePartenaireFunction = require('../Modeles/LikeCommentairePartenaire.js');
+const LikeCommentairePartenaire = LikeCommentairePartenaireFunction(sequelize, Sequelize);
 const PublicationPartenaire = PublicationPartenaireFunction(sequelize, Sequelize);
 
 const createCommentairePartenaire = async (req, res) => {
   try {
-    const CommentairePartenaire = await CommentairePartenaire.create({
+    const commentairePartenaire = await CommentairePartenaire.create({
       contenu: req.body.contenu,
-      likes: req.body.likes,
+      date: req.body.date,      
       idPublication: req.body.idPublication
     });
-    res.status(201).send(CommentairePartenaire);
+    res.status(201).send(commentairePartenaire);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -56,29 +58,40 @@ const getCommentaireByPublicationId = async (req, res) => {
 
 const updateCommentairePartenaire = async (req, res) => {
   try {
-    const CommentairePartenaire = await CommentairePartenaire.findByPk(req.params.id);
-    if (!CommentairePartenaire) {
+    const commentairePartenaire = await CommentairePartenaire.findByPk(req.params.id);
+    if (!commentairePartenaire) {
       return res.status(404).send();
     }
-    await CommentairePartenaire.update(req.body);
-    res.status(200).send(CommentairePartenaire);
+    await commentairePartenaire.update(req.body);
+    res.status(200).send(commentairePartenaire);
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
 const deleteCommentairePartenaire = async (req, res) => {
-  try {
-    const CommentairePartenaire = await CommentairePartenaire.findByPk(req.params.id);
-    if (!CommentairePartenaire) {
-      return res.status(404).send();
+    const transaction = await sequelize.transaction(); 
+    try {
+      await LikeCommentairePartenaire.destroy({
+        where: {
+          idCommentaire: req.params.id
+        },
+        transaction 
+      });
+  
+      await CommentairePartenaire.destroy({
+        where: { idCommentaire: req.params.id },
+        transaction 
+      });
+  
+      await transaction.commit(); 
+      res.status(204).send();
+    } catch (error) {
+      await transaction.rollback(); 
+      console.log(error)
+      res.status(400).send(error);
     }
-    await CommentairePartenaire.destroy();
-    res.status(204).send();
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
+  };
 
 module.exports = {
   createCommentairePartenaire,

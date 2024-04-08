@@ -1,6 +1,8 @@
 const sequelize = require('../database.js');
 const Sequelize = require('sequelize');
 const AvoirFavorisFunction = require('../Modeles/AvoirFavoris.js'); 
+const CommercantFunction = require('../Modeles/Commercant.js');
+const Commercant = CommercantFunction(sequelize, Sequelize);
 const AvoirFavoris = AvoirFavorisFunction(sequelize, Sequelize);
 
 const createFavoris = async (req, res) => {
@@ -37,10 +39,11 @@ const getFavorisByIdUser = async (req, res) => {
   try {
     const idUser = req.params.id;
     const favoris = await AvoirFavoris.findAll({
-      where: { idUser }
-    });
+        where: { idUser },
+      });
     res.status(200).json(favoris);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -63,7 +66,7 @@ const updateFavoris = async (req, res) => {
 
 const deleteFavoris = async (req, res) => {
   try {
-    const { idAvoirFavoris } = req.params;
+    const idAvoirFavoris  = req.params.id;
     const deleted = await AvoirFavoris.destroy({
       where: { idAvoirFavoris }
     });

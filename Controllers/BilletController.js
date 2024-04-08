@@ -4,6 +4,21 @@ const Sequelize = require('sequelize');
 const sequelize = require('../database.js'); 
 const BilletFunction  = require('../Modeles/Billet.js');
 const Billet = BilletFunction(sequelize, Sequelize);
+const PlaceFunction  = require('../Modeles/Place.js');
+const Place = PlaceFunction(sequelize, Sequelize);
+const TribuneFunction = require('../Modeles/Tribune.js');
+const Tribune = TribuneFunction(sequelize, Sequelize);
+const RangeeFunction  = require('../Modeles/Rangee.js');
+const Rangee = RangeeFunction(sequelize, Sequelize);
+const MatchsFunction  = require('../Modeles/Matchs.js');
+const Matchs = MatchsFunction(sequelize, Sequelize);
+const EquipeFunction  = require('../Modeles/Equipe.js');
+const Equipe = EquipeFunction(sequelize, Sequelize);
+const StadeFunction  = require('../Modeles/Stade.js');
+const Stade = StadeFunction(sequelize, Sequelize);
+const TypePlaceFunction  = require('../Modeles/TypePlace.js');
+const TypePlace = TypePlaceFunction(sequelize, Sequelize);
+
 
 const createBillet = async (req, res) => {
   try {
@@ -37,10 +52,41 @@ const getBilletById = async (req, res) => {
 
 const getBilletByUserId = async (req, res) => {
   try {
+    const id = req.params.id;
+    console.log(id);
+    const billets = await Billet.findAll({
+      where: { idUser: id },
+      include: [{
+        model: Place,
+        include: [
+          { model: Rangee, include: [{ model: Tribune }] },
+          { model: TypePlace }
+        ]
+      }, {
+        model: Matchs,
+        include: [
+          { model: Equipe, as: 'EquipeDomicile' },
+          { model: Equipe, as: 'EquipeExterieure' },
+          { model: Stade }
+        ]
+      }]
+    });
+    if (!billets.length) {
+      return res.status(404).send();
+    }
+    res.status(200).json(billets);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error);
+  }
+};
+
+
+const getBilletByPlaceId = async (req, res) => {
+  try {
     const id = req.params.id
-    console.log(id)
     const billets = await Billet.findAll(
-      { where: { idUser : id}}
+      { where: { idPlace : id}}
     );
     if (!billets) {
       return res.status(404).send();
@@ -50,6 +96,7 @@ const getBilletByUserId = async (req, res) => {
     res.status(400).send(error);
   }
 };
+
 
 const updateBillet = async (req, res) => {
   try {
@@ -77,4 +124,4 @@ const deleteBillet = async (req, res) => {
   }
 };
 
-module.exports = {deleteBillet, createBillet, updateBillet, getAllBillets, getBilletById, getBilletByUserId};
+module.exports = {deleteBillet, getBilletByPlaceId, createBillet, updateBillet, getAllBillets, getBilletById, getBilletByUserId};

@@ -122,9 +122,46 @@ const getAllCommercantsByidEquipe = async (req, res) => {
   }
 };
 
+const getAllCommercantsByVille = async (req, res) => {
+  try {
+    const ville = req.params.ville; 
+    const commercants = await Commercant.findAll({
+      where: { ville: ville },
+      include: [CashBackCommercant, TypeCommercant, Equipe] 
+    });
+    if (commercants.length === 0) {
+      return res.status(404).send({ message: 'No merchants found for the specified city.' });
+    }
+    res.status(200).send(commercants);
+  } catch (error) {
+    console.error('Error fetching merchants by city:', error);
+    res.status(500).send({ error: 'An error occurred while fetching merchants by city.' });
+  }
+};
+
+const getAllCommercantsByType = async (req, res) => {
+  try {
+    const idTypeCommercant = req.params.idType; 
+    const commercants = await Commercant.findAll({
+      where: { idTypeCommercant: idTypeCommercant },
+      include: [CashBackCommercant, TypeCommercant, Equipe] 
+    });
+    if (commercants.length === 0) {
+      return res.status(404).send({ message: 'No merchants found for the specified type.' });
+    }
+    res.status(200).send(commercants);
+  } catch (error) {
+    console.error('Error fetching merchants by type:', error);
+    res.status(500).send({ error: 'An error occurred while fetching merchants by type.' });
+  }
+};
+
+
 
 module.exports = {
   createCommercant,
+  getAllCommercantsByVille,
+  getAllCommercantsByType,
   getAllCommercants,
   getCommercantById,
   updateCommercant,

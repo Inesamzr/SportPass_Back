@@ -1,12 +1,12 @@
 const sequelize = require('../database.js');
 const Sequelize = require('sequelize');
-const LikeCommentaireCommercantFunction = require('../Modeles/LikeCommentaireCommercant.js'); 
-const LikeCommentaireCommercant = LikeCommentaireCommercantFunction(sequelize, Sequelize);
+const LikeCommentaireClubFunction = require('../Modeles/LikeCommentaireClub.js'); 
+const LikeCommentaireClub = LikeCommentaireClubFunction(sequelize, Sequelize);
 
 const createLike = async (req, res) => {
   try {
     const { idUser, idCommentaire } = req.body; 
-    const like = await LikeCommentaireCommercant.create({ idUser, idCommentaire });
+    const like = await LikeCommentaireClub.create({ idUser, idCommentaire });
     res.status(201).send(like);
   } catch (error) {
     console.error(error);
@@ -17,7 +17,7 @@ const createLike = async (req, res) => {
 const getLikesByCommentId = async (req, res) => {
   try {
     const idCommentaire = req.params.id;
-    const likes = await LikeCommentaireCommercant.findAll({ where: { idCommentaire } });
+    const likes = await LikeCommentaireClub.findAll({ where: { idCommentaire } });
     res.status(200).send(likes);
   } catch (error) {
     console.error(error);
@@ -28,7 +28,7 @@ const getLikesByCommentId = async (req, res) => {
 const getLikesByUserId = async (req, res) => {
   try {
     const { idUser } = req.params;
-    const likes = await LikeCommentaireCommercant.findAll({ where: { idUser } });
+    const likes = await LikeCommentaireClub.findAll({ where: { idUser } });
     res.status(200).send(likes);
   } catch (error) {
     console.error(error);
@@ -39,7 +39,7 @@ const getLikesByUserId = async (req, res) => {
 const deleteLike = async (req, res) => {
   try {
     const idLikeCom = req.params.id; 
-    const result = await LikeCommentaireCommercant.destroy({ where: { idLikeCom } });
+    const result = await LikeCommentaireClub.destroy({ where: { idLikeCom } });
     if (result === 0) {
       return res.status(404).send({ message: 'Like not found' });
     }

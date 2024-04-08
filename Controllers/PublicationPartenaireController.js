@@ -11,12 +11,12 @@ const LikePublicationPartenaire = LikePublicationPartenaireFunction(sequelize, S
 
 const createPublicationPartenaire = async (req, res) => {
   try {
-    const PublicationPartenaire = await PublicationPartenaire.create({
+    const publicationPartenaire = await PublicationPartenaire.create({
       contenu: req.body.contenu,
-      likes: req.body.likes || 0, 
+      date: req.body.date,      
       idPartenaire: req.body.idPartenaire 
     });
-    res.status(201).send(PublicationPartenaire);
+    res.status(201).send(publicationPartenaire);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -27,7 +27,6 @@ const getAllPublicationPartenaires = async (req, res) => {
     const PublicationPartenaires = await PublicationPartenaire.findAll({
       include: [
         { model: Partenaire },
-        { model: LikePublicationPartenaire, as: 'Likes' }
       ]
     });
     res.status(200).send(PublicationPartenaires);
@@ -41,7 +40,6 @@ const getPublicationPartenaireById = async (req, res) => {
     const PublicationPartenaire = await PublicationPartenaire.findByPk(req.params.id, {
       include: [
         { model: Partenaire }, 
-        { model: LikePublicationPartenaire, as: 'Likes' } 
       ]
     });
     if (!PublicationPartenaire) {
@@ -55,29 +53,40 @@ const getPublicationPartenaireById = async (req, res) => {
 
 const updatePublicationPartenaire = async (req, res) => {
   try {
-    const PublicationPartenaire = await PublicationPartenaire.findByPk(req.params.id);
-    if (!PublicationPartenaire) {
+    const publicationPartenaire = await PublicationPartenaire.findByPk(req.params.id);
+    if (!publicationPartenaire) {
       return res.status(404).send();
     }
-    await PublicationPartenaire.update(req.body);
-    res.status(200).send(PublicationPartenaire);
+    await publicationPartenaire.update(req.body);
+    res.status(200).send(publicationPartenaire);
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
 const deletePublicationPartenaire = async (req, res) => {
-  try {
-    const PublicationPartenaire = await PublicationPartenaire.findByPk(req.params.id);
-    if (!PublicationPartenaire) {
-      return res.status(404).send();
+    const transaction = await sequelize.transaction(); 
+    try {
+      await LikePublicationPartenaire.destroy({
+        where: {
+          idPublication: req.params.id
+        },
+        transaction 
+      });
+  
+      await PublicationPartenaire.destroy({
+        where: { idPublication: req.params.id },
+        transaction 
+      });
+  
+      await transaction.commit(); 
+      res.status(204).send();
+    } catch (error) {
+      await transaction.rollback(); 
+      console.log(error)
+      res.status(400).send(error);
     }
-    await PublicationPartenaire.destroy();
-    res.status(204).send();
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
+  };
 
 const getPublicationPartenairesByPartenaireId = async (req, res) => {
   try {
@@ -86,8 +95,7 @@ const getPublicationPartenairesByPartenaireId = async (req, res) => {
       where: { idPartenaire: PartenaireId },
       include: [
         { model: Partenaire }, 
-        { model: LikePublicationPartenaire, as: 'Likes' } 
-      ]
+          ]
     });
     if (PublicationPartenaires.length > 0) {
       res.status(200).send(PublicationPartenaires);

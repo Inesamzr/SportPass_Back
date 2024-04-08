@@ -11,6 +11,8 @@ const AbonnesFunction = require('../Modeles/Abonnes.js');
 const Abonnes = AbonnesFunction(sequelize, Sequelize);
 const PossederRoleFunction = require('../Modeles/PossederRole.js');
 const PossederRole = PossederRoleFunction(sequelize, Sequelize);
+const EquipeFunction = require('../Modeles/Equipe.js');
+const Equipe = EquipeFunction(sequelize, Sequelize);
 
 
 const getAllUsers = async (req, res) => {
@@ -27,7 +29,7 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id, {
-      include: [Palier]
+      include: [Palier, Equipe]
     });
     if (!user) {
       return res.status(404).send();
@@ -110,6 +112,9 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'Password is required.' });
     }
 
+    const randomNumber = Math.floor(Math.random() * 1000);
+    const pseudo = `${userData.prenom}.${userData.nom[0]}.${randomNumber.toString().padStart(3, '0')}`;
+
     const hashedPassword = await bcrypt.hash(userData.password, 10);
 
     const newUser = await User.create({
@@ -117,7 +122,7 @@ const register = async (req, res) => {
       nom: userData.nom,
       mail: userData.mail,
       password: hashedPassword,
-      pseudo:`${userData.prenom}.${userData.nom}`,
+      pseudo: pseudo,
       somme: 0,
       idPalier: 1
     });
@@ -173,6 +178,27 @@ const login = async (req, res) => {
   }
 };
 
+const getUsersByEquipeId = async (req, res) => {
+  try {
+    const equipeId = req.params.idEquipe; 
+    const users = await User.findAll({
+      where: {
+        idEquipe: equipeId 
+      },
+    });
+
+    if (users.length === 0) {
+      return res.status(404).send({ message: 'No users found for this team.' });
+    }
+
+    res.status(200).send(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Internal Server Error' });
+  }
+};
+
+
 
 module.exports = {
   getAllUsers,
@@ -180,7 +206,8 @@ module.exports = {
   updateUser,
   deleteUser,
   register,
-  login
+  login,
+  getUsersByEquipeId  
 };
 
 

@@ -15,6 +15,8 @@ const CommentaireUserFunction = require('./CommentaireUser.js');
 const CommentaireUser = CommentaireUserFunction(sequelize, Sequelize)
 const CommentaireCommercantFunction = require('./CommentaireCommercant.js');
 const CommentaireCommercant = CommentaireCommercantFunction(sequelize, Sequelize)
+const CommentaireClubFunction = require('./CommentaireClub.js');
+const CommentaireClub = CommentaireClubFunction(sequelize, Sequelize)
 const CommentairePartenaireFunction = require('./CommentairePartenaire.js');
 const CommentairePartenaire = CommentairePartenaireFunction(sequelize, Sequelize)
 const CommercantFunction = require('./Commercant.js');
@@ -35,6 +37,8 @@ const PublicationUserFunction = require('./PublicationUser.js');
 const PublicationUser = PublicationUserFunction(sequelize, Sequelize)
 const PublicationCommercantFunction = require('./PublicationCommercant.js');
 const PublicationCommercant = PublicationCommercantFunction(sequelize, Sequelize)
+const PublicationClubFunction = require('./PublicationClub.js');
+const PublicationClub = PublicationClubFunction(sequelize, Sequelize)
 const PublicationPartenaireFunction = require('./PublicationPartenaire.js');
 const PublicationPartenaire = PublicationPartenaireFunction(sequelize, Sequelize)
 const RangeeFunction = require('./Rangee.js');
@@ -61,6 +65,10 @@ const LikeCommentaireCommercantFunction = require('./LikeCommentaireCommercant.j
 const LikeCommentaireCommercant = LikeCommentaireCommercantFunction(sequelize, Sequelize)
 const LikePublicationCommercantFunction = require('./LikePublicationCommercant.js');
 const LikePublicationCommercant = LikePublicationCommercantFunction(sequelize, Sequelize)
+const LikeCommentaireClubFunction = require('./LikeCommentaireClub.js');
+const LikeCommentaireClub = LikeCommentaireClubFunction(sequelize, Sequelize)
+const LikePublicationClubFunction = require('./LikePublicationClub.js');
+const LikePublicationClub = LikePublicationClubFunction(sequelize, Sequelize)
 const LikeCommentairePartenaireFunction = require('./LikeCommentairePartenaire.js');
 const LikeCommentairePartenaire = LikeCommentairePartenaireFunction(sequelize, Sequelize)
 const LikePublicationPartenaireFunction = require('./LikePublicationPartenaire.js');
@@ -109,6 +117,13 @@ PublicationPartenaire.User = PublicationPartenaire.belongsToMany(User, { through
 
 User.CommentairePartenaire = User.belongsToMany(CommentairePartenaire, { through: LikeCommentairePartenaire, foreignKey: 'idUser', onDelete: 'CASCADE' });
 CommentairePartenaire.User = CommentairePartenaire.belongsToMany(User, { through: LikeCommentairePartenaire, foreignKey: 'idCommentaire', onDelete: 'CASCADE' });
+
+User.PublicationClub = User.belongsToMany(PublicationClub, { through: LikePublicationClub, foreignKey: 'idUser', onDelete: 'CASCADE' });
+PublicationClub.User = PublicationClub.belongsToMany(User, { through: LikePublicationClub, foreignKey: 'idPublication', onDelete: 'CASCADE' });
+
+User.CommentaireClub = User.belongsToMany(CommentaireClub, { through: LikeCommentaireClub, foreignKey: 'idUser', onDelete: 'CASCADE' });
+CommentaireClub.User = CommentaireClub.belongsToMany(User, { through: LikeCommentaireClub, foreignKey: 'idCommentaire', onDelete: 'CASCADE' });
+
 
 (async () => {
     try {

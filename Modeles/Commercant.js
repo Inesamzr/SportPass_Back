@@ -48,7 +48,7 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 });
 
-Commercant.CashBackCommercant = Commercant.belongsTo(CashBackCommercant, {  foreignKey: 'idCashbacCommercant' });
+Commercant.CashBackCommercant = Commercant.belongsTo(CashBackCommercant, {  foreignKey: 'idCashbackCommercant' });
 Commercant.TypeCommercant = Commercant.belongsTo(TypeCommercant, {  foreignKey: 'idTypeCommercant' });
 Commercant.Equipe = Commercant.belongsTo(Equipe, {  foreignKey: 'idEquipe' });
 

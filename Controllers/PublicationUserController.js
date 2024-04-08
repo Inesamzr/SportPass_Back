@@ -11,14 +11,16 @@ const LikePublicationUser = LikePublicationUserFunction(sequelize, Sequelize);
 
 const createPublicationUser = async (req, res) => {
   try {
-    const PublicationUser = await PublicationUser.create({
+    console.log(req.body)
+    const publicationUser = await PublicationUser.create({
       contenu: req.body.contenu,
-      likes: req.body.likes || 0, 
+      date: req.body.date,
       idUser: req.body.idUser 
     });
-    res.status(201).send(PublicationUser);
+    res.status(201).send(publicationUser);
   } catch (error) {
-    res.status(400).send(error);
+    console.error("Error details:", error);
+    res.status(400).send(error.message); // Send back a more specific error message
   }
 };
 
@@ -27,7 +29,6 @@ const getAllPublicationUsers = async (req, res) => {
     const PublicationUsers = await PublicationUser.findAll({
       include: [
         { model: User },
-        { model: LikePublicationUser, as: 'Likes' }
       ]
     });
     res.status(200).send(PublicationUsers);
@@ -62,26 +63,37 @@ const getPublicationUserById = async (req, res) => {
 
 const updatePublicationUser = async (req, res) => {
   try {
-    const PublicationUser = await PublicationUser.findByPk(req.params.id);
-    if (!PublicationUser) {
+    const publicationUser = await PublicationUser.findByPk(req.params.id);
+    if (!publicationUser) {
       return res.status(404).send();
     }
-    await PublicationUser.update(req.body);
-    res.status(200).send(PublicationUser);
+    await publicationUser.update(req.body);
+    res.status(200).send(publicationUser);
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
 const deletePublicationUser = async (req, res) => {
+  const transaction = await sequelize.transaction(); 
   try {
-    const PublicationUser = await PublicationUser.findByPk(req.params.id);
-    if (!PublicationUser) {
-      return res.status(404).send();
-    }
-    await PublicationUser.destroy();
+    await LikePublicationUser.destroy({
+      where: {
+        idPublication: req.params.id
+      },
+      transaction 
+    });
+
+    await PublicationUser.destroy({
+      where: { idPublication: req.params.id },
+      transaction 
+    });
+
+    await transaction.commit(); 
     res.status(204).send();
   } catch (error) {
+    await transaction.rollback(); 
+    console.log(error)
     res.status(400).send(error);
   }
 };
@@ -106,6 +118,27 @@ const getPublicationUsersByUserId = async (req, res) => {
   }
 };
 
+const getPublicationsByEquipeId = async (req, res) => {
+  try {
+    const publications = await PublicationUser.findAll({
+      include: [{
+        model: User,
+        where: { idEquipe: req.params.idEquipe }
+      }]
+    });
+
+    if (publications.length === 0) {
+      return res.status(404).send({ message: "No publications found for the specified team." });
+    }
+
+    res.status(200).send(publications);
+  } catch (error) {
+    console.error("Error fetching publications by team ID:", error);
+    res.status(500).send(error);
+  }
+};
+
+
 
 module.exports = {
   createPublicationUser,
@@ -113,5 +146,6 @@ module.exports = {
   getPublicationUserById,
   updatePublicationUser,
   deletePublicationUser,
-  getPublicationUsersByUserId
+  getPublicationUsersByUserId,
+  getPublicationsByEquipeId
 };

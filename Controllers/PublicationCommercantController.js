@@ -11,12 +11,12 @@ const LikePublicationCommercant = LikePublicationCommercantFunction(sequelize, S
 
 const createPublicationCommercant = async (req, res) => {
   try {
-    const PublicationCommercant = await PublicationCommercant.create({
+    const publicationCommercant = await PublicationCommercant.create({
       contenu: req.body.contenu,
-      likes: req.body.likes || 0, 
+      date: req.body.date,
       idCommercant: req.body.idCommercant 
     });
-    res.status(201).send(PublicationCommercant);
+    res.status(201).send(publicationCommercant);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -27,7 +27,6 @@ const getAllPublicationCommercants = async (req, res) => {
     const PublicationCommercants = await PublicationCommercant.findAll({
       include: [
         { model: Commercant },
-        { model: LikePublicationCommercant, as: 'Likes' }
       ]
     });
     res.status(200).send(PublicationCommercants);
@@ -41,7 +40,6 @@ const getPublicationCommercantById = async (req, res) => {
     const PublicationCommercant = await PublicationCommercant.findByPk(req.params.id, {
       include: [
         { model: Commercant }, 
-        { model: LikePublicationCommercant, as: 'Likes' } 
       ]
     });
     if (!PublicationCommercant) {
@@ -55,26 +53,37 @@ const getPublicationCommercantById = async (req, res) => {
 
 const updatePublicationCommercant = async (req, res) => {
   try {
-    const PublicationCommercant = await PublicationCommercant.findByPk(req.params.id);
-    if (!PublicationCommercant) {
+    const publicationCommercant = await PublicationCommercant.findByPk(req.params.id);
+    if (!publicationCommercant) {
       return res.status(404).send();
     }
-    await PublicationCommercant.update(req.body);
-    res.status(200).send(PublicationCommercant);
+    await publicationCommercant.update(req.body);
+    res.status(200).send(publicationCommercant);
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
 const deletePublicationCommercant = async (req, res) => {
+  const transaction = await sequelize.transaction(); 
   try {
-    const PublicationCommercant = await PublicationCommercant.findByPk(req.params.id);
-    if (!PublicationCommercant) {
-      return res.status(404).send();
-    }
-    await PublicationCommercant.destroy();
+    await LikePublicationCommercant.destroy({
+      where: {
+        idPublication: req.params.id
+      },
+      transaction 
+    });
+
+    await PublicationCommercant.destroy({
+      where: { idPublication: req.params.id },
+      transaction 
+    });
+
+    await transaction.commit(); 
     res.status(204).send();
   } catch (error) {
+    await transaction.rollback(); 
+    console.log(error)
     res.status(400).send(error);
   }
 };
@@ -86,7 +95,6 @@ const getPublicationCommercantsByCommercantId = async (req, res) => {
       where: { idCommercant: CommercantId },
       include: [
         { model: Commercant }, 
-        { model: LikePublicationCommercant, as: 'Likes' } 
       ]
     });
     if (PublicationCommercants.length > 0) {
@@ -99,6 +107,26 @@ const getPublicationCommercantsByCommercantId = async (req, res) => {
   }
 };
 
+const getPublicationsByEquipeId = async (req, res) => {
+  try {
+    const publications = await PublicationCommercant.findAll({
+      include: [{
+        model: Commercant,
+        where: { idEquipe: req.params.idEquipe }
+      }]
+    });
+
+    if (publications.length === 0) {
+      return res.status(404).send({ message: "No publications found for the specified team." });
+    }
+
+    res.status(200).send(publications);
+  } catch (error) {
+    console.error("Error fetching publications by team ID:", error);
+    res.status(500).send(error);
+  }
+};
+
 
 module.exports = {
   createPublicationCommercant,
@@ -106,5 +134,6 @@ module.exports = {
   getPublicationCommercantById,
   updatePublicationCommercant,
   deletePublicationCommercant,
-  getPublicationCommercantsByCommercantId
+  getPublicationCommercantsByCommercantId,
+  getPublicationsByEquipeId
 };
