@@ -127,7 +127,7 @@ CommentaireClub.User = CommentaireClub.belongsToMany(User, { through: LikeCommen
 
 (async () => {
     try {
-        await sequelize.sync({ alter: true, force: true }); /* si je met force: true, ça supprime la base 
+        await sequelize.sync({ alter: true, force: false }); /* si je met force: true, ça supprime la base 
         de données et la recrée à chaque fois que je lance le serveur et si je met alter: true, 
         ça modifie la base de données en fonction des modèles (si j'ajoute un champ dans un modèle, 
         il sera ajouté à la base de données) et si je met des données dans la BD et que je veux les garder, 

@@ -57,7 +57,6 @@ router.put('/user/:id', userController.updateUser);
 router.delete('/user/:idUser', userController.deleteUser);
 router.get('/user/equipe/:idEquipe', userController.getUsersByEquipeId);
 
-
 //routes abonnes
 router.post('/abonnes/:followerId/:followingId', abonnesController.createAbonnes);
 router.delete('/abonnes/:followerId/:followingId', abonnesController.deleteAbonnes);

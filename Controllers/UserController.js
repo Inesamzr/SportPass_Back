@@ -112,6 +112,9 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'Password is required.' });
     }
 
+    const randomNumber = Math.floor(Math.random() * 1000);
+    const pseudo = `${userData.prenom}.${userData.nom[0]}.${randomNumber.toString().padStart(3, '0')}`;
+
     const hashedPassword = await bcrypt.hash(userData.password, 10);
 
     const newUser = await User.create({
@@ -119,7 +122,7 @@ const register = async (req, res) => {
       nom: userData.nom,
       mail: userData.mail,
       password: hashedPassword,
-      pseudo:`${userData.prenom}.${userData.nom}`,
+      pseudo: pseudo,
       somme: 0,
       idPalier: 1
     });
