@@ -38,7 +38,7 @@ const getLikesByUserId = async (req, res) => {
 
 const deleteLike = async (req, res) => {
   try {
-    const { idLikeCom } = req.params; 
+    const idLikeCom = req.params.id; 
     const result = await LikeCommentaireUser.destroy({ where: { idLikeCom } });
     if (result === 0) {
       return res.status(404).send({ message: 'Like not found' });

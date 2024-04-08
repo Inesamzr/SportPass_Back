@@ -5,7 +5,19 @@ const LikePublicationCommercant = LikePublicationCommercantFunction(sequelize, S
 
 const createLike = async (req, res) => {
   try {
-    const { idUser, idPublication } = req.body; 
+    const { idUser, idPublication } = req.body;
+    
+    const existingLike = await LikePublicationCommercant.findOne({
+      where: {
+        idUser: idUser,
+        idPublication: idPublication
+      }
+    });
+
+    if (existingLike) {
+      return res.status(409).send({ message: "Le like existe déjà." });
+    }
+
     const like = await LikePublicationCommercant.create({ idUser, idPublication });
     res.status(201).send(like);
   } catch (error) {
@@ -38,7 +50,7 @@ const getLikesByUserId = async (req, res) => {
 
 const deleteLike = async (req, res) => {
   try {
-    const { idLikePost } = req.params; 
+    const idLikePost = req.params.id; 
     const result = await LikePublicationCommercant.destroy({ where: { idLikePost } });
     if (result === 0) {
       return res.status(404).send({ message: 'Like not found' });

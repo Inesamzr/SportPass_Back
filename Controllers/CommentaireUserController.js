@@ -4,16 +4,18 @@ const sequelize = require('../database.js');
 const CommentaireUserFunction = require('../Modeles/CommentaireUser.js');
 const CommentaireUser = CommentaireUserFunction(sequelize, Sequelize);
 const PublicationUserFunction = require('../Modeles/PublicationUser.js');
+const LikeCommentaireUserFunction = require('../Modeles/LikeCommentaireUser.js');
+const LikeCommentaireUser = LikeCommentaireUserFunction(sequelize, Sequelize);
 const PublicationUser = PublicationUserFunction(sequelize, Sequelize);
 
 const createCommentaireUser = async (req, res) => {
   try {
-    const CommentaireUser = await CommentaireUser.create({
+    const commentaireUser = await CommentaireUser.create({
       contenu: req.body.contenu,
-      likes: req.body.likes,
+      date: req.body.date,      
       idPublication: req.body.idPublication
     });
-    res.status(201).send(CommentaireUser);
+    res.status(201).send(commentaireUser);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -56,29 +58,41 @@ const getCommentaireByPublicationId = async (req, res) => {
 
 const updateCommentaireUser = async (req, res) => {
   try {
-    const CommentaireUser = await CommentaireUser.findByPk(req.params.id);
-    if (!CommentaireUser) {
+    const commentaireUser = await CommentaireUser.findByPk(req.params.id);
+    if (!commentaireUser) {
       return res.status(404).send();
     }
-    await CommentaireUser.update(req.body);
-    res.status(200).send(CommentaireUser);
+    await commentaireUser.update(req.body);
+    res.status(200).send(commentaireUser);
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
 const deleteCommentaireUser = async (req, res) => {
+  const transaction = await sequelize.transaction(); 
   try {
-    const CommentaireUser = await CommentaireUser.findByPk(req.params.id);
-    if (!CommentaireUser) {
-      return res.status(404).send();
-    }
-    await CommentaireUser.destroy();
+    await LikeCommentaireUser.destroy({
+      where: {
+        idCommentaire: req.params.id
+      },
+      transaction 
+    });
+
+    await CommentaireUser.destroy({
+      where: { idCommentaire: req.params.id },
+      transaction 
+    });
+
+    await transaction.commit(); 
     res.status(204).send();
   } catch (error) {
+    await transaction.rollback(); 
+    console.log(error)
     res.status(400).send(error);
   }
 };
+
 
 module.exports = {
   createCommentaireUser,

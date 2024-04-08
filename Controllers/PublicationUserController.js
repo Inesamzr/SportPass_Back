@@ -63,26 +63,37 @@ const getPublicationUserById = async (req, res) => {
 
 const updatePublicationUser = async (req, res) => {
   try {
-    const PublicationUser = await PublicationUser.findByPk(req.params.id);
-    if (!PublicationUser) {
+    const publicationUser = await PublicationUser.findByPk(req.params.id);
+    if (!publicationUser) {
       return res.status(404).send();
     }
-    await PublicationUser.update(req.body);
-    res.status(200).send(PublicationUser);
+    await publicationUser.update(req.body);
+    res.status(200).send(publicationUser);
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
 const deletePublicationUser = async (req, res) => {
+  const transaction = await sequelize.transaction(); 
   try {
-    const PublicationUser = await PublicationUser.findByPk(req.params.id);
-    if (!PublicationUser) {
-      return res.status(404).send();
-    }
-    await PublicationUser.destroy();
+    await LikePublicationUser.destroy({
+      where: {
+        idPublication: req.params.id
+      },
+      transaction 
+    });
+
+    await PublicationUser.destroy({
+      where: { idPublication: req.params.id },
+      transaction 
+    });
+
+    await transaction.commit(); 
     res.status(204).send();
   } catch (error) {
+    await transaction.rollback(); 
+    console.log(error)
     res.status(400).send(error);
   }
 };
