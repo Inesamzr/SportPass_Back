@@ -155,48 +155,64 @@ router.post('/likeCommentaireUser',LikeCommentaireUserController.createLike);
 router.get('/likeCommentaireUser/commentaire/:id', LikeCommentaireUserController.getLikesByCommentId);
 router.get('/likeCommentaireUser/user/:id', LikeCommentaireUserController.getLikesByUserId);
 router.delete('/likeCommentaireUser/:id', LikeCommentaireUserController.deleteLike);
+router.get('/likeCommentaireUser/:idCommentaire/:idUser', LikeCommentaireUserController.checkLikeExists);
+router.delete('/likeCommentaireUser/:idCommentaire/:idUser', LikeCommentaireUserController.deleteLikeByCommentByUser);
 
 //routes likePublicationUser
 router.post('/likePublicationUser',LikePublicationUserController.createLike);
 router.get('/likePublicationUser/publication/:id', LikePublicationUserController.getLikesByPostId);
 router.get('/likePublicationUser/user/:id', LikePublicationUserController.getLikesByUserId);
 router.delete('/likePublicationUser/:id', LikePublicationUserController.deleteLike);
+router.get('/likePublicationUser/:idPublication/:idUser', LikePublicationUserController.checkLikeExists);
+router.delete('/likePublicationUser/:idPublication/:idUser', LikePublicationUserController.deleteLikeByPublicationByUser);
 
 //routes likeCommentaireCommercant
 router.post('/likeCommentaireCommercant',LikeCommentaireCommercantController.createLike);
 router.get('/likeCommentaireCommercant/commentaire/:id', LikeCommentaireCommercantController.getLikesByCommentId);
 router.get('/likeCommentaireCommercant/user/:id', LikeCommentaireCommercantController.getLikesByUserId);
 router.delete('/likeCommentaireCommercant/:id', LikeCommentaireCommercantController.deleteLike);
+router.get('/likeCommentaireCommercant/:idCommentaire/:idUser', LikeCommentaireCommercantController.checkLikeExists);
+router.delete('/likeCommentaireCommercant/:idCommentaire/:idUser', LikeCommentaireCommercantController.deleteLikeByCommentByUser);
 
 //routes likePublicationCommercant
 router.post('/likePublicationCommercant',LikePublicationCommercantController.createLike);
 router.get('/likePublicationCommercant/publication/:id', LikePublicationCommercantController.getLikesByPostId);
 router.get('/likePublicationCommercant/user/:id', LikePublicationCommercantController.getLikesByUserId);
 router.delete('/likePublicationCommercant/:id', LikePublicationCommercantController.deleteLike);
+router.get('/likePublicationCommercant/:idPublication/:idUser', LikePublicationCommercantController.checkLikeExists);
+router.delete('/likePublicationCommercant/:idPublication/:idUser', LikePublicationCommercantController.deleteLikeByPublicationByUser);
 
 //routes likeCommentaireClub
 router.post('/likeCommentaireClub',LikeCommentaireClubController.createLike);
 router.get('/likeCommentaireClub/commentaire/:id', LikeCommentaireClubController.getLikesByCommentId);
 router.get('/likeCommentaireClub/user/:id', LikeCommentaireClubController.getLikesByUserId);
 router.delete('/likeCommentaireClub/:id', LikeCommentaireClubController.deleteLike);
+router.get('/likeCommentaireClub/:idCommentaire/:idUser', LikeCommentaireClubController.checkLikeExists);
+router.delete('/likeCommentaireClub/:idCommentaire/:idUser', LikeCommentaireClubController.deleteLikeByCommentByUser);
 
 //routes likePublicationClub
 router.post('/likePublicationClub',LikePublicationClubController.createLike);
 router.get('/likePublicationClub/publication/:id', LikePublicationClubController.getLikesByPostId);
 router.get('/likePublicationClub/user/:id', LikePublicationClubController.getLikesByUserId);
 router.delete('/likePublicationClub/:id', LikePublicationClubController.deleteLike);
+router.get('/likePublicationClub/:idPublication/:idUser', LikePublicationClubController.checkLikeExists);
+router.delete('/likePublicationClub/:idPublication/:idUser', LikePublicationClubController.deleteLikeByPublicationByUser);
 
 //routes likeCommentairePartenaire
 router.post('/likeCommentairePartenaire',LikeCommentairePartenaireController.createLike);
 router.get('/likeCommentairePartenaire/commentaire/:id', LikeCommentairePartenaireController.getLikesByCommentId);
 router.get('/likeCommentairePartenaire/user/:id', LikeCommentairePartenaireController.getLikesByUserId);
 router.delete('/likeCommentairePartenaire/:id', LikeCommentairePartenaireController.deleteLike);
+router.get('/likeCommentairePartenaire/:idCommentaire/:idUser', LikeCommentairePartenaireController.checkLikeExists);
+router.delete('/likeCommentairePartenaire/:idCommentaire/:idUser', LikeCommentairePartenaireController.deleteLikeByCommentByUser);
 
 //routes likePublicationPartenaire
 router.post('/likePublicationCommmercant',LikePublicationPartenaireController.createLike);
 router.get('/likePublicationCommmercant/publication/:id', LikePublicationPartenaireController.getLikesByPostId);
 router.get('/likePublicationCommmercant/user/:id', LikePublicationPartenaireController.getLikesByUserId);
 router.delete('/likePublicationCommmercant/:id', LikePublicationPartenaireController.deleteLike);
+router.get('/likePublicationPartenaire/:idPublication/:idUser', LikePublicationPartenaireController.checkLikeExists);
+router.delete('/likePublicationPartenaire/:idPublication/:idUser', LikePublicationPartenaireController.deleteLikeByPublicationByUser);
 
 //routes matchs
 router.get('/matchs', matchsController.getAllMatches);

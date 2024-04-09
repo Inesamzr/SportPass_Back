@@ -62,9 +62,50 @@ const deleteLike = async (req, res) => {
   }
 };
 
+const checkLikeExists = async (req, res) => {
+  try {
+    const { idUser, idPublication } = req.params; 
+    const like = await LikePublicationCommercant.findOne({
+      where: {
+        idUser,
+        idPublication
+      }
+    });
+    if (like) {
+      res.status(200).send({ exists: true });
+    } else {
+      res.status(200).send({ exists: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+};
+
+const deleteLikeByPublicationByUser = async (req, res) => {
+  try {
+    const { idPublication, idUser } = req.params; 
+    const result = await LikePublicationCommercant.destroy({
+      where: {
+        idPublication,
+        idUser
+      }
+    });
+    if (result === 0) {
+      return res.status(404).send({ message: 'Like not found' });
+    }
+    res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error); 
+  }
+};
+
 module.exports = {
   createLike,
   getLikesByPostId,
   getLikesByUserId,
   deleteLike,
+  checkLikeExists,
+  deleteLikeByPublicationByUser
 };

@@ -50,9 +50,50 @@ const deleteLike = async (req, res) => {
   }
 };
 
+const checkLikeExists = async (req, res) => {
+  try {
+    const { idUser, idCommentaire } = req.params; 
+    const like = await LikeCommentaireClub.findOne({
+      where: {
+        idUser,
+        idCommentaire
+      }
+    });
+    if (like) {
+      res.status(200).send({ exists: true });
+    } else {
+      res.status(200).send({ exists: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+};
+
+const deleteLikeByCommentByUser = async (req, res) => {
+  try {
+    const { idCommentaire, idUser } = req.params; 
+    const result = await LikeCommentaireClub.destroy({
+      where: {
+        idCommentaire,
+        idUser
+      }
+    });
+    if (result === 0) {
+      return res.status(404).send({ message: 'Like not found' });
+    }
+    res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error); 
+  }
+};
+
 module.exports = {
   createLike,
   getLikesByCommentId,
   getLikesByUserId,
   deleteLike,
+  checkLikeExists,
+  deleteLikeByCommentByUser
 };
