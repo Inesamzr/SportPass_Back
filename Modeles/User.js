@@ -76,7 +76,7 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     User.Palier = User.belongsTo(Palier, { foreignKey: 'idPalier' });
-    User.Equipe = User.belongsTo(Equipe, { foreignKey: 'idEquipe' });
+    User.Equipe = User.belongsTo(Equipe, { foreignKey: 'idEquipe', allowNull: false });
 
     return User;
 };

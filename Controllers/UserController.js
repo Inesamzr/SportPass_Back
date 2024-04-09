@@ -124,7 +124,8 @@ const register = async (req, res) => {
       password: hashedPassword,
       pseudo: pseudo,
       somme: 0,
-      idPalier: 1
+      idPalier: 1,
+      idEquipe: userData.idEquipe
     });
 
     await PossederRole.create({
