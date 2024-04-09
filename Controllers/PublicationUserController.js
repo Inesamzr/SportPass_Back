@@ -105,7 +105,6 @@ const getPublicationUsersByUserId = async (req, res) => {
       where: { idUser: userId },
       include: [
         { model: User }, 
-        { model: LikePublicationUser, as: 'Likes' } 
       ]
     });
     if (PublicationUsers.length > 0) {

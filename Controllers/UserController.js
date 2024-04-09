@@ -172,7 +172,10 @@ const login = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.json({ token });
+    const idUser =  user.idUser
+    console.log(idUser)
+
+    res.json({ token, idUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Une erreur interne du serveur s\'est produite. Veuillez réessayer plus tard.' });
