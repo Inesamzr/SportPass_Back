@@ -42,13 +42,7 @@ const getBilletById = async (req, res) => {
   try {
     const billet = await Billet.findByPk(req.params.id, {
       include: [{
-        model: Place,
-        include: [{
-          model: Rangee,
-          include: [{
-            model: Tribune,
-          }]
-        }]
+        model: Place
       }, {
         model: Matchs,
       }]

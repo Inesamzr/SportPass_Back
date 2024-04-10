@@ -10,6 +10,10 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true
     },
+    nom: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     numero: {
       type: DataTypes.INTEGER,
       allowNull: false
