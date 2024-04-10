@@ -8,7 +8,7 @@ const User = require('../Modeles/User.js');
 const createLike = async (req, res) => {
   try {
     const { idUser, idPublication } = req.body;
-    
+
     const existingLike = await LikePublicationUser.findOne({
       where: {
         idUser: idUser,

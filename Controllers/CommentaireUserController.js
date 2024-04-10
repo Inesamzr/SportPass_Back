@@ -13,7 +13,8 @@ const createCommentaireUser = async (req, res) => {
     const commentaireUser = await CommentaireUser.create({
       contenu: req.body.contenu,
       date: req.body.date,      
-      idPublication: req.body.idPublication
+      idPublication: req.body.idPublication,
+      idUser: req.body.idUser
     });
     res.status(201).send(commentaireUser);
   } catch (error) {
