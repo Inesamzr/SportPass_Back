@@ -79,6 +79,12 @@ const PossederPassFunction = require('./PossederPass.js');
 const PossederPass = PossederPassFunction(sequelize, Sequelize)
 const AvoirFavorisFunction = require('./AvoirFavoris.js');
 const AvoirFavoris = AvoirFavorisFunction(sequelize, Sequelize)
+const AppartientPassFunction = require('./AppartientPass.js');
+const AppartientPass = AppartientPassFunction(sequelize, Sequelize)
+
+
+Billet.Pass = Billet.belongsToMany(Pass, { through: AppartientPass, foreignKey: 'idBillet', onDelete: 'CASCADE' });
+Pass.Billet = Pass.belongsToMany(Billet, { through: AppartientPass, foreignKey: 'idPass', onDelete: 'CASCADE' });
 
 User.Concours = User.belongsToMany(Concours, { through: ParticiperJeu, foreignKey: 'idUser', onDelete: 'CASCADE' });
 Concours.User = Concours.belongsToMany(User, { through: ParticiperJeu, foreignKey: 'idConcours' });
@@ -133,4 +139,4 @@ CommentaireClub.User = CommentaireClub.belongsToMany(User, { through: LikeCommen
     }
 })();
 
-module.exports = { User, Concours, ParticiperJeu, Billet, CashBackCommercant, CommentaireUser, Commercant, Equipe, Matchs, Palier, Partenaire, Place, Promotion, PublicationUser, Rangee, Role, Stade, Tribune, TypeCommercant, TypePlace, LikePublicationUser, LikeCommentaireUser, Pass, PossederPass, PossederRole, AvoirFavoris, PublicationCommercant, CommentaireCommercant, LikeCommentaireCommercant, LikePublicationCommercant, LikeCommentairePartenaire, LikePublicationPartenaire, PublicationPartenaire, CommentairePartenaire  }
+module.exports = { User, Concours, AppartientPass, ParticiperJeu, Billet, CashBackCommercant, CommentaireUser, Commercant, Equipe, Matchs, Palier, Partenaire, Place, Promotion, PublicationUser, Rangee, Role, Stade, Tribune, TypeCommercant, TypePlace, LikePublicationUser, LikeCommentaireUser, Pass, PossederPass, PossederRole, AvoirFavoris, PublicationCommercant, CommentaireCommercant, LikeCommentaireCommercant, LikePublicationCommercant, LikeCommentairePartenaire, LikePublicationPartenaire, PublicationPartenaire, CommentairePartenaire  }

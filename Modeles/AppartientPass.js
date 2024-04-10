@@ -1,28 +1,29 @@
 const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
 
+
 module.exports = function (sequelize, DataTypes) {
-    const Pass = sequelize.define('Pass', {
-    idPass: {
+    const AppartientPass = sequelize.define('AppartientPass', {
+    idAppartientPass: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    nom: {
-      type: DataTypes.STRING,
-      allowNull: false
+    idPass: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Pass', 
+            key: 'idPass',      
+        }
     },
-    duree: {
-      type: DataTypes.INTEGER,
-      allowNull: false 
-    },
-    montantMin: { 
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    valide: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
+    idBillet: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Billet', 
+            key: 'idBillet',        
+        }
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -38,5 +39,5 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 });
     
-return Pass;
+return AppartientPass;
 };
