@@ -33,7 +33,6 @@ const LikeCommentairePartenaireController =  require('../Controllers/LikeComment
 const LikePublicationPartenaireController =  require('../Controllers/LikePublicationPartenaireController.js');
 const passController =  require('../Controllers/PassController.js');
 const possederPassController =  require('../Controllers/PossederPassController.js');
-const appartientPassController =  require('../Controllers/AppartientPassController.js');
 const avoirFavorisController =  require('../Controllers/AvoirFavorisController.js');
 const PublicationCommercantController =  require('../Controllers/PublicationCommercantController.js');
 const publicationPartenaireController =  require('../Controllers/PublicationPartenaireController.js');
@@ -63,12 +62,6 @@ router.delete('/abonnes/:followerId/:followingId', abonnesController.deleteAbonn
 router.get('/abonnes/followers/:followingId', abonnesController.getFollowersByFollowingId);
 router.get('/abonnes/following/:followerId', abonnesController.getFollowingByFollowerId);
 
-//routes appartientPass
-router.get('/appartientPass', appartientPassController.getAllAppartenance);
-router.post('/appartientPass',appartientPassController.createAppartenance);
-router.get('/appartientPass/billet/:id', appartientPassController.getAppartenanceByIdBillet);
-router.get('/appartientPass/pass/:id', appartientPassController.getAppartenanceByIdPass);
-router.delete('/appartientPass/:id', appartientPassController.deleteAppartenance);
 
 //routes avoirFavoris
 router.get('/avoirFavoris', avoirFavorisController.getAllFavoris);

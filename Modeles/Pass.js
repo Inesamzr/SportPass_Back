@@ -1,5 +1,7 @@
 const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
+const BilletFunction = require('./Billet.js');
+const Billet = BilletFunction(sequelize, Sequelize)
 
 module.exports = function (sequelize, DataTypes) {
     const Pass = sequelize.define('Pass', {
@@ -14,9 +16,9 @@ module.exports = function (sequelize, DataTypes) {
     },
     duree: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false 
     },
-    montantMin: {
+    montantMin: { 
       type: DataTypes.FLOAT,
       allowNull: false
     },
@@ -38,5 +40,7 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 });
     
+Pass.Billet = Pass.belongsTo(Billet, {  foreignKey: 'idBillet' });
+
 return Pass;
 };

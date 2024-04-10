@@ -73,12 +73,10 @@ const LikeCommentairePartenaireFunction = require('./LikeCommentairePartenaire.j
 const LikeCommentairePartenaire = LikeCommentairePartenaireFunction(sequelize, Sequelize)
 const LikePublicationPartenaireFunction = require('./LikePublicationPartenaire.js');
 const LikePublicationPartenaire = LikePublicationPartenaireFunction(sequelize, Sequelize)
-const PassFunction = require('./Pass.js');
+const PassFunction = require('./Pass.js'); 
 const Pass = PassFunction(sequelize, Sequelize)
 const PossederPassFunction = require('./PossederPass.js');
 const PossederPass = PossederPassFunction(sequelize, Sequelize)
-const AppartientPassFunction = require('./AppartientPass.js');
-const AppartientPass = AppartientPassFunction(sequelize, Sequelize)
 const AvoirFavorisFunction = require('./AvoirFavoris.js');
 const AvoirFavoris = AvoirFavorisFunction(sequelize, Sequelize)
 
@@ -93,9 +91,6 @@ User.User = User.belongsToMany(User, { through: Abonnes, as: 'Followings', forei
 
 User.Pass = User.belongsToMany(Pass, { through: PossederPass, foreignKey: 'idUser', onDelete: 'CASCADE' });
 Pass.User = Pass.belongsToMany(User, { through: PossederPass, foreignKey: 'idPass', onDelete: 'CASCADE' });
-
-Billet.Pass = Billet.belongsToMany(Pass, { through: AppartientPass, foreignKey: 'idBillet', onDelete: 'CASCADE' });
-Pass.Billet = Pass.belongsToMany(Billet, { through: AppartientPass, foreignKey: 'idPass', onDelete: 'CASCADE' });
 
 User.Commercant = User.belongsToMany(Commercant, { through: AvoirFavoris, foreignKey: 'idUser', onDelete: 'CASCADE' });
 Commercant.User = Commercant.belongsToMany(User, { through: AvoirFavoris, foreignKey: 'idCommercant', onDelete: 'CASCADE' });
@@ -138,4 +133,4 @@ CommentaireClub.User = CommentaireClub.belongsToMany(User, { through: LikeCommen
     }
 })();
 
-module.exports = { User, Concours, ParticiperJeu, Billet, CashBackCommercant, CommentaireUser, Commercant, Equipe, Matchs, Palier, Partenaire, Place, Promotion, PublicationUser, Rangee, Role, Stade, Tribune, TypeCommercant, TypePlace, LikePublicationUser, LikeCommentaireUser, Pass, PossederPass, AppartientPass, PossederRole, AvoirFavoris, PublicationCommercant, CommentaireCommercant, LikeCommentaireCommercant, LikePublicationCommercant, LikeCommentairePartenaire, LikePublicationPartenaire, PublicationPartenaire, CommentairePartenaire  }
+module.exports = { User, Concours, ParticiperJeu, Billet, CashBackCommercant, CommentaireUser, Commercant, Equipe, Matchs, Palier, Partenaire, Place, Promotion, PublicationUser, Rangee, Role, Stade, Tribune, TypeCommercant, TypePlace, LikePublicationUser, LikeCommentaireUser, Pass, PossederPass, PossederRole, AvoirFavoris, PublicationCommercant, CommentaireCommercant, LikeCommentaireCommercant, LikePublicationCommercant, LikeCommentairePartenaire, LikePublicationPartenaire, PublicationPartenaire, CommentairePartenaire  }
