@@ -12,8 +12,16 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    duree: {
+    prix: {
       type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    date_debut: {
+      type: DataTypes.DATE,
+      allowNull: false
+    }, 
+    date_fin: {
+      type: DataTypes.DATE,
       allowNull: false 
     },
     valide: {

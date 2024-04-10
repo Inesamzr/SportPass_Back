@@ -9,10 +9,6 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true
     },
-    dateActivation: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
     idPass: {
         type: DataTypes.INTEGER,
         allowNull: false,
