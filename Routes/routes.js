@@ -67,7 +67,7 @@ router.get('/abonnes/following/:followerId', abonnesController.getFollowingByFol
 router.get('/appartientPass', appartientPassController.getAllAppartenance);
 router.post('/appartientPass',appartientPassController.createAppartenance);
 router.get('/appartientPass/billet/:id', appartientPassController.getAppartenanceByIdBillet);
-router.get('/appartientPass/pass/:id', appartientPassController.getAppartenanceByIdPass);
+router.get('/appartientPass/pass/:idPass', appartientPassController.getAppartenanceByIdPass);
 router.delete('/appartientPass/:id', appartientPassController.deleteAppartenance);
 
 //routes avoirFavoris
