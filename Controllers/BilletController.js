@@ -40,12 +40,25 @@ const getAllBillets = async (req, res) => {
 
 const getBilletById = async (req, res) => {
   try {
-    const billet = await Billet.findByPk(req.params.id);
+    const billet = await Billet.findByPk(req.params.id, {
+      include: [{
+        model: Place,
+        include: [{
+          model: Rangee,
+          include: [{
+            model: Tribune,
+          }]
+        }]
+      }, {
+        model: Matchs,
+      }]
+    });
     if (!billet) {
       return res.status(404).send();
     }
     res.status(200).send(billet);
   } catch (error) {
+    console.error('Erreur lors de la récupération du billet:', error);
     res.status(400).send(error);
   }
 };

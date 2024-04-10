@@ -16,10 +16,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false 
     },
-    montantMin: { 
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
     valide: {
         type: DataTypes.BOOLEAN,
         allowNull: false

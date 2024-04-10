@@ -2,6 +2,8 @@ const sequelize = require('../database.js');
 const Sequelize = require('sequelize');
 const PossederPassFunction = require('../Modeles/PossederPass.js'); 
 const PossederPass = PossederPassFunction(sequelize, Sequelize);
+const PassFunction = require('../Modeles/Pass.js'); 
+const Pass = PassFunction(sequelize, Sequelize);
 
 const createPossession = async (req, res) => {
     try {
@@ -11,7 +13,7 @@ const createPossession = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
-  
+   
   const getAllPossession = async (req, res) => {
     try {
       const possessions = await PossederPass.findAll();
@@ -37,11 +39,18 @@ const createPossession = async (req, res) => {
     try {
       const { id } = req.params;
       const possessions = await PossederPass.findAll({
-        where: { idUser: id },
-        include: [Pass]
+        where: { idUser: id }
       });
-      res.status(200).json(possessions);
+
+      const idPasses = possessions.map(possession => possession.idPass);
+      const passes = await Pass.findAll({
+      where: {
+        idPass: idPasses
+      }
+    });
+      res.status(200).json(passes);
     } catch (error) {
+      console.log(error)
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
