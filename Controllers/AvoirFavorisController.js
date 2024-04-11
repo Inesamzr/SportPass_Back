@@ -41,7 +41,14 @@ const getFavorisByIdUser = async (req, res) => {
     const favoris = await AvoirFavoris.findAll({
         where: { idUser },
       });
-    res.status(200).json(favoris);
+    
+    const idCommercants = favoris.map(favori => favori.idCommercant);
+    const commercants = await Commercant.findAll({
+      where: {
+        idCommercant: idCommercants
+      }
+    });
+    res.status(200).json(commercants);
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: 'Internal Server Error' });
