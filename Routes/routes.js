@@ -207,10 +207,10 @@ router.get('/likeCommentairePartenaire/:idCommentaire/:idUser', LikeCommentaireP
 router.delete('/likeCommentairePartenaire/:idCommentaire/:idUser', LikeCommentairePartenaireController.deleteLikeByCommentByUser);
 
 //routes likePublicationPartenaire
-router.post('/likePublicationCommmercant',LikePublicationPartenaireController.createLike);
-router.get('/likePublicationCommmercant/publication/:id', LikePublicationPartenaireController.getLikesByPostId);
-router.get('/likePublicationCommmercant/user/:id', LikePublicationPartenaireController.getLikesByUserId);
-router.delete('/likePublicationCommmercant/:id', LikePublicationPartenaireController.deleteLike);
+router.post('/likePublicationPartenaire',LikePublicationPartenaireController.createLike);
+router.get('/likePublicationPartenaire/publication/:id', LikePublicationPartenaireController.getLikesByPostId);
+router.get('/likePublicationPartenaire/user/:id', LikePublicationPartenaireController.getLikesByUserId);
+router.delete('/likePublicationPartenaire/:id', LikePublicationPartenaireController.deleteLike);
 router.get('/likePublicationPartenaire/:idPublication/:idUser', LikePublicationPartenaireController.checkLikeExists);
 router.delete('/likePublicationPartenaire/:idPublication/:idUser', LikePublicationPartenaireController.deleteLikeByPublicationByUser);
 
