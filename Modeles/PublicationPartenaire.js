@@ -10,6 +10,10 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true
     },
+    titre: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     contenu: {
       type: DataTypes.STRING,
       allowNull: false
@@ -18,6 +22,14 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.DATE,
         allowNull: false
       },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }, 
+    logo: {
+      type: DataTypes.STRING,
+      allowNull: false
+  },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

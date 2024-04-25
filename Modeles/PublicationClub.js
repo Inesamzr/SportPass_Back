@@ -18,6 +18,14 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },  
+    image: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }, 
+    tag: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }, 
     date: {
         type: DataTypes.DATE,
         allowNull: false
