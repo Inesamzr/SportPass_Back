@@ -1,7 +1,6 @@
 const sequelize = require('../database.js');
 const Sequelize = require('sequelize');
 const LikePublicationPartenaireFunction = require('../Modeles/LikePublicationPartenaire.js'); 
-const LikeCommentaireClub = require('../Modeles/LikeCommentaireClub.js');
 const LikePublicationPartenaire = LikePublicationPartenaireFunction(sequelize, Sequelize);
 
 const createLike = async (req, res) => {
@@ -86,7 +85,7 @@ const checkLikeExists = async (req, res) => {
 const deleteLikeByPublicationByUser = async (req, res) => {
   try {
     const { idPublication, idUser } = req.params; 
-    const result = await LikeCommentaireClub.destroy({
+    const result = await LikePublicationPartenaire.destroy({
       where: {
         idPublication,
         idUser
