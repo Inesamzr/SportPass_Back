@@ -47,7 +47,9 @@ const getCommentaireByIdUser = async (req, res) => {
 
 const getCommentaireByPublicationId = async (req, res) => {
   try {
-    const { idPublication } = req.params;
+    const  idPublication  = req.params.id;
+
+    console.log(idPublication)
     const commentaires = await CommentairePartenaire.findAll({
       where: { idPublication }
     });

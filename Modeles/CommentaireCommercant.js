@@ -2,8 +2,8 @@ const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
 const PublicationCommercantFunction = require('./PublicationCommercant.js');
 const PublicationCommercant = PublicationCommercantFunction(sequelize, Sequelize)
-const CommercantFunction = require('./Commercant.js');
-const Commercant = CommercantFunction(sequelize, Sequelize)
+const UserFunction = require('./User.js');
+const User = UserFunction(sequelize, Sequelize)
 
 module.exports = function (sequelize, DataTypes) {
     const CommentaireCommercant = sequelize.define('CommentaireCommercant', {
@@ -35,7 +35,7 @@ module.exports = function (sequelize, DataTypes) {
 });
 
 CommentaireCommercant.PublicationCommercant = CommentaireCommercant.belongsTo(PublicationCommercant, {  foreignKey: 'idPublication' });
-CommentaireCommercant.Commercant = CommentaireCommercant.belongsTo(Commercant, {  foreignKey: 'idCommercant' });
+CommentaireCommercant.User = CommentaireCommercant.belongsTo(User, {  foreignKey: 'idUser' });
 
     
 return CommentaireCommercant;
