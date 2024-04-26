@@ -62,6 +62,8 @@ router.post('/abonnes/:followerId/:followingId', abonnesController.createAbonnes
 router.delete('/abonnes/:followerId/:followingId', abonnesController.deleteAbonnes);
 router.get('/abonnes/followers/:followingId', abonnesController.getFollowersByFollowingId);
 router.get('/abonnes/following/:followerId', abonnesController.getFollowingByFollowerId);
+router.get('/abonnes/isFollower/:followerId/:followingId', abonnesController.isFollowing);
+
 
 //routes appartientPass
 router.get('/appartientPass', appartientPassController.getAllAppartenance);

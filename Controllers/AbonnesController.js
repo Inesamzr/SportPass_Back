@@ -22,6 +22,36 @@ const createAbonnes = async (req, res) => {
     }
   };
 
+  const isFollowing = async (req, res) => {
+    console.log(req.params);
+    try {
+      console.log(req.params);
+      const followerId = req.params.followerId;
+      const followingId = req.params.followingId;
+
+        const subscription = await Abonnes.findOne({
+            where: {
+                followerId: followerId,
+                followingId: followingId
+            }
+        });
+
+        console.log(subscription)
+        let isFollowing = false;
+
+        if (subscription) {
+          isFollowing = true;
+        } else {
+          isFollowing= false;
+        }
+        console.log(isFollowing)
+        res.status(200).send(isFollowing);
+    } catch (error) {
+        console.error('Error checking following status:', error);
+        res.status(400).send({ message: 'Error checking if following', error: error.message });
+    }
+};
+
 
 const deleteAbonnes = async (req, res) => {
     try {
@@ -94,5 +124,6 @@ module.exports = {
   createAbonnes,
   deleteAbonnes,
   getFollowersByFollowingId,
-  getFollowingByFollowerId
+  getFollowingByFollowerId,
+  isFollowing
 };
