@@ -97,11 +97,7 @@ const getPublicationPartenairesByPartenaireId = async (req, res) => {
         { model: Partenaire }, 
           ]
     });
-    if (PublicationPartenaires.length > 0) {
       res.status(200).send(PublicationPartenaires);
-    } else {
-      res.status(404).send({ message: "Aucune PublicationPartenaire trouvée pour cet utilisateur." });
-    }
   } catch (error) {
     res.status(400).send(error);
   }

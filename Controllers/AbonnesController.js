@@ -23,9 +23,7 @@ const createAbonnes = async (req, res) => {
   };
 
   const isFollowing = async (req, res) => {
-    console.log(req.params);
     try {
-      console.log(req.params);
       const followerId = req.params.followerId;
       const followingId = req.params.followingId;
 
@@ -36,7 +34,6 @@ const createAbonnes = async (req, res) => {
             }
         });
 
-        console.log(subscription)
         let isFollowing = false;
 
         if (subscription) {
@@ -44,7 +41,6 @@ const createAbonnes = async (req, res) => {
         } else {
           isFollowing= false;
         }
-        console.log(isFollowing)
         res.status(200).send(isFollowing);
     } catch (error) {
         console.error('Error checking following status:', error);

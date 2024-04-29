@@ -107,11 +107,7 @@ const getPublicationUsersByUserId = async (req, res) => {
         { model: User }, 
       ]
     });
-    if (PublicationUsers.length > 0) {
       res.status(200).send(PublicationUsers);
-    } else {
-      res.status(404).send({ message: "Aucune PublicationUser trouvée pour cet utilisateur." });
-    }
   } catch (error) {
     res.status(400).send(error);
   }

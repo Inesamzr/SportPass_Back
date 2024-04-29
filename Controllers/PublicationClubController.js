@@ -98,31 +98,21 @@ const getPublicationClubsByClubId = async (req, res) => {
         { model: Equipe }, 
       ]
     });
-    if (PublicationClubs.length > 0) {
       res.status(200).send(PublicationClubs);
-    } else {
-      res.status(404).send({ message: "Aucune PublicationClub trouvée pour cet utilisateur." });
-    }
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
 const getPublicationClubAlaUne = async (req, res) => {
-    console.log("coucou")
 
     try {
-        console.log("coucou")
       const publicationsAlaUne = await PublicationClub.findAll({
         where: {
           aLaUne: true 
         }
       });
-      if (publicationsAlaUne.length > 0) {
         res.status(200).send(publicationsAlaUne); 
-      } else {
-        res.status(404).send({ message: "Aucune publication à la une trouvée." }); 
-      }
     } catch (error) {
         console.log(error)
       console.error("Error fetching publications à la une:", error); 

@@ -97,11 +97,7 @@ const getPublicationCommercantsByCommercantId = async (req, res) => {
         { model: Commercant }, 
       ]
     });
-    if (PublicationCommercants.length > 0) {
       res.status(200).send(PublicationCommercants);
-    } else {
-      res.status(404).send({ message: "Aucune PublicationCommercant trouvée pour cet utilisateur." });
-    }
   } catch (error) {
     res.status(400).send(error);
   }
@@ -115,11 +111,6 @@ const getPublicationsByEquipeId = async (req, res) => {
         where: { idEquipe: req.params.idEquipe }
       }]
     });
-
-    if (publications.length === 0) {
-      return res.status(404).send({ message: "No publications found for the specified team." });
-    }
-
     res.status(200).send(publications);
   } catch (error) {
     console.error("Error fetching publications by team ID:", error);
