@@ -102,10 +102,6 @@ const getAllMatchsByidEquipe = async (req, res) => {
 
     const matchs = [...matchsDomicile, ...matchsExterieur];
 
-    if (!matchs || matchs.length === 0) {
-      return res.status(404).send({ message: 'No matches found for the specified team.' });
-    }
-
     res.status(200).send(matchs);
   } catch (error) {
     console.error('Error fetching matches by team ID:', error);

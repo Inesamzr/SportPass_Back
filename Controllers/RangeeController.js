@@ -81,10 +81,6 @@ const getRangeeByIdTribune = async (req, res) => {
       }]
     });
 
-    if (!rangees || rangees.length === 0) {
-      return res.status(404).send({ message: 'No rangees found for the specified team.' });
-    }
-
     res.status(200).send(rangees);
   } catch (error) {
     console.error('Error fetching rangees by tribune ID:', error);

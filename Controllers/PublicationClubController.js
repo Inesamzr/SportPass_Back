@@ -127,10 +127,6 @@ const getPublicationClubAlaUne = async (req, res) => {
           where: { idEquipe: req.params.idEquipe }
       });
   
-      if (publications.length === 0) {
-        return res.status(404).send({ message: "No publications found for the specified team." });
-      }
-  
       res.status(200).send(publications);
     } catch (error) {
       console.error("Error fetching publications by team ID:", error);

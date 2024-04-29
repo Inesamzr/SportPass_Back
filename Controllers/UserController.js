@@ -191,9 +191,6 @@ const getUsersByEquipeId = async (req, res) => {
       },
     });
 
-    if (users.length === 0) {
-      return res.status(404).send({ message: 'No users found for this team.' });
-    }
 
     res.status(200).send(users);
   } catch (error) {

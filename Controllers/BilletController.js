@@ -78,9 +78,6 @@ const getBilletByUserId = async (req, res) => {
         ]
       }]
     });
-    if (!billets.length) {
-      return res.status(404).send();
-    }
     res.status(200).json(billets);
   } catch (error) {
     console.error(error);

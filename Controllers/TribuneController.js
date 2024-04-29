@@ -76,10 +76,6 @@ const getAllTribuneByIdStade = async (req, res) => {
       }]
     });
 
-    if (!tribunes || tribunes.length === 0) {
-      return res.status(404).send({ message: 'No tribunes found for the specified team.' });
-    }
-
     res.status(200).send(tribunes);
   } catch (error) {
     console.error('Error fetching tribunes by team ID:', error);

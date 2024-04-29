@@ -88,10 +88,6 @@ const getAllVillesByidEquipe = async (req, res) => {
       order: [['ville', 'ASC']]
     });
 
-    if (villes.length === 0) {
-      return res.status(404).send({ message: 'No cities found for the given team ID.' });
-    }
-
     res.status(200).send(villes.map(v => v.ville)); 
   } catch (error) {
     console.error('Error fetching cities by team ID:', error);
@@ -111,10 +107,6 @@ const getAllCommercantsByidEquipe = async (req, res) => {
       }]
     });
 
-    if (!commercants || commercants.length === 0) {
-      return res.status(404).send({ message: 'No merchants found for the specified team.' });
-    }
-
     res.status(200).send(commercants);
   } catch (error) {
     console.error('Error fetching merchants by team ID:', error);
@@ -129,9 +121,6 @@ const getAllCommercantsByVille = async (req, res) => {
       where: { ville: ville },
       include: [CashBackCommercant, TypeCommercant, Equipe] 
     });
-    if (commercants.length === 0) {
-      return res.status(404).send({ message: 'No merchants found for the specified city.' });
-    }
     res.status(200).send(commercants);
   } catch (error) {
     console.error('Error fetching merchants by city:', error);
@@ -146,9 +135,6 @@ const getAllCommercantsByType = async (req, res) => {
       where: { idTypeCommercant: idTypeCommercant },
       include: [CashBackCommercant, TypeCommercant, Equipe] 
     });
-    if (commercants.length === 0) {
-      return res.status(404).send({ message: 'No merchants found for the specified type.' });
-    }
     res.status(200).send(commercants);
   } catch (error) {
     console.error('Error fetching merchants by type:', error);

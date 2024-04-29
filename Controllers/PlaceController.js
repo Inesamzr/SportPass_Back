@@ -84,10 +84,6 @@ const getAllPlaceByRangeeId = async (req, res) => {
       }]
     });
 
-    if (!places || places.length === 0) {
-      return res.status(404).send({ message: 'No places found' });
-    }
-
     res.status(200).send(places);
   } catch (error) {
     console.error('Error fetching places by rangee ID:', error);
