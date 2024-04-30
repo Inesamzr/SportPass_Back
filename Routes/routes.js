@@ -129,7 +129,7 @@ router.delete('/commentairePartenaire/:id', commentairePartenaireController.dele
 
 //routes commercant
 router.get('/commercant', commercantController.getAllCommercants);
-router.get('/commercant/idEquipe', commercantController.getAllCommercantsByidEquipe);
+router.get('/commercant/:idEquipe', commercantController.getAllCommercantsByidEquipe);
 router.get('/commercant/villes/:idEquipe', commercantController.getAllVillesByidEquipe);
 router.post('/commercant', commercantController.createCommercant);
 router.get('/commercant/:id', commercantController.getCommercantById);
