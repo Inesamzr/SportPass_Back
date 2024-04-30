@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true
     },
-    statut: {
+    reservee: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false 
