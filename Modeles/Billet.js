@@ -16,8 +16,9 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true
     },
     statut: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false 
     },
     prix: {
       type: DataTypes.INTEGER,
