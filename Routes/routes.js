@@ -77,7 +77,7 @@ router.get('/avoirFavoris', avoirFavorisController.getAllFavoris);
 router.post('/avoirFavoris',avoirFavorisController.createFavoris);
 router.get('/avoirFavoris/user/:id', avoirFavorisController.getFavorisByIdUser);
 router.get('/avoirFavoris/commercant/:id', avoirFavorisController.getFavorisByIdCommercant);
-router.delete('/avoirFavoris/:id', avoirFavorisController.deleteFavoris);
+router.delete('/avoirFavoris/:idCommercant/:idUser', avoirFavorisController.deleteFavoris);
 
 //routes billet
 router.get('/billet', billetController.getAllBillets);

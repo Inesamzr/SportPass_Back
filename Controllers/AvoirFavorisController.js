@@ -73,9 +73,13 @@ const updateFavoris = async (req, res) => {
 
 const deleteFavoris = async (req, res) => {
   try {
-    const idAvoirFavoris  = req.params.id;
+    const idUser  = req.params.idUser;
+    const idCommercant = req.params. idCommercant
     const deleted = await AvoirFavoris.destroy({
-      where: { idAvoirFavoris }
+      where: { 
+        idUser,
+        idCommercant
+       }
     });
 
     if (!deleted)
