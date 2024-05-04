@@ -26,9 +26,6 @@ const getAllCashBackCommercants = async (req, res) => {
 const getCashBackCommercantById = async (req, res) => {
   try {
     const cashBackCommercant = await CashBackCommercant.findByPk(req.params.id);
-    if (!cashBackCommercant) {
-      return res.status(404).send();
-    }
     res.status(200).send(cashBackCommercant);
   } catch (error) {
     res.status(400).send(error);
@@ -38,9 +35,6 @@ const getCashBackCommercantById = async (req, res) => {
 const updateCashBackCommercant = async (req, res) => {
   try {
     const cashBackCommercant = await CashBackCommercant.findByPk(req.params.id);
-    if (!cashBackCommercant) {
-      return res.status(404).send();
-    }
     await cashBackCommercant.update(req.body);
     res.status(200).send(cashBackCommercant);
   } catch (error) {
@@ -51,9 +45,6 @@ const updateCashBackCommercant = async (req, res) => {
 const deleteCashBackCommercant = async (req, res) => {
   try {
     const cashBackCommercant = await CashBackCommercant.findByPk(req.params.id);
-    if (!cashBackCommercant) {
-      return res.status(404).send();
-    }
     await cashBackCommercant.destroy();
     res.status(204).send();
   } catch (error) {

@@ -30,9 +30,6 @@ const getAllPaliers = async (req, res) => {
 const getPalierById = async (req, res) => {
   try {
     const palier = await Palier.findByPk(req.params.id);
-    if (!palier) {
-      return res.status(404).send();
-    }
     res.status(200).send(palier);
   } catch (error) {
     res.status(400).send(error);

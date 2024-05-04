@@ -36,9 +36,6 @@ const getCommercantById = async (req, res) => {
     const commercant = await Commercant.findByPk(req.params.id, {
       include: [CashBackCommercant, TypeCommercant]
     });
-    if (!commercant) {
-      return res.status(404).send();
-    }
     res.status(200).send(commercant);
   } catch (error) {
     res.status(400).send(error);

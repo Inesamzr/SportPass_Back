@@ -31,9 +31,6 @@ const getAllStades = async (req, res) => {
 const getStadeById = async (req, res) => {
   try {
     const stade = await Stade.findByPk(req.params.id);
-    if (!stade) {
-      return res.status(404).send();
-    }
     res.status(200).send(stade);
   } catch (error) {
     res.status(400).send(error);

@@ -31,9 +31,6 @@ const getAllParticipations = async (req, res) => {
 const getParticipationById = async (req, res) => {
   try {
     const participation = await ParticiperJeu.findByPk(req.params.id);
-    if (!participation) {
-      return res.status(404).send();
-    }
     res.status(200).send(participation);
   } catch (error) {
     res.status(400).send(error);

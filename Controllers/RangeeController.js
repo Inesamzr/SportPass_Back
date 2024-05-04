@@ -35,9 +35,6 @@ const getRangeeById = async (req, res) => {
     const rangee = await Rangee.findByPk(req.params.id, {
       include: [Tribune] 
     });
-    if (!rangee) {
-      return res.status(404).send();
-    }
     res.status(200).send(rangee);
   } catch (error) {
     res.status(400).send(error);

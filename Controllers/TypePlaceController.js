@@ -28,9 +28,6 @@ const getAllTypePlaces = async (req, res) => {
 const getTypePlaceById = async (req, res) => {
   try {
     const typePlace = await TypePlace.findByPk(req.params.id);
-    if (!typePlace) {
-      return res.status(404).send();
-    }
     res.status(200).send(typePlace);
   } catch (error) {
     res.status(400).send(error);

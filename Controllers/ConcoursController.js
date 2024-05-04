@@ -35,9 +35,6 @@ const getConcoursById = async (req, res) => {
     const concours = await Concours.findByPk(req.params.id, {
       include: [Matchs] 
     });
-    if (!concours) {
-      return res.status(404).send();
-    }
     res.status(200).send(concours);
   } catch (error) {
     res.status(400).send(error);

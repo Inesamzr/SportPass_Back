@@ -53,9 +53,6 @@ const getMatchById = async (req, res) => {
         as: 'EquipeExterieure'
       }]
     });
-    if (!match) {
-      return res.status(404).send();
-    }
     res.status(200).send(match);
   } catch (error) {
     res.status(400).send(error);

@@ -38,9 +38,6 @@ const getPlaceById = async (req, res) => {
     const place = await Place.findByPk(req.params.id, {
       include: [Rangee, TypePlace] 
     });
-    if (!place) {
-      return res.status(404).send();
-    }
     res.status(200).send(place);
   } catch (error) {
     res.status(400).send(error);

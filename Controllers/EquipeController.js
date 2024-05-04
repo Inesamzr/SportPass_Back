@@ -31,9 +31,6 @@ const getAllEquipes = async (req, res) => {
 const getEquipeById = async (req, res) => {
   try {
     const equipe = await Equipe.findByPk(req.params.id);
-    if (!equipe) {
-      return res.status(404).send();
-    }
     res.status(200).send(equipe);
   } catch (error) {
     res.status(400).send(error);

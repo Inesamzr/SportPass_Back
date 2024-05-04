@@ -30,9 +30,6 @@ const getAllTribunes = async (req, res) => {
 const getTribuneById = async (req, res) => {
   try {
     const tribune = await Tribune.findByPk(req.params.id);
-    if (!tribune) {
-      return res.status(404).send();
-    }
     res.status(200).send(tribune);
   } catch (error) {
     res.status(400).send(error);

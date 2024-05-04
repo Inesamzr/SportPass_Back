@@ -28,9 +28,6 @@ const getAllTypeCommercants = async (req, res) => {
 const getTypeCommercantById = async (req, res) => {
   try {
     const typeCommercant = await TypeCommercant.findByPk(req.params.id);
-    if (!typeCommercant) {
-      return res.status(404).send();
-    }
     res.status(200).send(typeCommercant);
   } catch (error) {
     res.status(400).send(error);

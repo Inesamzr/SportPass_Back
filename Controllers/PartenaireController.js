@@ -36,9 +36,6 @@ const getPartenaireById = async (req, res) => {
     const partenaire = await Partenaire.findByPk(req.params.id, {
       include: [Promotion] 
     });
-    if (!partenaire) {
-      return res.status(404).send();
-    }
     res.status(200).send(partenaire);
   } catch (error) {
     res.status(400).send(error);

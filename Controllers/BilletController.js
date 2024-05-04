@@ -47,9 +47,6 @@ const getBilletById = async (req, res) => {
         model: Matchs,
       }]
     });
-    if (!billet) {
-      return res.status(404).send();
-    }
     res.status(200).send(billet);
   } catch (error) {
     console.error('Erreur lors de la récupération du billet:', error);
@@ -92,9 +89,6 @@ const getBilletByPlaceId = async (req, res) => {
     const billets = await Billet.findAll(
       { where: { idPlace : id}}
     );
-    if (!billets) {
-      return res.status(404).send();
-    }
     res.status(200).json(billets);
   } catch (error) {
     res.status(400).send(error);
@@ -105,9 +99,6 @@ const getBilletByPlaceId = async (req, res) => {
 const updateBillet = async (req, res) => {
   try {
     const billet = await Billet.findByPk(req.params.id);
-    if (!billet) {
-      return res.status(404).send();
-    }
     await billet.update(req.body);
     res.status(200).send(billet);
   } catch (error) {
@@ -118,9 +109,6 @@ const updateBillet = async (req, res) => {
 const deleteBillet = async (req, res) => {
   try {
     const billet = await Billet.findByPk(req.params.id);
-    if (!billet) {
-      return res.status(404).send();
-    }
     await billet.destroy();
     res.status(204).send();
   } catch (error) {
