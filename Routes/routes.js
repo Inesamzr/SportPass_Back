@@ -44,7 +44,7 @@ const CommentaireClubController =  require('../Controllers/CommentaireClubContro
 
 const app = require('../app.js');
 
-
+const stripe = require('stripe')('sk_test_51PDO2O08xEESRhNh5np8EBPYJB0IB504lNKGeylBTAPHTXvem8yJgtcBrGAAyKjT93c5PpVVWCesdG76Rg1bMmO200PHVV19kn');
 
 const router = express.Router(); 
 
@@ -363,7 +363,19 @@ router.get('/typePlace/:id', typePlaceController.getTypePlaceById);
 router.put('/typePlace/:id', typePlaceController.updateTypePlace);
 router.delete('/typePlace/:id', typePlaceController.deleteTypePlace);
 
-
+router.post('/create-payment-intent', async (req, res) => {
+    const { amount } = req.body;
+    try {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount,
+        currency: 'eur', 
+        payment_method_types: ['card'],
+      });
+      res.send({ clientSecret: paymentIntent.client_secret });
+    } catch (error) {
+      res.status(500).send({ error: error.message });
+    }
+  });
 
 
 module.exports = router;
