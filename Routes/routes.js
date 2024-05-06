@@ -299,6 +299,8 @@ router.get('/publicationClub/:id', PublicationClubController.getPublicationClubB
 router.put('/publicationClub/:id', PublicationClubController.updatePublicationClub);
 router.delete('/publicationClub/:id', PublicationClubController.deletePublicationClub);
 router.get('/publicationClub/equipe/:idEquipe', PublicationClubController.getPublicationClubsByClubId);
+router.get('/publicationClub/equipe/:idEquipe/alaUne', PublicationClubController.getPublicationClubsAlaUneByClubId);
+
 
 //routes PublicationCommercant 
 router.get('/publicationCommercant', PublicationCommercantController.getAllPublicationCommercants);

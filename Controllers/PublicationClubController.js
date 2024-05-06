@@ -134,6 +134,18 @@ const getPublicationClubAlaUne = async (req, res) => {
     }
   };
 
+  const getPublicationClubsAlaUneByClubId = async (req, res) => {
+    try {
+      const publicationsAlaUne = await PublicationClub.findAll({
+        where: { idEquipe : req.params.idEquipe, aLaUne: true },
+      });
+      res.status(200).send(publicationsAlaUne);
+    } catch (error) {
+      console.error("Error fetching publications à la une by club ID:", error);
+      res.status(500).send(error);
+    }
+  };
+
 module.exports = {
   createPublicationClub,
   getAllPublicationClubs,
@@ -142,5 +154,6 @@ module.exports = {
   deletePublicationClub,
   getPublicationClubsByClubId,
   getPublicationsByEquipeId,
-  getPublicationClubAlaUne
+  getPublicationClubAlaUne,
+  getPublicationClubsAlaUneByClubId,
 };
