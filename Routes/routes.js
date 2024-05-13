@@ -82,6 +82,7 @@ router.delete('/avoirFavoris/:idCommercant/:idUser', avoirFavorisController.dele
 router.get('/billet', billetController.getAllBillets);
 router.post('/billet', billetController.createBillet);
 router.get('/billet/:id', billetController.getBilletById);
+router.put('/billet/place/:id', billetController.updateBilletByPlaceId);
 router.put('/billet/:id', billetController.updateBillet);
 router.delete('/billet/:id', billetController.deleteBillet);
 router.get('/billet/user/:id', billetController.getBilletByUserId);

@@ -95,11 +95,24 @@ const getBilletByPlaceId = async (req, res) => {
   }
 };
 
-
 const updateBillet = async (req, res) => {
   try {
     const billet = await Billet.findByPk(req.params.id);
     await billet.update(req.body);
+    res.status(200).send(billet);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+const updateBilletByPlaceId = async (req, res) => {
+  try {
+    const billet = await Billet.findOne({
+      where: { idPlace: req.params.id }
+    });
+
+    await billet.update(req.body);
+
     res.status(200).send(billet);
   } catch (error) {
     res.status(400).send(error);
@@ -116,4 +129,4 @@ const deleteBillet = async (req, res) => {
   }
 };
 
-module.exports = {deleteBillet, getBilletByPlaceId, createBillet, updateBillet, getAllBillets, getBilletById, getBilletByUserId};
+module.exports = {deleteBillet,updateBilletByPlaceId, getBilletByPlaceId, createBillet, updateBillet, getAllBillets, getBilletById, getBilletByUserId};
