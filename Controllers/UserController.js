@@ -2,6 +2,7 @@ const sequelize = require('../database.js')
 const Sequelize = require('sequelize');
 const UserFunction  = require('../Modeles/User.js');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const User = UserFunction(sequelize, Sequelize)
 const express = require('express');
@@ -161,6 +162,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const { mail, password } = req.body;
+  secret =  process.env.JWT_SECRET
 
   try {
     if (!mail || !password) {
@@ -177,12 +179,11 @@ const login = async (req, res) => {
 
     const token = jwt.sign(
       { mail: user.mail },
-      process.env.JWT_SECRET,
+      secret, 
       { expiresIn: '1h' }
     );
 
     const idUser =  user.idUser
-    console.log(idUser)
 
     res.json({ token, idUser });
   } catch (error) {
