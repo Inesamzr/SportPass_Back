@@ -162,28 +162,31 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const { mail, password } = req.body;
-  secret =  process.env.JWT_SECRET
+  const secret = process.env.JWT_SECRET;
+
+  if (!secret) {
+    console.error('JWT_SECRET is not defined');
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 
   try {
     if (!mail || !password) {
-      res.status(400).json({ message: 'Les champs mail et password sont obligatoires.' });
-      return;
+      return res.status(400).json({ message: 'Les champs mail et password sont obligatoires.' });
     }
 
     const user = await User.findOne({ where: { mail } });
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
-      res.status(401).json({ message: 'Identifiants invalides. Veuillez réessayer.' });
-      return;
+      return res.status(401).json({ message: 'Identifiants invalides. Veuillez réessayer.' });
     }
 
     const token = jwt.sign(
       { mail: user.mail },
-      secret, 
+      secret,
       { expiresIn: '1h' }
     );
 
-    const idUser =  user.idUser
+    const idUser = user.idUser;
 
     res.json({ token, idUser });
   } catch (error) {
@@ -191,6 +194,7 @@ const login = async (req, res) => {
     res.status(500).json({ message: 'Une erreur interne du serveur s\'est produite. Veuillez réessayer plus tard.' });
   }
 };
+
 
 const getUsersByEquipeId = async (req, res) => {
   try {
