@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     article: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true
     },
     aLaUne: {
