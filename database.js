@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 // JAWSDB_URL=VotreCompleteDatabaseUrl
 // var databaseUrl = process.env.JAWSDB_URL
 
-var databaseUrl = "mysql://ines_margot:ines_margot@localhost:3306/sportpassbd";
+var databaseUrl = "mysql://mysql:0929ffa29e460130@dokku-mysql-sportpass-bd:3306/sportpass_bd";
 
 
 const sequelize = databaseUrl

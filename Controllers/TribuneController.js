@@ -10,7 +10,9 @@ const Stade = StadeFunction(sequelize, Sequelize);
 const createTribune = async (req, res) => {
   try {
     const tribune = await Tribune.create({
-      numero: req.body.numero
+      numero: req.body.numero,
+      nom: req.body.nom,
+      idStade: req.body.idStade
     });
     res.status(201).send(tribune);
   } catch (error) {

@@ -117,6 +117,14 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(userData.password, 10);
 
+    const firstPalier = await Palier.findOne({
+      order: [['idPalier', 'ASC']]
+    });
+
+    if (!firstPalier) {
+      return res.status(500).json({ message: 'No palier found in the database.' });
+    }
+
     const newUser = await User.create({
       prenom: userData.prenom,
       nom: userData.nom,
@@ -124,7 +132,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       pseudo: pseudo,
       somme: 0,
-      idPalier: 1,
+      idPalier: firstPalier.idPalier,
       idEquipe: userData.idEquipe
     });
 
@@ -134,7 +142,7 @@ const register = async (req, res) => {
     });
 
     const token = jwt.sign(
-      { idU: newUser.idU, mail: newUser.mail },
+      { idU: newUser.idUser, mail: newUser.mail },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
@@ -149,6 +157,7 @@ const register = async (req, res) => {
     }
   }
 };
+
 
 const login = async (req, res) => {
   const { mail, password } = req.body;
