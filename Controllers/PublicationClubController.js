@@ -15,7 +15,10 @@ const createPublicationClub = async (req, res) => {
       contenu: req.body.contenu,
       date: req.body.date,
       aLaUne: req.body.aLaUne,
-      idClub: req.body.idClub 
+      idEquipe: req.body.idEquipe,
+      tag: req.body.tag,
+      image: req.body.image
+
     });
     res.status(201).send(publicationClub);
   } catch (error) {
