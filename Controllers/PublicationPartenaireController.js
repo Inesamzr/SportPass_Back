@@ -14,6 +14,8 @@ const createPublicationPartenaire = async (req, res) => {
     const publicationPartenaire = await PublicationPartenaire.create({
       contenu: req.body.contenu,
       date: req.body.date,      
+      titre: req.body.tire,
+      image: req.body.image,
       idPartenaire: req.body.idPartenaire 
     });
     res.status(201).send(publicationPartenaire);
